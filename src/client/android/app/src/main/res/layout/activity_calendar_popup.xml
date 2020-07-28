@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/popup_screen"
+    android:tag="popup_Screen_tag"
+    android:layout_gravity="center"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_marginHorizontal="15dp"
+    android:background="@drawable/popup_calendar_box_white"
+    android:orientation="vertical"
+    android:paddingTop="20dp"
+    android:paddingLeft="51dp"
+    android:paddingRight="51dp"
+    >
+
+    <TextView
+        android:id="@+id/calendar_textview_date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="19sp"
+        android:paddingBottom="16dp"
+        android:textColor="#000000"
+        android:lineSpacingExtra="2sp"
+        tools:text="2020년 7월 23일" />
+
+    <TableLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:stretchColumns="2"/>
+
+    <TableRow
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:weightSum="1">
+
+        <CheckBox
+            android:id="@+id/checkBox1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="내부 세차"
+            android:textColor="#000000"
+            android:layout_weight="0.5" />
+
+        <CheckBox
+            android:id="@+id/checkBox2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="외부 세차"
+            android:textColor="#000000"
+            android:layout_weight="0.5" />
+
+    </TableRow>
+
+
+    <TableRow
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:weightSum="1">
+
+        <CheckBox
+            android:id="@+id/checkBox3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.5"
+            android:textColor="#000000"
+            android:text="전체 세차" />
+
+    </TableRow>
+
+    <ImageButton
+        android:id="@+id/buttonAdd"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:layout_marginBottom="20dp"
+        android:background="@drawable/popup_calendar_bluebtn"/>
+
+
+
+</LinearLayout>

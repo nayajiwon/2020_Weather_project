@@ -1,0 +1,47 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.kokonut.NCNC">
+
+    <application
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme" >
+
+        <meta-data
+            android:name="com.naver.maps.map.CLIENT_ID"
+            android:value="CLIENT_ID_HERE" />
+
+        <activity
+            android:name=".Map.CarWashInfoActivity"
+            android:label="CarWashInfo">
+        </activity>
+
+        <activity
+            android:name=".Map.CarWashReviewActivity"
+            android:label="CarWashReview">
+        </activity>
+
+        <activity
+            android:name=".Map.WriteReviewActivity"
+            android:label="WriteReview">
+        </activity>
+
+        <activity
+            android:name=".Map.MapActivity"
+            android:label="Map">
+        </activity>
+
+        <activity
+            android:name=".MainActivity"
+            android:label="Main">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+    </application>
+
+
+</manifest>

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="color_white">#FFF</color>
+    <color name="color_black">#000</color>
+    <color name="color_main">#3634b9</color>
+    <color name="color_gray">#797E7F</color>
+
+    <color name="color_home_score">#1b1464</color>
+
+    <color name="color_calender_lightpurple">#8a89e8</color>
+    <color name="color_calender_gray">#717070</color>
+
+</resources>
