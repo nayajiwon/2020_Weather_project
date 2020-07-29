@@ -1,32 +1,40 @@
 package com.kokonut.NCNC.Calendar;
+
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import com.kokonut.NCNC.R;
-import com.prolificinteractive.materialcalendarview.CalendarDay;
-import com.prolificinteractive.materialcalendarview.CalendarMode;
-import com.prolificinteractive.materialcalendarview.MaterialCalendarView;
-import com.prolificinteractive.materialcalendarview.OnDateSelectedListener;
-import java.util.Date;
-import java.util.HashSet;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
+
+import com.kokonut.NCNC.R;
+import com.prolificinteractive.materialcalendarview.CalendarDay;
+import com.prolificinteractive.materialcalendarview.CalendarMode;
+import com.prolificinteractive.materialcalendarview.MaterialCalendarView;
+import com.prolificinteractive.materialcalendarview.OnDateSelectedListener;
+
+import java.util.Date;
+import java.util.HashSet;
+
 public class CalendarFragment extends Fragment {
     TextView textView1;
+    TextView bottom_explain;
     ViewGroup viewGroup;
     CalendarDay clickedDate;
     MaterialCalendarView materialCalendarView;
     Drawable drawable;
     FragmentTransaction ft;
-
     String popupResult;
+    TextView bottomeText1;
+    TextView bottomeText2;
+    TextView bottomeText3;
+
 
     @Nullable
     @Override
@@ -34,7 +42,14 @@ public class CalendarFragment extends Fragment {
         viewGroup = (ViewGroup) inflater.inflate(R.layout.fragment_calendar,container,false);
         materialCalendarView = viewGroup.findViewById(R.id.calendar_view);
         textView1 = viewGroup.findViewById(R.id.plan_text1);
-//      drawable = this.getResources().getDrawable(R.drawable.calendar_emptycircle_inside_purple);
+
+        bottomeText1 = viewGroup.findViewById(R.id.bottom1_1);
+        bottomeText2 = viewGroup.findViewById(R.id.bottom2_2);
+        bottomeText3 = viewGroup.findViewById(R.id.bottom3_3);
+
+
+
+        //      drawable = this.getResources().getDrawable(R.drawable.calendar_emptycircle_inside_purple);
         drawable = this.getResources().getDrawable(R.drawable.calendar_circle_inside);
 
         initCalendar();
@@ -62,6 +77,11 @@ public class CalendarFragment extends Fragment {
 
     public void initCalendar() {
 
+        bottomeText1.setText("세차 예정일 ");
+        bottomeText2.setText("세차한 날 ");
+        bottomeText3.setText("세차하기 좋은 날");
+
+
         HashSet<Date> events = new HashSet<>();
         events.add(new Date());
 
@@ -73,9 +93,9 @@ public class CalendarFragment extends Fragment {
                 .commit();
 
         /*오늘 날짜에 초록색 효과를 줌*/
-        OneDayDecorator oneDayDecorator = new OneDayDecorator();
+        OneDayDecorator oneDayDecorator = new OneDayDecorator("세차새차");
         materialCalendarView.addDecorators(oneDayDecorator);
-        materialCalendarView.addDecorators(oneDayDecorator);
+        //materialCalendarView.addDecorators(oneDayDecorator);
 
         materialCalendarView.setOnDateChangedListener(new OnDateSelectedListener() {
             @Override

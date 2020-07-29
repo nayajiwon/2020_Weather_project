@@ -2,33 +2,93 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
-    android:weightSum = "5"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     android:background="@android:color/white">
 
     <LinearLayout
         android:layout_width="wrap_content"
-        android:layout_height="0dp"
+        android:layout_height="350dp"
+        android:orientation="vertical"
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="10dp"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
-
-        android:layout_weight="3.8"
+        android:layout_marginLeft="3dp"
+        android:layout_marginRight="3dp"
         android:background="@drawable/calendar_box_white">
 
         <com.prolificinteractive.materialcalendarview.MaterialCalendarView xmlns:app="http://schemas.android.com/apk/res-auto"
             android:id="@+id/calendar_view"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:mcv_selectionColor="#00F"
-            app:mcv_showOtherDates="all" />
+            android:layout_height="325dp"
+            app:mcv_selectionColor="@color/color_white"
+            app:mcv_tileHeight="46dp"
+            app:mcv_tileWidth="45dp">
+        </com.prolificinteractive.materialcalendarview.MaterialCalendarView>
 
-    </LinearLayout>
+        <LinearLayout
+            android:paddingRight="39dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:src="@drawable/small_circle1"
+                android:id="@+id/bottom1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+            <TextView
+                android:id="@+id/bottom1_1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="11sp"
+                android:textColor="#292929"
+                android:lineSpacingExtra="1sp"
+                tools:text="세차 예정일  "/>
+
+            <ImageView
+                android:src="@drawable/small_circle2"
+                android:id="@+id/bottom2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+            <TextView
+
+                android:id="@+id/bottom2_2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="11sp"
+                android:textColor="#292929"
+                android:lineSpacingExtra="1sp"
+                tools:text="세차한 날   "
+                />
+            <ImageView
+                android:src="@drawable/small_circle3"
+                android:id="@+id/bottom3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+            <TextView
+
+                android:id="@+id/bottom3_3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="11sp"
+                android:textColor="#292929"
+                android:lineSpacingExtra="1sp"
+                tools:text="세차하기 좋은 날"
+                />
+
+        </LinearLayout>
+
+
+
+
+</LinearLayout>
 
     <LinearLayout
-        android:layout_weight="1.2"
+        android:layout_weight="1.6"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:orientation="vertical"
@@ -81,9 +141,9 @@
 
                     <LinearLayout
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_height="200dp"
                         android:orientation="vertical"
-                        android:layout_weight="1">
+                        >
 
                         <ImageView
                             android:layout_width="wrap_content"
