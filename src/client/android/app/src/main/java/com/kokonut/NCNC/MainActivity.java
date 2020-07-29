@@ -30,6 +30,7 @@ import androidx.viewpager2.widget.ViewPager2;
 
 public class MainActivity extends AppCompatActivity implements Calendar_PopupFragment.uploadDialogInterface{
 
+    int forgithubtest; 
     HomeFragment homeFragment;
     CalendarFragment calendarFragment;
     MapFragment mapFragment;
