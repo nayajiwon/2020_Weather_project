@@ -1,17 +1,20 @@
 package com.kokonut.NCNC;
 
+import android.os.Build;
 import android.os.Bundle;
-import android.util.DisplayMetrics;
-import android.util.Log;
-import android.util.TypedValue;
+
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
+import android.widget.Toast;
+import android.content.Context;
 
 import com.google.android.material.bottomnavigation.BottomNavigationMenuView;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.gun0912.tedpermission.PermissionListener;
+import com.gun0912.tedpermission.TedPermission;
 import com.google.android.material.tabs.TabLayout;
+
 import com.kokonut.NCNC.Calendar.CalendarFragment;
 import com.kokonut.NCNC.Calendar.Calendar_PopupFragment;
 import com.kokonut.NCNC.Cast.CastFragment;
@@ -101,4 +104,6 @@ public class MainActivity extends AppCompatActivity implements Calendar_PopupFra
     public void senddatatoCalendarFragment(String popupResult) {
         calendarFragment.devidepopupValue(popupResult);
     }
+
+
 }
