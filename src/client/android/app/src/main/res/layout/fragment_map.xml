@@ -7,23 +7,24 @@
     tools:context=".Home.HomeFragment">
 
     <!-- TODO: Update blank fragment layout -->
-<!--    <TextView-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="match_parent"-->
-<!--        android:gravity="center"-->
-<!--        android:text="map" />-->
-
-
 
     <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="465dp">
-        <!--        android:layout_height="465dp"-->
+        android:layout_height="wrap_content">
 
         <com.naver.maps.map.MapView
             android:id="@+id/map_view"
             android:layout_width="match_parent"
             android:layout_height="match_parent"/>
+
+        <ImageButton
+            android:id="@+id/map_mark_gps"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="19dp"
+            android:layout_marginRight="16dp"
+            android:layout_gravity="right"
+            android:background="@drawable/map_mark_gps"/>
 
         <LinearLayout
             android:id="@+id/map_more_info"
