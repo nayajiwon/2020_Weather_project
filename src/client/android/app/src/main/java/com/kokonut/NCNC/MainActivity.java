@@ -24,6 +24,7 @@ import androidx.fragment.app.Fragment;
 
 public class MainActivity extends AppCompatActivity implements Calendar_PopupFragment.uploadDialogInterface{
 
+    int forgithubtest; 
     HomeFragment homeFragment;
     CalendarFragment calendarFragment;
     MapFragment mapFragment;
