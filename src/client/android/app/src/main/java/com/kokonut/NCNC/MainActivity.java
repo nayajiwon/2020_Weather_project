@@ -13,6 +13,8 @@ import com.google.android.material.bottomnavigation.BottomNavigationMenuView;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.gun0912.tedpermission.PermissionListener;
 import com.gun0912.tedpermission.TedPermission;
+import com.google.android.material.tabs.TabLayout;
+
 import com.kokonut.NCNC.Calendar.CalendarFragment;
 import com.kokonut.NCNC.Calendar.Calendar_PopupFragment;
 import com.kokonut.NCNC.Cast.CastFragment;
@@ -22,7 +24,9 @@ import com.kokonut.NCNC.MyPage.MypageFragment;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.viewpager2.widget.ViewPager2;
 
 public class MainActivity extends AppCompatActivity implements Calendar_PopupFragment.uploadDialogInterface{
 
@@ -34,10 +38,17 @@ public class MainActivity extends AppCompatActivity implements Calendar_PopupFra
 
     BottomNavigationView bottomNavigationBar;
 
+    TabLayout tabLayout;
+    ViewPager2 viewPager2;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        viewPager2 = findViewById(R.id.home_viewpager2);
+        tabLayout = findViewById(R.id.home_tablayout);
+
         bottomNavigationBar = findViewById(R.id.bottom_navigation_bar);
         BottomNavigationMenuView menuView = (BottomNavigationMenuView) bottomNavigationBar.getChildAt(0);
 
@@ -53,11 +64,13 @@ public class MainActivity extends AppCompatActivity implements Calendar_PopupFra
         castFragment = new CastFragment();
         mypageFragment = new MypageFragment();
 
-
-        //getSupportFragmentManager().beginTransaction().replace(R.id.main_activity,HomeFragment).commitAllowingStateLoss();
+        //첫 화면 HomeFragment로 설정
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        fragmentManager.beginTransaction().replace(R.id.main_layout, homeFragment).commit();
 
         bottomNavigationBar.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
-            @Override public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
                 switch (menuItem.getItemId()) {
                     case R.id.tab1: {
                         getSupportFragmentManager().beginTransaction().replace(R.id.main_layout,homeFragment).commitAllowingStateLoss();
