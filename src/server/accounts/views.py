@@ -39,7 +39,7 @@ def kakao_callback(request):
     profile_json = profile_request.json()
     print(profile_json)
     kakao_id = profile_json['id']
-    user_account = User.Object.objects.get(id=kakao_id)
+    user_account = User.objects.get(id=kakao_id)
 
     print(kakao_id)
     print(user_account)
