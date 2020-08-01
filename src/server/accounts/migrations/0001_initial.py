@@ -12,12 +12,10 @@ class Migration(migrations.Migration):
 
     operations = [
         migrations.CreateModel(
-            name='Washer',
+            name='User',
             fields=[
                 ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('name', models.CharField(max_length=10)),
-                ('lat', models.FloatField()),
-                ('lon', models.FloatField()),
+                ('name', models.CharField(default='BLANK', max_length=20)),
             ],
         ),
     ]
