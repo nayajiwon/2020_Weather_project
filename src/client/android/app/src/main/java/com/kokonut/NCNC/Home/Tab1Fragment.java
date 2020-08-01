@@ -35,6 +35,7 @@ public class Tab1Fragment extends Fragment {
 
         Log.d("11111", "onCreateView: 1");
 
+        //'맞춤형 세차점수 설정하기' 버튼 클릭 시
         popupButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
