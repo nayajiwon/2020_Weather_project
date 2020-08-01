@@ -30,7 +30,7 @@ def kakao_callback(request):
     # if there is an error from token_request
     if error is not None:
         return redirect('index')
-
+    print(token_response_json)
     access_token = token_response_json.get("access_token")
     profile_request = requests.get(
         "https://kapi.kakao.com/v2/user/me",
@@ -46,9 +46,11 @@ def kakao_callback(request):
         print(kakao_id)
         user_account = User.objects.get(id=int(kakao_id))
     except User.DoesNotExist:
+        print('create new account')
         user_account = User.objects.create(id=int(kakao_id), name=nickname)
 
     print(user_account)
+    print(access_token)
 
     response = render(request, 'login/login.html', {"name": nickname})
     response.set_cookie('access_token', access_token)
