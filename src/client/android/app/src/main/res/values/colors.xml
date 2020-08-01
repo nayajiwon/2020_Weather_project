@@ -10,4 +10,7 @@
     <color name="color_calender_lightpurple">#8a89e8</color>
     <color name="color_calender_gray">#717070</color>
 
+    <color name="color_border_light">#d4d2d2</color>
+    <color name="color_border_bold">#707070</color>
+
 </resources>

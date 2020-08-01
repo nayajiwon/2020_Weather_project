@@ -1,14 +1,187 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Home.Tab2Fragment">
+    tools:context=".Home.Tab2Fragment"
+    android:orientation="vertical">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+    <FrameLayout
+        android:layout_width="328dp"
+        android:layout_height="340dp"
+        tools:context=".fragment.tab_2"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="20dp"
+        android:background="@drawable/home_tap2_box">
 
-</FrameLayout>
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_gravity="center">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:text="주소 검색"
+                android:textColor="@color/color_black"
+                android:textSize="15sp"
+                android:fontFamily="@font/ns_bold"/>
+
+            <RadioButton
+                android:id="@+id/home_tap2_mylocation"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:text="내 위치로 설정하기"
+                android:textColor="@color/color_black"
+                android:textSize="13sp"
+                android:fontFamily="@font/ns_regular"/>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="20dp"
+                android:orientation="horizontal">
+
+                <Spinner
+                    android:id="@+id/home_tap2_spinner_location1"
+                    android:layout_width="85dp"
+                    android:layout_height="30dp"
+                    android:layout_marginRight="14dp" />
+
+                <Spinner
+                    android:id="@+id/home_tap2_spinner_location2"
+                    android:layout_width="85dp"
+                    android:layout_height="30dp"
+                    android:layout_marginRight="14dp" />
+
+                <Spinner
+                    android:id="@+id/home_tap2_spinner_location3"
+                    android:layout_width="85dp"
+                    android:layout_height="30dp" />
+            </LinearLayout>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:text="추가 정보 선택"
+                android:textColor="@color/color_black"
+                android:textSize="15sp"
+                android:fontFamily="@font/ns_bold"/>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <RadioButton
+                    android:id="@+id/home_tap2_vistingtime"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="10dp"
+                    android:text="방문 시각"
+                    android:fontFamily="@font/ns_regular"/>
+
+                <Spinner
+                    android:id="@+id/home_tap2_spinner_visitingtime"
+                    android:layout_width="195dp"
+                    android:layout_height="30dp" />
+            </LinearLayout>
+
+            <RadioButton
+                android:id="@+id/home_tap2_kindofnewcar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="세차 종류"
+                android:fontFamily="@font/ns_regular"/>
+
+            <TableLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal">
+
+                <TableRow>
+                    <ImageButton
+                        android:id="@+id/home_tap2_button_kindofnewcar1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="5dp"
+                        android:src="@drawable/home_tap2_newcar1" />
+
+                    <ImageButton
+                        android:id="@+id/home_tap2_button_kindofnewcar2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="5dp"
+                        android:src="@drawable/home_tap2_newcar2" />
+
+                    <ImageButton
+                        android:id="@+id/home_tap2_button_kindofnewcar3"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="5dp"
+                        android:src="@drawable/home_tap2_newcar3" />
+
+                    <ImageButton
+                        android:id="@+id/home_tap2_button_kindofnewcar4"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="5dp"
+                        android:src="@drawable/home_tap2_newcar4" />
+                </TableRow>
+
+                <TableRow>
+
+                    <TextView
+                        android:id="@+id/home_tap2_text_kindofnewcar1"
+                        android:layout_gravity="center"
+                        android:layout_marginRight="5dp"
+                        android:text="셀프 세차"
+                        android:textColor="@color/color_black"
+                        android:textSize="11sp"
+                        android:fontFamily="@font/ns_regular"/>
+
+                    <TextView
+                        android:id="@+id/home_tap2_text_kindofnewcar2"
+                        android:layout_gravity="center"
+                        android:layout_marginRight="5dp"
+                        android:text="자동 세차"
+                        android:textColor="@color/color_black"
+                        android:textSize="11sp"
+                        android:fontFamily="@font/ns_regular"/>
+
+                    <TextView
+                        android:id="@+id/home_tap2_text_kindofnewcar3"
+                        android:layout_gravity="center"
+                        android:layout_marginRight="5dp"
+                        android:text="손세차/디테일링"
+                        android:textColor="@color/color_black"
+                        android:textSize="11sp"
+                        android:fontFamily="@font/ns_regular"/>
+
+                    <TextView
+                        android:id="@+id/home_tap2_text_kindofnewcar4"
+                        android:layout_gravity="center"
+                        android:layout_marginRight="5dp"
+                        android:text="실내 세차"
+                        android:textColor="@color/color_black"
+                        android:textSize="11sp"
+                        android:fontFamily="@font/ns_regular"/>
+                </TableRow>
+            </TableLayout>
+        </LinearLayout>
+    </FrameLayout>
+
+    <ImageButton
+        android:id="@+id/home_tap2_searchbutton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/home_tap2_searchbutton"
+        android:layout_gravity="center_horizontal" />
+
+</LinearLayout>

@@ -16,6 +16,7 @@ import com.kokonut.NCNC.Calendar.CalendarFragment;
 import com.kokonut.NCNC.Calendar.Calendar_PopupFragment;
 import com.kokonut.NCNC.Cast.CastFragment;
 import com.kokonut.NCNC.Home.HomeFragment;
+import com.kokonut.NCNC.Home.Tap1_PopupFragment;
 import com.kokonut.NCNC.Map.MapFragment;
 import com.kokonut.NCNC.MyPage.MypageFragment;
 
@@ -101,4 +102,11 @@ public class MainActivity extends AppCompatActivity implements Calendar_PopupFra
     public void senddatatoCalendarFragment(String popupResult) {
         calendarFragment.devidepopupValue(popupResult);
     }
+/*
+    @Override
+    public void senddatatoHomeFragment(String popupResult1){
+        HomeFragment.devidepopupValue(popupResult1);
+    }
+
+ */
 }
