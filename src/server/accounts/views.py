@@ -46,9 +46,9 @@ def kakao_callback(request):
 
     try:
         print(kakao_id)
-        user_account = User.objects.get(id=kakao_id)
+        user_account = User.objects.get(id=int(kakao_id))
     except User.DoesNotExist:
-        user_account = User.objects.create(id=kakao_id, name=nickname)
+        user_account = User.objects.create(id=int(kakao_id), name=nickname)
 
     response = JsonResponse({"message": "200",
                          "id": kakao_id,
