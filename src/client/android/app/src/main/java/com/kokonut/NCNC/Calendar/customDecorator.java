@@ -1,6 +1,8 @@
 package com.kokonut.NCNC.Calendar;
 
 import android.app.Activity;
+import android.content.ContentValues;
+import android.database.Cursor;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.drawable.Drawable;
@@ -16,6 +18,7 @@ import com.prolificinteractive.materialcalendarview.MaterialCalendarView;
 public class customDecorator implements DayViewDecorator {
 
     private CalendarDay date;
+    private String date_string;
     private Drawable drawable;
     //private String checkedList;
     private String[] checkedList;
@@ -23,12 +26,23 @@ public class customDecorator implements DayViewDecorator {
     private Activity activity;
     private MaterialCalendarView materialCalendarView;
     private int cleancar_part_num;
+    private int cleancar_color;
+    private CalendarDBHelper CalendardbHelper;
+    private customSelectedDate customSelectedDate;
 
-    public customDecorator(Activity context, Drawable drawable, CalendarDay date, String checkedList) {
+    public customDecorator(Activity context, Drawable drawable, CalendarDay date, String checkedList, CalendarDBHelper CalendardbHelper) {
 
         this.activity = context;
         this.date = date;
+        this.date_string = date.toString();
         this.checkedList = checkedList.split("_");
+        this.CalendardbHelper = CalendardbHelper;
+
+        if(CalendardbHelper == null){
+            Log.d("%%%%%%%", "customDecorator: is null &&&&");
+        }
+        else
+            Log.d("%%%%%%%", "customDecorator: is not null &&&&");
 
         decideCircle();
 
@@ -59,23 +73,52 @@ public class customDecorator implements DayViewDecorator {
                 if(checkedList[i].equals("내부 세차")){
                     Log.d("hello11", "2 "+cleancar_part_num);
                     cleancar_part_num = 1;
+                    cleancar_color = 1;
                 }
                 else if(checkedList[i].equals("외부 세차")) {
                     Log.d("hello22", "2 "+cleancar_part_num);
                     cleancar_part_num = 2;
+                    cleancar_color = 1;
                 }
                 else if(checkedList[i].equals("전체 세차")){
                     Log.d("hello33", "2 "+cleancar_part_num);
                     cleancar_part_num = 3;
+                    cleancar_color = 2;
                 }
             }
+
+            calendarDB(date_string, cleancar_part_num, cleancar_color);
+
         }
 
         Log.d("hello", "clean nu m : "+ cleancar_part_num);
 
-
     }
 
+    public void calendarDB(String date, int part, int color){
+        CalendardbHelper.insertRecord(date, part, color);
+        printTable();
+    }
+
+    private void printTable() {
+
+
+        Cursor cursor = CalendardbHelper.readRecordOrderByAge();
+        String result = "";
+
+        result += "row 개수 : " + cursor.getCount() + "\n";
+        while (cursor.moveToNext()) {
+            int itemId = cursor.getInt(cursor.getColumnIndexOrThrow(CalendarContract.CalendarEntry._ID));
+            String one = cursor.getString(cursor.getColumnIndexOrThrow(CalendarContract.CalendarEntry.COLUMN_DATE));
+            int two = cursor.getInt(cursor.getColumnIndexOrThrow(CalendarContract.CalendarEntry.COLUMN_PART));
+            int three = cursor.getInt(cursor.getColumnIndexOrThrow(CalendarContract.CalendarEntry.COLUMN_COLOR));
+
+            result += itemId + " " + one + " " + Integer.toString(two) + " " + Integer.toString(three) + "\n";
+        }
+
+        Log.d("*******", "printTable: "+result);
+        cursor.close();
+    }
     @Override
     public boolean shouldDecorate(CalendarDay day) {
         return date != null && day.equals(date);
@@ -126,4 +169,6 @@ class customSelectedDate implements LineBackgroundSpan{
         //paint.setColor(Color.RED); 선택된 날짜 색깔
 
     }
+
+
 }

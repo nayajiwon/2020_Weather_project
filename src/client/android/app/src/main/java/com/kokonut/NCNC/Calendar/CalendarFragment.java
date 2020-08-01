@@ -13,6 +13,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import com.kokonut.NCNC.MainActivity;
 import com.kokonut.NCNC.R;
 import com.prolificinteractive.materialcalendarview.CalendarDay;
 import com.prolificinteractive.materialcalendarview.CalendarMode;
@@ -34,6 +35,8 @@ public class CalendarFragment extends Fragment {
     TextView bottomeText1;
     TextView bottomeText2;
     TextView bottomeText3;
+    private CalendarDBHelper CalendardbHelper;
+
 
 
     @Nullable
@@ -47,10 +50,10 @@ public class CalendarFragment extends Fragment {
         bottomeText2 = viewGroup.findViewById(R.id.bottom2_2);
         bottomeText3 = viewGroup.findViewById(R.id.bottom3_3);
 
-
-
         //      drawable = this.getResources().getDrawable(R.drawable.calendar_emptycircle_inside_purple);
         drawable = this.getResources().getDrawable(R.drawable.calendar_circle_inside);
+
+        //CalendardbHelper = new CalendarDBHelper(getActivity());
 
         initCalendar();
 
@@ -81,7 +84,6 @@ public class CalendarFragment extends Fragment {
         bottomeText2.setText("세차한 날 ");
         bottomeText3.setText("세차하기 좋은 날");
 
-
         HashSet<Date> events = new HashSet<>();
         events.add(new Date());
 
@@ -111,7 +113,6 @@ public class CalendarFragment extends Fragment {
 
     private void callUploadDialog()
     {
-
         Calendar_PopupFragment fragment = new Calendar_PopupFragment();
         fragment.setTargetFragment(this, 0);
 
@@ -124,11 +125,11 @@ public class CalendarFragment extends Fragment {
         fragment.setCancelable(false);
     }
 
-
     public void devidepopupValue(String checkedList){
         /*value 가 내부 , 외부 , 전체 인지에 따라 동그라미 아래 text 달리해줄것 */
-        customDecorator CustomDecorator = new customDecorator(getActivity(), drawable, clickedDate, checkedList);
+        customDecorator CustomDecorator = new customDecorator(getActivity(), drawable, clickedDate, checkedList, CalendardbHelper);
         materialCalendarView.addDecorators(CustomDecorator);
 
     }
+
 }

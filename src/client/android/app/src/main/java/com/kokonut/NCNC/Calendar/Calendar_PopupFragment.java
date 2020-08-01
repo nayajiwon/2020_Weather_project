@@ -100,8 +100,6 @@ public class Calendar_PopupFragment extends DialogFragment {
 
                 dismiss();
 
-
-
             }
         });
 

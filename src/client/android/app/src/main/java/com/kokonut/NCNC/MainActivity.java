@@ -1,16 +1,14 @@
 package com.kokonut.NCNC;
 
+import android.database.Cursor;
 import android.os.Bundle;
-import android.util.DisplayMetrics;
-import android.util.Log;
-import android.util.TypedValue;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import com.google.android.material.bottomnavigation.BottomNavigationMenuView;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.kokonut.NCNC.Calendar.CalendarDBHelper;
 import com.kokonut.NCNC.Calendar.CalendarFragment;
 import com.kokonut.NCNC.Calendar.Calendar_PopupFragment;
 import com.kokonut.NCNC.Cast.CastFragment;
@@ -20,24 +18,25 @@ import com.kokonut.NCNC.MyPage.MypageFragment;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.Fragment;
+
+import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity implements Calendar_PopupFragment.uploadDialogInterface{
 
-    int forgithubtest; 
     HomeFragment homeFragment;
     CalendarFragment calendarFragment;
     MapFragment mapFragment;
     CastFragment castFragment;
     MypageFragment mypageFragment;
-
     BottomNavigationView bottomNavigationBar;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        //CalendarDBinit();
+
         bottomNavigationBar = findViewById(R.id.bottom_navigation_bar);
         BottomNavigationMenuView menuView = (BottomNavigationMenuView) bottomNavigationBar.getChildAt(0);
 
@@ -91,4 +90,8 @@ public class MainActivity extends AppCompatActivity implements Calendar_PopupFra
     public void senddatatoCalendarFragment(String popupResult) {
         calendarFragment.devidepopupValue(popupResult);
     }
+
+
+
+
 }
