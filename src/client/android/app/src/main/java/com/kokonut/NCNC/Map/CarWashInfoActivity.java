@@ -40,7 +40,6 @@ public class CarWashInfoActivity extends AppCompatActivity {
     }
     
 
-
     void initView(){
         ivBack = findViewById(R.id.car_wash_info_back_arrow);
         ivReview = findViewById(R.id.car_wash_info_review_box);

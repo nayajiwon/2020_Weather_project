@@ -87,6 +87,7 @@ public class Tap1_PopupFragment extends DialogFragment {
         //seekBar();
         return view;
     }
+
 /*
     private void seekBar() {
         final SeekBar seekBar1 = view.findViewById(R.id.home_popup_seekBar1);

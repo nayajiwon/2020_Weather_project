@@ -7,6 +7,7 @@ import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -30,17 +31,18 @@ public class Tab1Fragment extends Fragment {
     public View onCreateView(@Nullable LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
         viewGroup = (ViewGroup) inflater.inflate(R.layout.fragment_tab1, container, false);
-        popupButton = (ImageButton) viewGroup.findViewById(R.id.home_popupButton);
+        popupButton = (ImageButton)viewGroup.findViewById(R.id.home_popupButton);
+
+        Log.d("11111", "onCreateView: 1");
 
         popupButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                switch(v.getId()) {
-                    case R.id.home_popupButton:
-                        Tap1_PopupFragment dialog = new Tap1_PopupFragment();
-                        dialog.show(getActivity().getSupportFragmentManager(), "tab1");
-                        break;
-                }
+                Log.d("11111", "onCreateView: 2");
+
+                Tap1_PopupFragment dialog = new Tap1_PopupFragment();
+                dialog.show(getActivity().getSupportFragmentManager(), "tab1");
+
             }
         });
 

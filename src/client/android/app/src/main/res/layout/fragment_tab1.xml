@@ -32,13 +32,13 @@
             android:text="맞춤형 세차점수 설정하기"
             android:textSize="12sp"
             android:textColor="@color/color_black"
-            android:layout_toLeftOf="@id/home_settingbutton"
+            android:layout_toLeftOf="@id/home_popupButton"
             android:layout_centerVertical="true"
             android:layout_marginRight="4.7dp"
             android:fontFamily="@font/ns_regular"/>
 
         <ImageButton
-            android:id="@+id/home_settingbutton"
+            android:id="@+id/home_popupButton"
             android:layout_width="6.7dp"
             android:layout_height="10.7dp"
             android:src="@drawable/map_arrow_more"
