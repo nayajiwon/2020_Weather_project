@@ -33,6 +33,8 @@ def kakao_callback(request):
         return redirect('index')
     print(token_response_json)
     access_token = token_response_json.get("access_token")
+    UserManager.is_login()
+
     profile_request = requests.get(
         "https://kapi.kakao.com/v2/user/me",
         headers={"Authorization": f"Bearer {access_token}"},
