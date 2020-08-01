@@ -38,6 +38,8 @@ def kakao_callback(request):
     )
     profile_json = profile_request.json()
     print(profile_json)
+    kakao_id = profile_json['id']
+    print(kakao_id)
     nickname = profile_json['properties']['nickname']
     response = render(request, 'login/login.html', {"name": nickname})
     response.set_cookie('access_token', access_token)
