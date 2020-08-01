@@ -7,8 +7,10 @@ class User(models.Model):
             default='BLANK'
             )
     id = models.IntegerField(primary_key=True)
-    account_id = models.CharField(max_length=20, null=False)
+    account_id = models.CharField(max_length=20, null=False,
+            default='ID')
     account_pw = models.CharField(
         max_length=100,
-        null=False
+        null=False,
+        default='PW'
     )
