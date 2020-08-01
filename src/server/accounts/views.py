@@ -22,18 +22,21 @@ def kakao_callback(request):
     address = os.environ.get("IP")+':8000'
     kakao_key = os.environ.get("API_KEY")
     user_token = request.GET.get("code")
+    
     token_request = requests.get(
         f"https://kauth.kakao.com/oauth/token?grant_type=authorization_code&client_id={kakao_key}"
         f"&redirect_uri=http://{address}/kakao/login/callback&code={user_token}"
     )
+   
     token_response_json = token_request.json()
     error = token_response_json.get("error", None)
-    # if there is an error from token_request
+   
+   # if there is an error from token_request
     if error is not None:
         return redirect('index')
-    print(token_response_json)
-    access_token = token_response_json.get("access_token")
-    UserManager.is_login()
+   
+   access_token = token_response_json.get("access_token")
+
 
     profile_request = requests.get(
         "https://kapi.kakao.com/v2/user/me",
@@ -41,13 +44,11 @@ def kakao_callback(request):
     )
 
     profile_json = profile_request.json()
-    print(profile_json)
 
     kakao_id = profile_json['id']
     nickname = profile_json['properties']['nickname']
 
     try:
-        print(kakao_id)
         user_account = User.objects.get(id=int(kakao_id))
     except User.DoesNotExist:
         print('create new account')

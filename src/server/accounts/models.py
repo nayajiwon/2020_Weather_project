@@ -17,11 +17,11 @@ class User(models.Model):
 class UserManager:
 
     @staticmethod
-    def get_or_create(self, aid):
+    def get_or_create(aid):
         print('test')
 
     @staticmethod
-    def is_login(self, access_token = 'test'):
+    def is_login(access_token):
         profile_request = requests.get(
             "https://kapi.kakao.com/v2/user/me",
             headers={"Authorization": f"Bearer {access_token}"},
@@ -29,9 +29,15 @@ class UserManager:
 
         profile_json = profile_request.json()
         print(profile_json)
+        status_code = profile_json.get('code', None)
 
-        kakao_id = profile_json['id']
-        nickname = profile_json['properties']['nickname']
+        if status_code is None:
+            return True
 
-        return True
+        else:
+            return False
+
+#        kakao_id = profile_json['id']
+#        nickname = profile_json['properties']['nickname']
+
     
