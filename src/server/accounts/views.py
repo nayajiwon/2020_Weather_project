@@ -53,7 +53,8 @@ def kakao_callback(request):
 
     response = JsonResponse({"message": "200",
                          "id": kakao_id,
-                         "name": nickname
+                         "name": nickname,
+                         "access_token": access_token
                          }, json_dumps_params={'ensure_ascii': False})
     response.set_cookie('access_token', access_token)
 
