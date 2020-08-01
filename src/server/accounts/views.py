@@ -1,5 +1,6 @@
 import os
 import requests
+from django.http import JsonResponse
 
 from django.shortcuts import render, redirect
 from .models import *
@@ -36,6 +37,7 @@ def kakao_callback(request):
         "https://kapi.kakao.com/v2/user/me",
         headers={"Authorization": f"Bearer {access_token}"},
     )
+
     profile_json = profile_request.json()
     print(profile_json)
 
@@ -48,10 +50,12 @@ def kakao_callback(request):
     except User.DoesNotExist:
         user_account = User.objects.create(id=kakao_id, name=nickname)
 
-    print(user_account)
-
-    response = render(request, 'login/login.html', {"name": nickname})
+    response = JsonResponse({"message": "200",
+                         "id": kakao_id,
+                         "name": nickname
+                         }, json_dumps_params={'ensure_ascii': False})
     response.set_cookie('access_token', access_token)
+
     return response
 
 
