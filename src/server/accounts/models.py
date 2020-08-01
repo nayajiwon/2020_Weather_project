@@ -3,11 +3,12 @@ from django.contrib.auth.models import AbstractUser
 from django.db import models
 
 
-class User(AbstractUser):
-    created_on = models.DateTimeField("등록일자", auto_now_add=True)
-    phone = models.CharField(
-        max_length=100
+class Profile(models.Model):
+    user = models.OneToOneField(
+        settings.AUTH_USER_MODEL, # <- 특정 사용자 모델에 종속적이지 않다.
+        on_delete=models.CASCADE
     )
+    kakao_id = models.IntegerField
 
     class Meta:
         db_table = 'account_profile'

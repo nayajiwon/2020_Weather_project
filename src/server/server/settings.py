@@ -159,9 +159,6 @@ USE_TZ = True
 LOGIN_REDIRECT_URL = 'index' # 로그인 후 리디렉션할 페이지
 ACCOUNT_LOGOUT_REDIRECT_URL = "index"  # 로그아웃 후 리디렉션 할 페이지
 ACCOUNT_LOGOUT_ON_GET = True
-AUTH_USER_MODEL = 'accounts.User'
-
-
 
 
 STATIC_URL = '/static/'
