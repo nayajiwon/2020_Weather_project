@@ -38,12 +38,18 @@ def kakao_callback(request):
     )
     profile_json = profile_request.json()
     print(profile_json)
-    kakao_id = profile_json['id']
-    user_account = User.objects.get(id=kakao_id)
 
-    print(kakao_id)
-    print(user_account)
+    kakao_id = profile_json['id']
     nickname = profile_json['properties']['nickname']
+
+    try:
+        print(kakao_id)
+        user_account = User.objects.get(id=kakao_id)
+    except User.DoesNotExist:
+        user_account = User.objects.create(id=kakao_id, name=nickname)
+
+    print(user_account)
+
     response = render(request, 'login/login.html', {"name": nickname})
     response.set_cookie('access_token', access_token)
     return response
