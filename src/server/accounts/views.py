@@ -1,8 +1,9 @@
 import os
 import requests
+from django.http import JsonResponse
 
 from django.shortcuts import render, redirect
-
+from .models import *
 
 # Create your views here.
 
@@ -21,26 +22,45 @@ def kakao_callback(request):
     address = os.environ.get("IP")+':8000'
     kakao_key = os.environ.get("API_KEY")
     user_token = request.GET.get("code")
+    
     token_request = requests.get(
         f"https://kauth.kakao.com/oauth/token?grant_type=authorization_code&client_id={kakao_key}"
         f"&redirect_uri=http://{address}/kakao/login/callback&code={user_token}"
     )
+   
     token_response_json = token_request.json()
     error = token_response_json.get("error", None)
-    # if there is an error from token_request
+   
+   # if there is an error from token_request
     if error is not None:
         return redirect('index')
+   
+   access_token = token_response_json.get("access_token")
 
-    access_token = token_response_json.get("access_token")
+
     profile_request = requests.get(
         "https://kapi.kakao.com/v2/user/me",
         headers={"Authorization": f"Bearer {access_token}"},
     )
-    print(profile_request)
+
     profile_json = profile_request.json()
+
+    kakao_id = profile_json['id']
     nickname = profile_json['properties']['nickname']
-    response = render(request, 'login/login.html', {"name": nickname})
+
+    try:
+        user_account = User.objects.get(id=int(kakao_id))
+    except User.DoesNotExist:
+        print('create new account')
+        user_account = User.objects.create(id=int(kakao_id), name=nickname)
+
+    response = JsonResponse({"message": "200",
+                         "id": kakao_id,
+                         "name": nickname,
+                         "access_token": access_token
+                         }, json_dumps_params={'ensure_ascii': False})
     response.set_cookie('access_token', access_token)
+
     return response
 
 
