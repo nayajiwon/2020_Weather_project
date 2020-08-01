@@ -36,8 +36,8 @@ def kakao_callback(request):
         "https://kapi.kakao.com/v2/user/me",
         headers={"Authorization": f"Bearer {access_token}"},
     )
-    print(profile_request)
     profile_json = profile_request.json()
+    print(profile_json)
     nickname = profile_json['properties']['nickname']
     response = render(request, 'login/login.html', {"name": nickname})
     response.set_cookie('access_token', access_token)
