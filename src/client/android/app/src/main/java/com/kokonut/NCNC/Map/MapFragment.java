@@ -1,5 +1,6 @@
 package com.kokonut.NCNC.Map;
 
+import com.kokonut.NCNC.GpsTracker;
 import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
