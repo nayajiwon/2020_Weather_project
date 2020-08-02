@@ -12,6 +12,7 @@ public class CalendarDBHelper extends SQLiteOpenHelper {
     public static CalendarDBHelper CalendarDbHelper = null;
     public static final String DATABASE_NAME = "database";
     public static final int DATABASE_VERSION = 1;
+    Context context;
 
     public static CalendarDBHelper getInstance(Context context){ // 싱글턴 패턴으로 구현하였다.
 
@@ -25,7 +26,6 @@ public class CalendarDBHelper extends SQLiteOpenHelper {
     private CalendarDBHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
         Log.d("##1#", "getInstance: ");
-
     }
 
     @Override
@@ -44,6 +44,7 @@ public class CalendarDBHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = getReadableDatabase();
 
         ContentValues values = new ContentValues();
+        //primary key(BaseColumns._ID) 는 업데이트 필요 없음
         values.put(CalendarContract.CalendarEntry.COLUMN_DATE, date);
         values.put(CalendarContract.CalendarEntry.COLUMN_PART, part);
         values.put(CalendarContract.CalendarEntry.COLUMN_COLOR, color);
@@ -54,7 +55,7 @@ public class CalendarDBHelper extends SQLiteOpenHelper {
     public Cursor readRecordOrderByAge() {
         SQLiteDatabase db = getReadableDatabase();
         String[] projection = {
-                BaseColumns._ID,
+                BaseColumns._ID, //Primary Key
                 CalendarContract.CalendarEntry.COLUMN_DATE,
                 CalendarContract.CalendarEntry.COLUMN_PART,
                 CalendarContract.CalendarEntry.COLUMN_COLOR

@@ -22,6 +22,7 @@ public class Calendar_PopupFragment extends DialogFragment {
     TextView textView_Date;
     ImageButton buttonAdd;
     Context context;
+    int result;
 
     uploadDialogInterface interfaceObj;
 
@@ -56,7 +57,6 @@ public class Calendar_PopupFragment extends DialogFragment {
     public void onStart() {
         super.onStart();
         textView_Date.setText("2020년 7월 23일");
-
     }
 
     //.//.
@@ -77,21 +77,31 @@ public class Calendar_PopupFragment extends DialogFragment {
 
         final CheckBox checkBox1 = view.findViewById(R.id.checkBox1);
         final CheckBox checkBox2 = view.findViewById(R.id.checkBox2);
-        final CheckBox checkBox3 = view.findViewById(R.id.checkBox3);
 
         buttonAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                String result = "_";
+                int ind = 0;
+                result = 0;
+                //String result = "_";
+            /*
                 if(checkBox1.isChecked() == true) result += (checkBox1.getText().toString() + "_");
                 if(checkBox2.isChecked() == true) result += (checkBox2.getText().toString() + "_");
                 if(checkBox3.isChecked() == true) result += (checkBox3.getText().toString() + "_");
+*/
+                if(checkBox1.isChecked() == true) result = 1;
+                if(checkBox2.isChecked() == true) {
+                    if(result == 1){
+                        result = 3; //내부, 외부 둘다 선택
+                    }
+                    result = 2;
+                }
 
                 Log.d("wow", "customDecorator: is null 1122");
 
 
-                if(interfaceObj != null && result != "_") {
+                if(interfaceObj != null && result != 0) {
                     Log.d("wow7", "customDecorator: is null 1122-2");
                     interfaceObj.senddatatoCalendarFragment(result);
                 }
@@ -108,6 +118,6 @@ public class Calendar_PopupFragment extends DialogFragment {
     public interface uploadDialogInterface
     {
         //자동으로 public 으로 선언되기 때문에 public 안써도 됨
-        void senddatatoCalendarFragment(String title);
+        void senddatatoCalendarFragment(int checkedlist);
     }
 }

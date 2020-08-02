@@ -35,8 +35,6 @@ public class MainActivity extends AppCompatActivity implements Calendar_PopupFra
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        //CalendarDBinit();
-
         bottomNavigationBar = findViewById(R.id.bottom_navigation_bar);
         BottomNavigationMenuView menuView = (BottomNavigationMenuView) bottomNavigationBar.getChildAt(0);
 
@@ -87,7 +85,7 @@ public class MainActivity extends AppCompatActivity implements Calendar_PopupFra
     }
 
     @Override
-    public void senddatatoCalendarFragment(String popupResult) {
+    public void senddatatoCalendarFragment(int popupResult) {
         calendarFragment.devidepopupValue(popupResult);
     }
 
