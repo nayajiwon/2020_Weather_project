@@ -23,7 +23,6 @@ import com.kokonut.NCNC.R;
 public class Tap1_PopupFragment extends DialogFragment {
     private Fragment fragment;
     private int lastValue1, lastValue2, lastValue3; //마지막으로 설정한 '맞춤형 세차점수 설정하기'
-    public int num1=0, num2=0, num3=0;
 
     View view;
     TextView textView_title, textView_subtitle;
@@ -47,7 +46,6 @@ public class Tap1_PopupFragment extends DialogFragment {
         textView_subtitle = view.findViewById(R.id.home_popup_subtitle);
         buttonX = view.findViewById(R.id.home_popup_buttonX);
         buttonOK = view.findViewById(R.id.home_popupButton);
-
         imageView1 = view.findViewById(R.id.home_popup_Image1);
         imageView2 = view.findViewById(R.id.home_popup_Image2);
         imageView3 = view.findViewById(R.id.home_popup_Image3);
@@ -99,7 +97,8 @@ public class Tap1_PopupFragment extends DialogFragment {
             public void onStopTrackingTouch(SeekBar seekbar3) {}
         });
 
-        seekBar1.setProgress(100); seekBar2.setMax(100); seekBar3.setMax(100);
+        seekBar1.setMax(100); seekBar2.setMax(100); seekBar3.setMax(100);
+        seekBar1.setProgress(0); seekBar2.setProgress(0); seekBar3.setProgress(0); //초기값
 
 
         //X버튼 클릭 시 - 팝업창 닫기

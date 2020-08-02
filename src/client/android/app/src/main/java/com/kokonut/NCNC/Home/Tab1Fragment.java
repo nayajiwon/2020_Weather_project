@@ -6,6 +6,8 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.viewpager2.adapter.FragmentStateAdapter;
+import androidx.viewpager2.widget.ViewPager2;
 
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -18,7 +20,10 @@ import com.kokonut.NCNC.R;
 public class Tab1Fragment extends Fragment {
     ViewGroup viewGroup;
     ImageButton popupButton;
-    FragmentTransaction ft;
+
+    ViewPager2 viewPager2;
+    FragmentStateAdapter pagerAdapter;
+    int VIEW_CNT=3;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -45,6 +50,29 @@ public class Tab1Fragment extends Fragment {
                 dialog.show(getActivity().getSupportFragmentManager(), "tab1");
 
             }
+        });
+
+        //'내주변세차장' viewpager 구현
+        viewPager2 = (ViewPager2)viewGroup.findViewById(R.id.tab1_viewpager);
+        pagerAdapter = new Tab1CarWashInfo_Viewpager2Adapter(this);
+        viewPager2.setAdapter(pagerAdapter);
+        viewPager2.setOrientation(ViewPager2.ORIENTATION_HORIZONTAL);
+        viewPager2.setOffscreenPageLimit(2);
+
+        viewPager2.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+                super.onPageScrolled(position, positionOffset, positionOffsetPixels);
+                if(positionOffsetPixels==0){
+                    viewPager2.setCurrentItem(position);
+                }
+            }
+            /* indicator 설정시 이용
+            @Override
+            public void onPageSelected(int position){
+                super.onPageSelected(position);
+                indicator.animatePageSelected(position%VIEW_CNT);
+            }*/
         });
 
         return viewGroup;
