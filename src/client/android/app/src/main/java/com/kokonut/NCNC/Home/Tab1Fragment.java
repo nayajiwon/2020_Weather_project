@@ -14,8 +14,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
+import android.widget.TextView;
 
 import com.kokonut.NCNC.R;
+
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.Locale;
 
 public class Tab1Fragment extends Fragment {
     ViewGroup viewGroup;
@@ -24,6 +30,8 @@ public class Tab1Fragment extends Fragment {
     ViewPager2 viewPager2;
     FragmentStateAdapter pagerAdapter;
     int VIEW_CNT=3;
+
+    TextView date1, date2, date3, date4, date5, date6, date7;
 
     public Tab1Fragment() {
         // Required empty public constructor
@@ -78,6 +86,24 @@ public class Tab1Fragment extends Fragment {
                 indicator.animatePageSelected(position%VIEW_CNT);
             }*/
         });
+
+        /* 아직 하는중
+        //일주일간 날짜 출력
+        date1 = viewGroup.findViewById(R.id.home_tab1_day1);
+        date2 = viewGroup.findViewById(R.id.home_tab1_day2);
+        date3 = viewGroup.findViewById(R.id.home_tab1_day3);
+        date4 = viewGroup.findViewById(R.id.home_tab1_day4);
+        date5 = viewGroup.findViewById(R.id.home_tab1_day5);
+        date6 = viewGroup.findViewById(R.id.home_tab1_day6);
+        date7 = viewGroup.findViewById(R.id.home_tab1_day7);
+        Date currentTime = Calendar.getInstance().getTime();
+        SimpleDateFormat dayFormat = new SimpleDateFormat("dd", Locale.getDefault());
+        String currentDay = dayFormat.format(currentTime);
+
+        for(int i=0; i<7; i++){
+
+        }
+*/
 
         return viewGroup;
     }
