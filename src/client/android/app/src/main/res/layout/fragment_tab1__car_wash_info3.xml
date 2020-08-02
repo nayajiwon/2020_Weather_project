@@ -1,13 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Home.Tab1_CarWashInfo3">
+    tools:context=".Home.Tab1_CarWashInfo3"
+    android:orientation="horizontal"
+    android:gravity="center">
 
 
     <LinearLayout
-        android:id="@+id/map_more_info"
+        android:id="@+id/tab1_info3_layout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
@@ -125,29 +127,30 @@
                     android:fontFamily="@font/ns_bold"/>
             </LinearLayout>
         </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="-4dp"
-            android:layout_gravity="center_vertical"
-            android:orientation="vertical">
-
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="7dp"
-                android:layout_gravity="center_vertical"
-                android:src="@drawable/map_arrow_more"/>
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="7sp"
-                android:textColor="@color/color_black"
-                android:lineSpacingExtra="14.6sp"
-                android:text="더보기"
-                android:fontFamily="@font/ns_regular"/>
-        </LinearLayout>
     </LinearLayout>
 
-</FrameLayout>
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_gravity="center_vertical"
+        android:orientation="vertical">
+
+        <ImageButton
+            android:id="@+id/tab1_moreButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:src="@drawable/map_arrow_more"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="7sp"
+            android:textColor="@color/color_black"
+            android:lineSpacingExtra="14.6sp"
+            android:text="더보기"
+            android:fontFamily="@font/ns_regular"
+            android:layout_gravity="center"/>
+    </LinearLayout>
+
+</LinearLayout>

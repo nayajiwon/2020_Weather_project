@@ -102,11 +102,4 @@ public class MainActivity extends AppCompatActivity implements Calendar_PopupFra
     public void senddatatoCalendarFragment(String popupResult) {
         calendarFragment.devidepopupValue(popupResult);
     }
-/*
-    @Override
-    public void senddatatoHomeFragment(String popupResult1){
-        HomeFragment.devidepopupValue(popupResult1);
-    }
-
- */
 }

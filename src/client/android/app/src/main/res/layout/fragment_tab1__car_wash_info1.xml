@@ -6,7 +6,7 @@
     tools:context=".Home.Tab1_CarWashInfo1">
 
     <LinearLayout
-        android:id="@+id/map_more_info"
+        android:id="@+id/tab1_info1_layout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
