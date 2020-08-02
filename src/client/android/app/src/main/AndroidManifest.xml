@@ -9,7 +9,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".Home.Tab1_CarWashList"></activity>
+        <activity android:name=".Home.Tab2_SearchList"></activity>
+        <activity android:name=".Home.Tab1_CarWashList" />
 
         <meta-data
             android:name="com.naver.maps.map.CLIENT_ID"
@@ -17,16 +18,16 @@
 
         <activity
             android:name=".Map.CarWashInfoActivity"
-            android:label="CarWashInfo"></activity>
+            android:label="CarWashInfo" />
         <activity
             android:name=".Map.CarWashReviewActivity"
-            android:label="CarWashReview"></activity>
+            android:label="CarWashReview" />
         <activity
             android:name=".Map.WriteReviewActivity"
-            android:label="WriteReview"></activity>
+            android:label="WriteReview" />
         <activity
             android:name=".Map.MapActivity"
-            android:label="Map"></activity>
+            android:label="Map" />
         <activity
             android:name=".MainActivity"
             android:label="Main">

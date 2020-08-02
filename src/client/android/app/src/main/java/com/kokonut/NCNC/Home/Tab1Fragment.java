@@ -25,6 +25,10 @@ public class Tab1Fragment extends Fragment {
     FragmentStateAdapter pagerAdapter;
     int VIEW_CNT=3;
 
+    public Tab1Fragment() {
+        // Required empty public constructor
+    }
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
