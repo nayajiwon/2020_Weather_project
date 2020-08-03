@@ -14,7 +14,7 @@
 
         <meta-data
             android:name="com.naver.maps.map.CLIENT_ID"
-            android:value="CLIENT_ID_HERE" />
+            android:value="frq2tpnvu5" />
 
         <activity
             android:name=".Map.CarWashInfoActivity"
@@ -38,5 +38,8 @@
             </intent-filter>
         </activity>
     </application>
+
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
 
 </manifest>
