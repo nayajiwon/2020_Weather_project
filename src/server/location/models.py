@@ -9,4 +9,7 @@ class Location(models.Model):
     location_id = models.CharField(max_length=  8)
 
     def __str__(self):
+        return self.name
+
+    def get_id(self):
         return self.location_id

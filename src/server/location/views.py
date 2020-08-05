@@ -18,4 +18,9 @@ def find_code(request):
         return JsonResponse({"status":"fail"})
 
     code = Location.objects.get(name=city)
-    return HttpResponse(code)
+    return JsonResponse(
+        {
+            "code": code.get_id()
+         },
+        safe=False, json_dumps_params={'ensure_ascii': False}
+    )
