@@ -34,8 +34,8 @@ def kakao_callback(request):
    # if there is an error from token_request
     if error is not None:
         return redirect('index')
-   
-   access_token = token_response_json.get("access_token")
+
+    access_token = token_response_json.get("access_token")
 
 
     profile_request = requests.get(
