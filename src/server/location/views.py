@@ -13,7 +13,7 @@ def location_list(request):
 
 
 def find_code(request):
-    city = request.GET.get('category', None)
+    city = request.GET.get('city', None)
     if city is None:
         return JsonResponse({"status":"fail"})
 
