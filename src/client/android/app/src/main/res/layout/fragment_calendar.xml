@@ -80,6 +80,16 @@
                 tools:text="세차하기 좋은 날"
                 />
 
+            <TextView
+                android:id="@+id/initbutton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                tools:text="초기화"
+                android:textSize="8sp"
+                android:paddingLeft="30dp"
+                android:layout_gravity="right"
+                android:textColor="#292929" />
+
         </LinearLayout>
 
 

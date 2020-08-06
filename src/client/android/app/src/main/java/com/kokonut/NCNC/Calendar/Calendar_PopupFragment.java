@@ -7,6 +7,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.ImageButton;
 import android.widget.TextView;
@@ -20,6 +21,7 @@ import com.kokonut.NCNC.R;
 public class Calendar_PopupFragment extends DialogFragment {
     View view;
     TextView textView_Date;
+    TextView calendar_textview_delete;
     ImageButton buttonAdd;
     Context context;
     int result;
@@ -33,6 +35,7 @@ public class Calendar_PopupFragment extends DialogFragment {
         view  = inflater.inflate(R.layout.activity_calendar_popup, container);
         textView_Date = view.findViewById(R.id.calendar_textview_date);
         buttonAdd = view.findViewById(R.id.buttonAdd);
+        calendar_textview_delete = view.findViewById(R.id.calendar_textview_delete);
 
         setCancelable(false); //popup에서 여백을 만져도 꺼지지 않게 함
         checkList();
@@ -78,6 +81,27 @@ public class Calendar_PopupFragment extends DialogFragment {
         final CheckBox checkBox1 = view.findViewById(R.id.checkBox1);
         final CheckBox checkBox2 = view.findViewById(R.id.checkBox2);
 
+
+        /** 데이터 삭제를 눌렀을 때 **/
+        calendar_textview_delete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.d("wowwowwow", "customDecorator: is null 1122-2");
+
+                result = 4;
+
+                if(interfaceObj != null && result != 0) {
+                    Log.d("wow7", "customDecorator: is null 1122-2");
+                    interfaceObj.senddatatoCalendarFragment(result);
+                }
+                else
+                    Log.d("wow7", "customDecorator: is null 1122-3");
+
+                dismiss();
+            }
+        });
+
+        /** 체크박스 눌렀을 때 **/
         buttonAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -95,7 +119,8 @@ public class Calendar_PopupFragment extends DialogFragment {
                     if(result == 1){
                         result = 3; //내부, 외부 둘다 선택
                     }
-                    result = 2;
+                    else
+                        result = 2;
                 }
 
                 Log.d("wow", "customDecorator: is null 1122");
@@ -109,10 +134,8 @@ public class Calendar_PopupFragment extends DialogFragment {
                     Log.d("wow7", "customDecorator: is null 1122-3");
 
                 dismiss();
-
             }
         });
-
     }
 
     public interface uploadDialogInterface

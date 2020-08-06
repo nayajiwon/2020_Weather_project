@@ -1,59 +1,31 @@
 package com.kokonut.NCNC.Calendar;
 
-import android.os.Parcel;
-import android.os.Parcelable;
 
 import com.prolificinteractive.materialcalendarview.CalendarDay;
 
-public class CalendarInfo implements Parcelable {
+public class CalendarInfo{
 
+    customDecorator CustomDecorator;
+    CalendarDay date;
 
-    String dayOfWeek;
-    String week;
-    String yearOfWeek;
-
-/*
-    CalendarDay
-    CalendarDay parseCalendarDay(){
-
-        return new CalendarDay();
-    }
-*/
-    public CalendarInfo(String a, int b, int c){
-        this.dayOfWeek = a;
-        this.week = Integer.toString(b);
-        this.yearOfWeek = Integer.toString(c);
+    public CalendarInfo(customDecorator CustomDecorator, CalendarDay date){
+        this.CustomDecorator = CustomDecorator;
+        this.date = date;
     }
 
-
-    protected CalendarInfo(Parcel in) {
-        dayOfWeek = in.readString();
-        week = in.readString();
-        yearOfWeek = in.readString();
+    public customDecorator getCustomDecorator() {
+        return CustomDecorator;
     }
 
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-
-        dest.writeString(dayOfWeek);
-        dest.writeString(week);
-        dest.writeString(yearOfWeek);
+    public void setCustomDecorator(customDecorator customDecorator) {
+        CustomDecorator = customDecorator;
     }
 
-    @Override
-    public int describeContents() {
-        return 0;
+    public String getDate() {
+        return date.toString();
     }
 
-    public static final Creator<CalendarInfo> CREATOR = new Creator<CalendarInfo>() {
-        @Override
-        public CalendarInfo createFromParcel(Parcel in) {
-            return new CalendarInfo(in);
-        }
-
-        @Override
-        public CalendarInfo[] newArray(int size) {
-            return new CalendarInfo[size];
-        }
-    };
+    public void setDate(CalendarDay date) {
+        this.date = date;
+    }
 }

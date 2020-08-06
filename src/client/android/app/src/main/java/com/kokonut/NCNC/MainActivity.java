@@ -2,6 +2,7 @@ package com.kokonut.NCNC;
 
 import android.database.Cursor;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -86,10 +87,11 @@ public class MainActivity extends AppCompatActivity implements Calendar_PopupFra
 
     @Override
     public void senddatatoCalendarFragment(int popupResult) {
-        calendarFragment.devidepopupValue(popupResult);
+        Log.d("senddatdatoCael", "senddatatoCalendarFragment: "+ popupResult);
+        if (popupResult != 4) //내부세차 외부세차 리스트일 경우
+            calendarFragment.devidepopupValue(popupResult);
+        else if (popupResult == 4)
+            Log.d("((((((TAG))))))))))))))", "senddatatoCalendarFragment: ");
+            calendarFragment.removeCustomDecorator(popupResult);
     }
-
-
-
-
 }

@@ -15,6 +15,8 @@ import com.prolificinteractive.materialcalendarview.DayViewDecorator;
 import com.prolificinteractive.materialcalendarview.DayViewFacade;
 import com.prolificinteractive.materialcalendarview.MaterialCalendarView;
 
+import java.util.logging.Handler;
+
 public class customDecorator implements DayViewDecorator {
 
     private CalendarDay date;
@@ -30,7 +32,14 @@ public class customDecorator implements DayViewDecorator {
     private CalendarDBHelper CalendardbHelper;
     private customSelectedDate customSelectedDate;
 
+    public customDecorator(CalendarDay date){
+        Log.d("~~~~~~~~~~~~~~~~3", "onDateSelected: ");
+
+        this.date = date;
+    }
+
     public customDecorator(Activity context, Drawable drawable, CalendarDay date, int checkedList, CalendarDBHelper CalendardbHelper) {
+
 
         this.activity = context;
         this.date = date;
@@ -54,6 +63,7 @@ public class customDecorator implements DayViewDecorator {
         //drawable = ContextCompat.getDrawable(activity,R.drawable.calendar_emptycircle_inside_purple);
 
         if(checkedList == 1){ //내부세차
+
             cleancar_color = 1;
         }
         else if(checkedList == 2) { //외부세차
@@ -67,25 +77,28 @@ public class customDecorator implements DayViewDecorator {
 
     }
 
+    public int getresult(){
+        return checkedList; //return : 4 -> 데이터 삭제, 이하-->데이터 추가
+    }
 
     public void calendarDB(String date, int part, int color){
         CalendardbHelper.insertRecord(date, part, color);
-        printTable();
+        //printTable();
     }
 
+    /*
     private void printTable() {
 
         Cursor cursor = CalendardbHelper.readRecordOrderByAge();
         String result = "";
-
+g
         result += "row 개수 : " + cursor.getCount() + "\n";
         while (cursor.moveToNext()) {
             int itemId = cursor.getInt(cursor.getColumnIndexOrThrow(CalendarContract.CalendarEntry._ID));
             String one = cursor.getString(cursor.getColumnIndexOrThrow(CalendarContract.CalendarEntry.COLUMN_DATE));
             int two = cursor.getInt(cursor.getColumnIndexOrThrow(CalendarContract.CalendarEntry.COLUMN_PART));
-            int three = cursor.getInt(cursor.getColumnIndexOrThrow(CalendarContract.CalendarEntry.COLUMN_COLOR));
 
-            result += itemId + " " + one + " " + Integer.toString(two) + " " + Integer.toString(three) + "\n";
+            result += itemId + " " + one + " " + Integer.toString(two) + "\n";
             Log.d("*******", "printTable: "+one);
 
         }
@@ -93,17 +106,31 @@ public class customDecorator implements DayViewDecorator {
         //Log.d("*******", "printTable: "+result);
         cursor.close();
     }
+
+     */
+
     @Override
     public boolean shouldDecorate(CalendarDay day) {
+        Log.d("~~~~~~~~~should~~2 ", "onDateSelected: " + day );
+
+        if(date != null && day.equals(date) == true)
+            Log.d("boolean result: ", " true");
+        else
+            Log.d("boolean result: ", " false");
+
+
         return date != null && day.equals(date);
+
     }
 
     @Override
     public void decorate(DayViewFacade view) {
-        Log.d("we are loco", "decorate: ");
+        Log.d("~~~~~decorate~~~~~3 ", "onDateSelected: " );
+
         view.setBackgroundDrawable(drawable);
         view.addSpan(new customSelectedDate(activity, checkedList));
     }
+
 
 }
 
@@ -114,6 +141,7 @@ class customSelectedDate implements LineBackgroundSpan{
     Activity activity;
 
     public customSelectedDate(Activity activity, int cleancar_part){
+        Log.d("customSelectedDate", "customSelectedDate: ");
         this.activity = activity;
         color_light_purple = activity.getColor(R.color.color_calender_lightpurple);
 
@@ -135,6 +163,8 @@ class customSelectedDate implements LineBackgroundSpan{
     @Override
     public void drawBackground(Canvas canvas, Paint paint, int left, int right, int top,
                                int baseline, int bottom, CharSequence text, int start, int end, int lnum) {
+
+        Log.d("customSelectedDate", "override: ");
 
         paint.setColor(color_light_purple);
         paint.setTextSize(36);

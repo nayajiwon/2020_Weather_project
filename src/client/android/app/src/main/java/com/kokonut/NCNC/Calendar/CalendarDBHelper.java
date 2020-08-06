@@ -16,16 +16,14 @@ public class CalendarDBHelper extends SQLiteOpenHelper {
 
     public static CalendarDBHelper getInstance(Context context){ // 싱글턴 패턴으로 구현하였다.
 
-        Log.d("###1111111", "getInstance: ");
         if(CalendarDbHelper == null){
             CalendarDbHelper = new CalendarDBHelper(context);
         }
-        return CalendarDbHelper;
+        return CalendarDbHelper; //이미 있다면 기존의 객체 리턴
     }
 
     private CalendarDBHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
-        Log.d("##1#", "getInstance: ");
     }
 
     @Override
@@ -36,6 +34,7 @@ public class CalendarDBHelper extends SQLiteOpenHelper {
     @Override
     public void onUpgrade(SQLiteDatabase sqLiteDatabase, int oldVersion, int newVersion) {
         // 단순히 데이터를 삭제하고 다시 시작하는 정책이 적용될 경우
+        // 테이블을 없애고 새로 만든다
         sqLiteDatabase.execSQL(CalendarContract.CalendarEntry.SQL_DELETE_TABLE);
         onCreate(sqLiteDatabase);
     }
@@ -47,7 +46,6 @@ public class CalendarDBHelper extends SQLiteOpenHelper {
         //primary key(BaseColumns._ID) 는 업데이트 필요 없음
         values.put(CalendarContract.CalendarEntry.COLUMN_DATE, date);
         values.put(CalendarContract.CalendarEntry.COLUMN_PART, part);
-        values.put(CalendarContract.CalendarEntry.COLUMN_COLOR, color);
 
         db.insert(CalendarContract.CalendarEntry.TABLE_NAME, null, values);
     }
@@ -57,8 +55,7 @@ public class CalendarDBHelper extends SQLiteOpenHelper {
         String[] projection = {
                 BaseColumns._ID, //Primary Key
                 CalendarContract.CalendarEntry.COLUMN_DATE,
-                CalendarContract.CalendarEntry.COLUMN_PART,
-                CalendarContract.CalendarEntry.COLUMN_COLOR
+                CalendarContract.CalendarEntry.COLUMN_PART
         };
 
         String sortOrder = CalendarContract.CalendarEntry.COLUMN_DATE + " DESC";
