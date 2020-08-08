@@ -6,4 +6,4 @@ class PostForm(forms.ModelForm): #forms의 ModelForm 클래스를 상속 받는�
 
     class Meta:
         model = Washer
-        fields = ('name', 'lat', 'lon', 'address','phone','open_time','close_time' ) # 그 중에 입력 받을 것
+        fields = ('name', 'lat', 'lon', 'address','phone','city','district','dong') # 그 중에 입력 받을 것
