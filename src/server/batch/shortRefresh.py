@@ -31,15 +31,15 @@ class ScoreCaculator:
         ta_max = int(line.get('taMax', 25))
 
         if ta_min < -10 or ta_max > 35:
-            ta_level = -5
-        elif ta_min < 0 or ta_max > 33:
             ta_level = 0
+        elif ta_min < 0 or ta_max > 33:
+            ta_level = 1
         elif ta_min < 5 or ta_max > 28:
-            ta_level = 3
+            ta_level = 2
         elif ta_min < 10:
-            ta_level = 5
+            ta_level = 3
         else:
-            ta_level = 7
+            ta_level = 4
         return ta_level
 
     def calc_rn(self, value):
@@ -70,8 +70,11 @@ class ScoreCaculator:
             for j in range(i, i+4):
                 pivot = min(self.lv_list[j])
                 score += pivot*(i+5-j)
-            score += self.calc_ta(i)
-            doc['score'] = score
+           # score += self.calc_ta(i)
+
+            doc['rn_lv'] = score
+            doc['ta_lv'] = self.calc_ta(i)
+         #   doc['score'] = score
             result.append(doc)
         return result
 
