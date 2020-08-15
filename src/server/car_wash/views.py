@@ -25,6 +25,15 @@ def washer_list(request):
         else:
             return HttpResponse('error')
 
+def washer_detail(request, pk):
+    washer = Washer.objects.get(id=pk)
+    wash_type = list(washer.wash_type.all().values())
+
+    content = {
+            "name": washer.name,
+            "type": wash_type
+            }
+    return JsonResponse(content, safe=False, json_dumps_params={'ensure_ascii': False})
 
 
 
