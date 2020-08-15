@@ -7,6 +7,9 @@ class WashType(models.Model):
     tid = models.AutoField(primary_key=True)
     name = models.CharField(max_length=10)
 
+    def __str__(self):
+        return self.name
+
 class Washer(models.Model):
     name = models.CharField(max_length=20)
     lat = models.FloatField()
@@ -16,6 +19,7 @@ class Washer(models.Model):
     district = models.CharField(max_length=10, default='강남구')
     dong = models.CharField(max_length=10, default='도곡동')
     phone = models.CharField(max_length=20, default = '010-0000-0000')
+    wash_type = models.ManyToManyField(WashType)
 
     def __str__(self):
         return self.name
