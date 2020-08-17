@@ -60,7 +60,9 @@ public class Calendar_PopupFragment extends DialogFragment {
     public void onStart() {
         super.onStart();
         textView_Date.setText("2020년 7월 23일");
+
     }
+
 
     //.//.
     @Override
