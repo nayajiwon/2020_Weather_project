@@ -64,7 +64,7 @@ public class Calendar_PopupFragment extends DialogFragment {
         textView_Date.setText("2020년 7월 23일");
     //  textView_Date.setPaintFlags(textView_Date.getPaintFlags() | Paint.FAKE_BOLD_TEXT_FLAG);
 
-    }
+}
 
     //.//.
     @Override

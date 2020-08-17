@@ -5,6 +5,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.location.Address;
+import android.location.Geocoder;
 import android.location.Location;
 import android.net.Uri;
 import android.os.Bundle;
@@ -35,6 +37,12 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.snackbar.Snackbar;
 import com.kokonut.NCNC.R;
 
+import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.List;
+import java.util.Locale;
+
 public class Tab1Fragment extends Fragment implements ActivityCompat.OnRequestPermissionsResultCallback{
     private static final int PERMISSIONS_REQUEST_CODE = 100;
 
@@ -44,11 +52,12 @@ public class Tab1Fragment extends Fragment implements ActivityCompat.OnRequestPe
             Manifest.permission.ACCESS_COARSE_LOCATION
     };
 
-    ImageView gpsMark;
+
+    //ImageView gpsMark;
     LinearLayout layout;
     TextView tvLocation;
     static int REQUEST_CODE = 1;
-
+    Geocoder geocoder;
 
     ViewGroup viewGroup;
     ImageButton popupButton;
@@ -58,6 +67,7 @@ public class Tab1Fragment extends Fragment implements ActivityCompat.OnRequestPe
     int VIEW_CNT=3;
 
     TextView date1, date2, date3, date4, date5, date6, date7;
+    TextView todayScore, score1, score2, score3, score4, score5, score6, score7;
 
     public Tab1Fragment() {
         // Required empty public constructor
@@ -75,10 +85,44 @@ public class Tab1Fragment extends Fragment implements ActivityCompat.OnRequestPe
     public View onCreateView(@Nullable LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
         viewGroup = (ViewGroup) inflater.inflate(R.layout.fragment_tab1, container, false);
-        popupButton = (ImageButton)viewGroup.findViewById(R.id.home_popupButton);
-        gpsMark = (ImageView) viewGroup.findViewById(R.id.tab1_mark_gps);
-        layout = (LinearLayout)viewGroup.findViewById(R.id.tab1_layout);
-        tvLocation = (TextView)viewGroup.findViewById(R.id.tab1_tv_location);
+        popupButton = viewGroup.findViewById(R.id.home_popupButton);
+        //gpsMark = viewGroup.findViewById(R.id.tab1_mark_gps);
+        layout = viewGroup.findViewById(R.id.tab1_layout);
+        tvLocation = viewGroup.findViewById(R.id.tab1_tv_location);
+
+        date1 = viewGroup.findViewById(R.id.home_tab1_day1);
+        date2 = viewGroup.findViewById(R.id.home_tab1_day2);
+        date3 = viewGroup.findViewById(R.id.home_tab1_day3);
+        date4 = viewGroup.findViewById(R.id.home_tab1_day4);
+        date5 = viewGroup.findViewById(R.id.home_tab1_day5);
+        date6 = viewGroup.findViewById(R.id.home_tab1_day6);
+        date7 = viewGroup.findViewById(R.id.home_tab1_day7);
+
+        todayScore = viewGroup.findViewById(R.id.home_score);
+        score1 = viewGroup.findViewById(R.id.home_tab1_day1_score);
+        score2 = viewGroup.findViewById(R.id.home_tab1_day2_score);
+        score3 = viewGroup.findViewById(R.id.home_tab1_day3_score);
+        score4 = viewGroup.findViewById(R.id.home_tab1_day4_score);
+        score5 = viewGroup.findViewById(R.id.home_tab1_day5_score);
+        score6 = viewGroup.findViewById(R.id.home_tab1_day6_score);
+        score7 = viewGroup.findViewById(R.id.home_tab1_day7_score);
+
+/*
+        //mainActivity에서 scores[] 받아옴
+        String[] scores = this.getArguments().getStringArray("scores");
+        //String[] scores = getArguments().getSerializable(scores);
+
+        todayScore.setText(scores[0]);
+        score1.setText(scores[1]);
+        score2.setText(scores[2]);
+        score3.setText(scores[3]);
+        score4.setText(scores[4]);
+        score5.setText(scores[5]);
+        score6.setText(scores[6]);
+        score7.setText(scores[7]);
+
+ */
+
 
         int locationPermission = ContextCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_FINE_LOCATION);
 
@@ -89,7 +133,7 @@ public class Tab1Fragment extends Fragment implements ActivityCompat.OnRequestPe
             // 이전에 사용자가 위치 접근 권한 허용한 경우
             Log.d("locationPermission", "PERMISSION_ACCEPTED");
             Toast.makeText(getContext(), "위치 정보 접근 권한 허용 상태", Toast.LENGTH_LONG).show();
-
+            getCurrentLocation();
 
         }else {
             Log.d("locationPermission", "PERMISSION_DENIED");
@@ -103,6 +147,7 @@ public class Tab1Fragment extends Fragment implements ActivityCompat.OnRequestPe
                 Toast.makeText(getContext(), "위치 정보 접근 권한 없음", Toast.LENGTH_LONG).show();
                 ActivityCompat.requestPermissions( getActivity(), PERMISSIONS,
                         PERMISSIONS_REQUEST_CODE);
+                getCurrentLocation();
             }
         }
 
@@ -119,7 +164,7 @@ public class Tab1Fragment extends Fragment implements ActivityCompat.OnRequestPe
             }
         });
 
-
+/*
         // 하얀색 네모 클릭 시 -> getCurrentLocation()에서 위도, 경도 받아옴
         gpsMark.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -130,7 +175,7 @@ public class Tab1Fragment extends Fragment implements ActivityCompat.OnRequestPe
                 }
             }
         });
-
+*/
 
         //'내주변세차장' viewpager 구현
         viewPager2 = (ViewPager2)viewGroup.findViewById(R.id.tab1_viewpager);
@@ -155,23 +200,14 @@ public class Tab1Fragment extends Fragment implements ActivityCompat.OnRequestPe
             }*/
         });
 
-        /* 아직 하는중
-        //일주일간 날짜 출력
-        date1 = viewGroup.findViewById(R.id.home_tab1_day1);
-        date2 = viewGroup.findViewById(R.id.home_tab1_day2);
-        date3 = viewGroup.findViewById(R.id.home_tab1_day3);
-        date4 = viewGroup.findViewById(R.id.home_tab1_day4);
-        date5 = viewGroup.findViewById(R.id.home_tab1_day5);
-        date6 = viewGroup.findViewById(R.id.home_tab1_day6);
-        date7 = viewGroup.findViewById(R.id.home_tab1_day7);
-        Date currentTime = Calendar.getInstance().getTime();
-        SimpleDateFormat dayFormat = new SimpleDateFormat("dd", Locale.getDefault());
-        String currentDay = dayFormat.format(currentTime);
-
-        for(int i=0; i<7; i++){
-
-        }
-*/
+        //오늘로부터 일주일 날짜
+        date1.setText(getDate(0)); //오늘
+        date2.setText(getDate(1));
+        date3.setText(getDate(2));
+        date4.setText(getDate(3));
+        date5.setText(getDate(4));
+        date6.setText(getDate(5));
+        date7.setText(getDate(6));
 
         return viewGroup;
     }
@@ -205,6 +241,30 @@ public class Tab1Fragment extends Fragment implements ActivityCompat.OnRequestPe
         }
     }
 
+    //위도,경도 -> 시,구,동 변환
+    private void GetAddress(Double latitude, Double longitude){
+        List<Address> address = null;
+        geocoder = new Geocoder(getActivity(), Locale.getDefault());
+
+        try {
+            address = geocoder.getFromLocation(latitude, longitude, 1);
+        }
+        catch(IOException e){
+            e.printStackTrace();
+            Log.d("getaddress","input/output error");
+        }
+
+        if(!address.isEmpty()){
+            String str1 = address.get(0).getAdminArea(); //시
+            String str2 = address.get(0).getSubLocality(); //구
+            String str3 = address.get(0).getThoroughfare(); //동
+            tvLocation.setText(str1+" "+str2+" "+str3);
+        }
+
+
+    }
+
+
     public void getCurrentLocation() {
         FusedLocationProviderClient fusedLocationClient = LocationServices.getFusedLocationProviderClient(getActivity());
         fusedLocationClient.getLastLocation()
@@ -213,7 +273,8 @@ public class Tab1Fragment extends Fragment implements ActivityCompat.OnRequestPe
                     public void onSuccess(Location location) {
                         // location.getLatitude()로 위도, locaation.getLongitude()로 경도 받아옴!
                          if (location != null) {
-                             tvLocation.setText("위도 " + location.getLatitude() + ", 경도 " + location.getLongitude());
+                             //tvLocation.setText("위도 " + location.getLatitude() + ", 경도 " + location.getLongitude());
+                             GetAddress(location.getLatitude(), location.getLongitude());
                          }
                          else{
                              tvLocation.setText("위치를 알 수 없습니다.");
@@ -265,4 +326,14 @@ public class Tab1Fragment extends Fragment implements ActivityCompat.OnRequestPe
             return true;
         }
     }
+
+    public static String getDate(int weekday){
+        java.text.SimpleDateFormat format = new java.text.SimpleDateFormat("dd"); //yyyyMMdd:20200801
+        Calendar calendar = Calendar.getInstance(); //현재 날짜
+        //calendar.set(Calendar.DAY_OF_WEEK, weekday); //오늘 포함 일주일일때
+        calendar.add(Calendar.DAY_OF_MONTH, weekday); //오늘로부터 일주일일때
+        String day = format.format(calendar.getTime());
+        return day;
+    }
+
 }

@@ -56,7 +56,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/home_popup_subtitle"
             android:layout_marginTop="3dp"
-            android:layout_marginBottom="10dp"
+            android:layout_marginBottom="5dp"
             android:background="@drawable/home_setting_box"
             android:gravity="center_horizontal"
             android:layout_centerHorizontal="true">
@@ -117,7 +117,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/home_settingpopup_layout_thermometer"
             android:layout_marginTop="3dp"
-            android:layout_marginBottom="10dp"
+            android:layout_marginBottom="5dp"
             android:background="@drawable/home_setting_box"
             android:layout_centerHorizontal="true"
             android:gravity="center_horizontal">
@@ -236,6 +236,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/home_settingpopup_layout_mask"
+            android:layout_marginBottom="20dp"
             android:src="@drawable/home_settingbutton_ok"
             android:layout_centerInParent="true"
             android:background="@android:color/transparent"/>
