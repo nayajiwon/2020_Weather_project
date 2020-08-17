@@ -6,6 +6,15 @@
     android:layout_height="wrap_content"
     android:background="@android:color/white">
 
+
+    <ScrollView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="350dp"
@@ -93,18 +102,16 @@
         </LinearLayout>
 
 
-
-
 </LinearLayout>
 
     <LinearLayout
-        android:layout_weight="1.6"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
+        android:layout_height="150dp"
         android:orientation="vertical"
-        android:layout_marginTop="5dp"
-        android:layout_gravity="center_horizontal"
-        >
+        android:layout_marginTop="10dp"
+        android:paddingBottom="20dp"
+        android:layout_gravity="center_horizontal">
+            <!--android:layout_weight="1.6"-->
 
         <TextView
             android:id="@+id/plan_text1"
@@ -122,6 +129,8 @@
             android:layout_height="match_parent"
             android:orientation="vertical"
             android:background="@drawable/calendar_planbox_grey"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp"
             android:layout_marginLeft="16dp"
             android:layout_marginRight="16dp">
 
@@ -147,12 +156,14 @@
                             android:layout_marginTop="20dp"
                             android:layout_marginBottom="20dp"
                             android:src="@drawable/calendar_planbox_line_grey" />
+
                     </LinearLayout>
 
                     <LinearLayout
                         android:layout_width="wrap_content"
-                        android:layout_height="200dp"
+                        android:layout_height="wrap_content"
                         android:orientation="vertical"
+                        android:layout_weight="1"
                         >
 
                         <ImageView
@@ -175,4 +186,6 @@
             </TableLayout>
         </LinearLayout>
     </LinearLayout>
+    </LinearLayout>
+    </ScrollView>
 </LinearLayout>
