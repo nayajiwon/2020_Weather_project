@@ -30,27 +30,12 @@
         </activity>
 
         <activity
-            android:name=".Map.MapActivity"
-            android:label="Map">
-        </activity>
-
-        <activity
             android:name=".MainActivity"
             android:label="Main">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-        </activity>
-
-        <activity
-            android:name=".DataInputActivity"
-            android:label="DataInput">
-        </activity>
-
-        <activity
-            android:name=".DataOutputActivity"
-            android:label="DataOutput">
         </activity>
     </application>
 

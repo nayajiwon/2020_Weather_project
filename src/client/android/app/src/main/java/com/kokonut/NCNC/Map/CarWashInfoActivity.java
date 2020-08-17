@@ -26,7 +26,8 @@ public class CarWashInfoActivity extends AppCompatActivity {
         ivBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                getSupportFragmentManager().beginTransaction().replace(R.id.layout_car_wash_info,mapFragment).commitAllowingStateLoss();
+                //getSupportFragmentManager().beginTransaction().replace(R.id.layout_car_wash_info, MainActivity).commitAllowingStateLoss();
+                finish();
             }
         });
 
