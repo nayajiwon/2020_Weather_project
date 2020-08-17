@@ -2,7 +2,6 @@ package com.kokonut.NCNC.Calendar;
 
 import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -16,16 +15,16 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
-import androidx.fragment.app.Fragment;
 
-import com.kokonut.NCNC.MainActivity;
 import com.kokonut.NCNC.R;
 
 public class Calendar_PopupFragment extends DialogFragment {
     View view;
     TextView textView_Date;
+    TextView calendar_textview_delete;
     ImageButton buttonAdd;
     Context context;
+    int result;
 
     uploadDialogInterface interfaceObj;
 
@@ -36,11 +35,10 @@ public class Calendar_PopupFragment extends DialogFragment {
         view  = inflater.inflate(R.layout.activity_calendar_popup, container);
         textView_Date = view.findViewById(R.id.calendar_textview_date);
         buttonAdd = view.findViewById(R.id.buttonAdd);
-        Log.d("wow", "customDecorator: is null 88");
+        calendar_textview_delete = view.findViewById(R.id.calendar_textview_delete);
 
         setCancelable(false); //popup에서 여백을 만져도 꺼지지 않게 함
         checkList();
-        Log.d("wow", "customDecorator: is null 99");
 
         return view;
 
@@ -62,16 +60,15 @@ public class Calendar_PopupFragment extends DialogFragment {
     public void onStart() {
         super.onStart();
         textView_Date.setText("2020년 7월 23일");
-    //  textView_Date.setPaintFlags(textView_Date.getPaintFlags() | Paint.FAKE_BOLD_TEXT_FLAG);
 
-}
+    }
+
 
     //.//.
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
         this.context=context;
-       //..? interfaceObj= (uploadDialogInterface) getTargetFragment();
     }
 
     @Override
@@ -85,53 +82,67 @@ public class Calendar_PopupFragment extends DialogFragment {
 
         final CheckBox checkBox1 = view.findViewById(R.id.checkBox1);
         final CheckBox checkBox2 = view.findViewById(R.id.checkBox2);
-        final CheckBox checkBox3 = view.findViewById(R.id.checkBox3);
 
-        buttonAdd.setOnClickListener(new View.OnClickListener() {
+
+        /** 데이터 삭제를 눌렀을 때 **/
+        calendar_textview_delete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Log.d("ㄹ", "customDecorator: is null 1122-2");
 
-                String result = "_";
-                if(checkBox1.isChecked() == true) result += (checkBox1.getText().toString() + "_");
-                if(checkBox2.isChecked() == true) result += (checkBox2.getText().toString() + "_");
-                if(checkBox3.isChecked() == true) result += (checkBox3.getText().toString() + "_");
+                result = 4;
 
-                Log.d("wow", "customDecorator: is null 1122");
-
-
-                if(interfaceObj != null && result != "_") {
+                if(interfaceObj != null && result != 0) {
                     Log.d("wow7", "customDecorator: is null 1122-2");
                     interfaceObj.senddatatoCalendarFragment(result);
                 }
                 else
                     Log.d("wow7", "customDecorator: is null 1122-3");
 
-                //test중
-/*
-                Intent data =  new Intent();
-                data.putExtra("at", result);
-                Log.d("wow", "customDecorator: is null 1122-2");
-                //Fragment frag = getTargetFragment();
-                Fragment frag = getFragmentManager().findFragmentById(R.id.popup_screen);
-                if(frag == null)
-                    Log.d("444", "onClick: ");
-                else
-                    Log.d("4441", "onClick: ");
-                //frag.onActivityResult(getTargetRequestCode(), Activity.RESULT_OK, data);
-                Log.d("wow", "customDecorator: is null 1122-3");
-*/
                 dismiss();
-
-                Log.d("wow", "customDecorator: is null 1133");
-
-
             }
         });
 
+        /** 체크박스 눌렀을 때 **/
+        buttonAdd.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                int ind = 0;
+                result = 0;
+                //String result = "_";
+            /*
+                if(checkBox1.isChecked() == true) result += (checkBox1.getText().toString() + "_");
+                if(checkBox2.isChecked() == true) result += (checkBox2.getText().toString() + "_");
+                if(checkBox3.isChecked() == true) result += (checkBox3.getText().toString() + "_");
+*/
+                if(checkBox1.isChecked() == true) result = 1;
+                if(checkBox2.isChecked() == true) {
+                    if(result == 1){
+                        result = 3; //내부, 외부 둘다 선택
+                    }
+                    else
+                        result = 2;
+                }
+
+                Log.d("wow", "customDecorator: is null 1122");
+
+
+                if(interfaceObj != null && result != 0) {
+                    Log.d("wow7", "customDecorator: is null 1122-2");
+                    interfaceObj.senddatatoCalendarFragment(result);
+                }
+                else
+                    Log.d("wow7", "customDecorator: is null 1122-3");
+
+                dismiss();
+            }
+        });
     }
+
     public interface uploadDialogInterface
     {
         //자동으로 public 으로 선언되기 때문에 public 안써도 됨
-        void senddatatoCalendarFragment(String title);
+        void senddatatoCalendarFragment(int checkedlist);
     }
 }

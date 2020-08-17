@@ -14,6 +14,8 @@ public class CarWashInfoActivity extends AppCompatActivity {
     ImageView ivBack, ivOnButton, ivOnButton2, ivOnButton3, ivReview;
 
     public static final int sub = 1001;
+    MapFragment mapFragment = new MapFragment();
+
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -24,8 +26,8 @@ public class CarWashInfoActivity extends AppCompatActivity {
         ivBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(getApplicationContext(), MapActivity.class);
-                startActivityForResult(intent, sub);
+                //getSupportFragmentManager().beginTransaction().replace(R.id.layout_car_wash_info, MainActivity).commitAllowingStateLoss();
+                finish();
             }
         });
 

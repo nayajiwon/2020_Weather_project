@@ -3,8 +3,6 @@
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="suggest_permissison_grant">위치를 가져오기 위해서는 위치 권한이 필요합니다.</string>
-    <string name="suggest_permissison_grant_in_setting">위치 권한이 필요합니다. 확인을 누르면 설정 화면으로 이동합니다.</string>
-    <string name="no_permission_msg">권한이 없어 해당 기능을 실행할 수 없습니다.</string>
-    <string name="BaseURL">http://52.26.131.225:8000/</string>
+    <string name="location_permission_available">location_permission_available?</string>
+
 </resources>
