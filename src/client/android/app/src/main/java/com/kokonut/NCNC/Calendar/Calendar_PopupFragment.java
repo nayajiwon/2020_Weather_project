@@ -86,7 +86,7 @@ public class Calendar_PopupFragment extends DialogFragment {
         calendar_textview_delete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.d("wowwowwow", "customDecorator: is null 1122-2");
+                Log.d("ㄹ", "customDecorator: is null 1122-2");
 
                 result = 4;
 

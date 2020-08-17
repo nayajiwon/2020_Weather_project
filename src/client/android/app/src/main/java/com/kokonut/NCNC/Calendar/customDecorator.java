@@ -22,23 +22,18 @@ public class customDecorator implements DayViewDecorator {
     private CalendarDay date;
     private String date_string;
     private Drawable drawable;
-    //private String checkedList;
     int checkedList;
-    // private Fragment fragment;
     private Activity activity;
     private MaterialCalendarView materialCalendarView;
-    //private int cleancar_part_num;
     private int cleancar_color;
     private CalendarDBHelper CalendardbHelper;
-    private customSelectedDate customSelectedDate;
 
     public customDecorator(CalendarDay date){
-        Log.d("~~~~~~~~~~~~~~~~3", "onDateSelected: ");
 
         this.date = date;
     }
 
-    public customDecorator(Activity context, Drawable drawable, CalendarDay date, int checkedList, CalendarDBHelper CalendardbHelper) {
+    public customDecorator(Activity context, Drawable drawable, CalendarDay date, int checkedList) {
 
 
         this.activity = context;
@@ -59,11 +54,7 @@ public class customDecorator implements DayViewDecorator {
 
         if(checkedList == 0) return;
 
-        //drawable = activity.getResources().getDrawable(R.drawable.calendar_emptycircle_inside_purple);
-        //drawable = ContextCompat.getDrawable(activity,R.drawable.calendar_emptycircle_inside_purple);
-
         if(checkedList == 1){ //내부세차
-
             cleancar_color = 1;
         }
         else if(checkedList == 2) { //외부세차
@@ -73,18 +64,22 @@ public class customDecorator implements DayViewDecorator {
             cleancar_color = 2;
         }
 
-        calendarDB(date_string, checkedList, cleancar_color);
 
     }
 
-    public int getresult(){
+    public int getpart(){
         return checkedList; //return : 4 -> 데이터 삭제, 이하-->데이터 추가
     }
 
-    public void calendarDB(String date, int part, int color){
-        CalendardbHelper.insertRecord(date, part, color);
-        //printTable();
+    public int getColor(){
+        return cleancar_color;
     }
+
+    /**
+    public void calendarDB(String date, int part, int color, String objectCalendar){
+        CalendardbHelper.insertRecord(date, part, color, objectCalendar);
+        //printTable();
+    }**/
 
     /*
     private void printTable() {
@@ -111,22 +106,12 @@ g
 
     @Override
     public boolean shouldDecorate(CalendarDay day) {
-        Log.d("~~~~~~~~~should~~2 ", "onDateSelected: " + day );
-
-        if(date != null && day.equals(date) == true)
-            Log.d("boolean result: ", " true");
-        else
-            Log.d("boolean result: ", " false");
-
-
         return date != null && day.equals(date);
 
     }
 
     @Override
     public void decorate(DayViewFacade view) {
-        Log.d("~~~~~decorate~~~~~3 ", "onDateSelected: " );
-
         view.setBackgroundDrawable(drawable);
         view.addSpan(new customSelectedDate(activity, checkedList));
     }
@@ -141,7 +126,6 @@ class customSelectedDate implements LineBackgroundSpan{
     Activity activity;
 
     public customSelectedDate(Activity activity, int cleancar_part){
-        Log.d("customSelectedDate", "customSelectedDate: ");
         this.activity = activity;
         color_light_purple = activity.getColor(R.color.color_calender_lightpurple);
 
@@ -171,8 +155,6 @@ class customSelectedDate implements LineBackgroundSpan{
         canvas.drawText(flag_text,(left+right)/4, (bottom+24),paint);
 
         //paint.setColor(Color.RED); 선택된 날짜 색깔
-
     }
-
 
 }

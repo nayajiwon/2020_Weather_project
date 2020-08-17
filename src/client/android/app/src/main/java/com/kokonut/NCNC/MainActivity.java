@@ -68,11 +68,11 @@ public class MainActivity extends AppCompatActivity implements Calendar_PopupFra
                     case R.id.tab3: {
                         getSupportFragmentManager().beginTransaction().replace(R.id.main_layout,mapFragment).commitAllowingStateLoss();
                         return true;
-                    }
+                    }/*
                     case R.id.tab4: {
                         getSupportFragmentManager().beginTransaction().replace(R.id.main_layout,castFragment).commitAllowingStateLoss();
                         return true;
-                    }
+                    }*/
                     case R.id.tab5: {
                         getSupportFragmentManager().beginTransaction().replace(R.id.main_layout,mypageFragment).commitAllowingStateLoss();
                         return true;
