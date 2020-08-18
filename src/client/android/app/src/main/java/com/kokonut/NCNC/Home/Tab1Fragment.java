@@ -132,19 +132,19 @@ public class Tab1Fragment extends Fragment implements ActivityCompat.OnRequestPe
         if ( locationPermission == PermissionChecker.PERMISSION_GRANTED) {
             // 이전에 사용자가 위치 접근 권한 허용한 경우
             Log.d("locationPermission", "PERMISSION_ACCEPTED");
-            Toast.makeText(getContext(), "위치 정보 접근 권한 허용 상태", Toast.LENGTH_LONG).show();
+            //Toast.makeText(getContext(), "위치 정보 접근 권한 허용 상태", Toast.LENGTH_LONG).show();
             getCurrentLocation();
 
         }else {
             Log.d("locationPermission", "PERMISSION_DENIED");
             // 이전에 사용자가 위치 접근 권한 거부한 경우
             if (ActivityCompat.shouldShowRequestPermissionRationale(getActivity(), PERMISSIONS[0])) {
-                Toast.makeText(getContext(), "위치 정보 접근 권한 거부 상태", Toast.LENGTH_LONG).show();
+                //Toast.makeText(getContext(), "위치 정보 접근 권한 거부 상태", Toast.LENGTH_LONG).show();
 
             } else {
                 // 사용자가 퍼미션 거부를 한 적이 없는 경우(앱 최초 접속시), '다시 묻지 않음 - 거부'한 경우
                 // 요청 결과는 onRequestPermissionResult에서 수신.
-                Toast.makeText(getContext(), "위치 정보 접근 권한 없음", Toast.LENGTH_LONG).show();
+                //Toast.makeText(getContext(), "위치 정보 접근 권한 없음", Toast.LENGTH_LONG).show();
                 ActivityCompat.requestPermissions( getActivity(), PERMISSIONS,
                         PERMISSIONS_REQUEST_CODE);
                 getCurrentLocation();
