@@ -708,11 +708,4 @@
             </LinearLayout>
         </LinearLayout>
     </ScrollView>
-
-    <androidx.appcompat.widget.Toolbar
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@drawable/lower_tab">
-    </androidx.appcompat.widget.Toolbar>
-
 </LinearLayout>
