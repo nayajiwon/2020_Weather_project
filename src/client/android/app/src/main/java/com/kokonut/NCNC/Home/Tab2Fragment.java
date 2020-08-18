@@ -41,4 +41,21 @@ public class Tab2Fragment extends Fragment {
         });
     return viewGroup;
     }
+
+    @Override
+    public void onStart(){
+        super.onStart();
+    }
+
+    @Override
+    public void onResume(){
+        super.onResume();
+
+    }
+
+    @Override
+    public void onPause(){
+        super.onPause();
+
+    }
 }
