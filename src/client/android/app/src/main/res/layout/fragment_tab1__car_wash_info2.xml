@@ -57,72 +57,15 @@
                 android:text="영업시간 : 9:00 ~ 21:30"
                 android:fontFamily="@font/ns_bold"/>
 
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="4dp">
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textSize="10sp"
                     android:textColor="@color/color_black"
                     android:lineSpacingExtra="2sp"
-                    android:text="부스 4개"
+                    android:text="서울시 동작구 상도로369"
                     android:fontFamily="@font/ns_bold"/>
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textSize="10sp"
-                    android:textColor="@color/color_black"
-                    android:lineSpacingExtra="2sp"
-                    android:gravity="center_horizontal"
-                    android:text="ㅣ"/>
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textSize="10sp"
-                    android:textColor="@color/color_black"
-                    android:lineSpacingExtra="2sp"
-                    android:text="부스 4개"
-                    android:fontFamily="@font/ns_bold"/>
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textSize="10sp"
-                    android:textColor="@color/color_black"
-                    android:lineSpacingExtra="2sp"
-                    android:gravity="center_horizontal"
-                    android:text="ㅣ"/>
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textSize="10sp"
-                    android:textColor="@color/color_black"
-                    android:lineSpacingExtra="2sp"
-                    android:text="부스 4개"
-                    android:fontFamily="@font/ns_bold"/>
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textSize="10sp"
-                    android:textColor="@color/color_black"
-                    android:lineSpacingExtra="2sp"
-                    android:gravity="center_horizontal"
-                    android:text="ㅣ"/>
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textSize="10sp"
-                    android:textColor="@color/color_black"
-                    android:lineSpacingExtra="2sp"
-                    android:text="부스 4개"
-                    android:fontFamily="@font/ns_bold"/>
-            </LinearLayout>
         </LinearLayout>
     </LinearLayout>
 
