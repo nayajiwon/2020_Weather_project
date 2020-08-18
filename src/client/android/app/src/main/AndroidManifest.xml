@@ -27,7 +27,12 @@
             android:name=".Map.WriteReviewActivity"
             android:label="WriteReview" />
         <activity
-
+            android:name=".Home.Tab2_SearchList"
+            android:label="CarWash_SearchList" />
+        <activity
+            android:name=".Home.Tab1_CarWashList"
+            android:label="CarWashList" />
+        <activity
             android:name=".MainActivity"
             android:label="@string/app_name">
             <intent-filter>
