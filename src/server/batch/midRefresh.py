@@ -11,7 +11,7 @@ db = conn.get_database('scsc')
 weather_col = db.get_collection('weather')
 score_col = db.get_collection('score')
 
-with open("../config/key.json", "r") as sk_json:
+with open("/cron/config/key.json", "r") as sk_json:
     service_key = json.load(sk_json)['key']
 
 class ScoreCaculator:
@@ -20,7 +20,7 @@ class ScoreCaculator:
         self.lv_list = []
         self.rec = {}
         self.cnt = 0
-        with open('location_code.csv', 'r') as f:
+        with open('/cron/location_code.csv', 'r') as f:
             rdr = csv.reader(f)
             self.code = [item for item in rdr][0]
 
@@ -30,20 +30,20 @@ class ScoreCaculator:
         ta_max = int(line.get('taMax', 25))
 
         if ta_min < -10 or ta_max > 35:
-            ta_level = 0
-        elif ta_min < 0 or ta_max > 33:
             ta_level = 1
-        elif ta_min < 5 or ta_max > 28:
+        elif ta_min < 0 or ta_max > 33:
             ta_level = 2
-        elif ta_min < 10:
+        elif ta_min < 5 or ta_max > 28:
             ta_level = 3
-        else:
+        elif ta_min < 10:
             ta_level = 4
+        else:
+            ta_level = 5
         return ta_level
 
     def calc_rn(self, value):
         if value is None:
-            return 3
+            return 2
 
         temp = int(value)
         return 5-int(temp/20)
@@ -69,9 +69,11 @@ class ScoreCaculator:
             for j in range(i, i+4):
                 pivot = min(self.lv_list[j])
                 score += pivot*(i+5-j)
-
             #score += self.calc_ta(i)
-            doc['rn_lv'] = score
+            
+            
+            #doc['score'] = score
+            doc['rn_lv'] = int(score*(1/6))
             doc['ta_lv'] = self.calc_ta(i)
             result.append(doc)
         return result
@@ -95,7 +97,7 @@ class MidWeatherService:  # 중기예보 서비스 모듈
         self.fc_cache = {}
         self.TIME_OUT = 0.5
 
-        with open('location_code.csv', 'r') as f:
+        with open('/cron/location_code.csv', 'r') as f:
             rdr = csv.reader(f)
             self.code = [item for item in rdr][0]
 
