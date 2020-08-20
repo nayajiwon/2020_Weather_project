@@ -28,7 +28,7 @@ import com.kokonut.NCNC.Calendar.CalendarDBHelper;
 
 import com.kokonut.NCNC.Calendar.CalendarFragment;
 import com.kokonut.NCNC.Calendar.Calendar_PopupFragment;
-import com.kokonut.NCNC.Cast.CastFragment;
+//import com.kokonut.NCNC.Cast.CastFragment;
 import com.kokonut.NCNC.Home.HomeFragment;
 import com.kokonut.NCNC.Home.Tab1Fragment;
 import com.kokonut.NCNC.Map.MapFragment;
@@ -68,7 +68,7 @@ public class MainActivity extends AppCompatActivity implements Calendar_PopupFra
     HomeFragment homeFragment;
     CalendarFragment calendarFragment;
     MapFragment mapFragment;
-    CastFragment castFragment;
+    //CastFragment castFragment;
     MypageFragment mypageFragment;
 
 
@@ -145,12 +145,13 @@ public class MainActivity extends AppCompatActivity implements Calendar_PopupFra
         homeFragment = new HomeFragment();
         calendarFragment = new CalendarFragment();
         mapFragment = new MapFragment();
-        castFragment = new CastFragment();
+        //castFragment = new CastFragment();
         mypageFragment = new MypageFragment();
 
         //첫 화면 HomeFragment로 설정
         FragmentManager fragmentManager = getSupportFragmentManager();
         fragmentManager.beginTransaction().replace(R.id.main_layout, homeFragment).commit();
+
 
         bottomNavigationBar.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
@@ -167,7 +168,8 @@ public class MainActivity extends AppCompatActivity implements Calendar_PopupFra
                     case R.id.tab3: {
                         getSupportFragmentManager().beginTransaction().replace(R.id.main_layout,mapFragment).commitAllowingStateLoss();
                         return true;
-                    }/*
+                    }
+                    /*
                     case R.id.tab4: {
                         getSupportFragmentManager().beginTransaction().replace(R.id.main_layout,castFragment).commitAllowingStateLoss();
                         return true;
@@ -188,11 +190,13 @@ public class MainActivity extends AppCompatActivity implements Calendar_PopupFra
     @Override
     public void senddatatoCalendarFragment(int popupResult) {
         Log.d("senddatdatoCael", "senddatatoCalendarFragment: "+ popupResult);
-        if (popupResult != 4) //내부세차 외부세차 리스트일 경우
+        if (popupResult != 4) {//내부세차 외부세차 리스트일 경우
             calendarFragment.devidepopupValue(popupResult);
-        else if (popupResult == 4)
+        }
+        else if (popupResult == 4) {
             Log.d("((((((TAG))))))))))))))", "senddatatoCalendarFragment: ");
             calendarFragment.removeCustomDecorator(popupResult);
+        }
     }
 
 }
