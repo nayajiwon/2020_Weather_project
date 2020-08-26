@@ -78,7 +78,6 @@ public class MainActivity extends AppCompatActivity implements Calendar_PopupFra
         //Bundle bundle = new Bundle();
         //서버 통신
 
-   //     KakaoSdk.init(mContext, "161c3ebdf4c87831197714a8529765a4");
         kakaoAdapter = KakaoAdapter.getInstance(mContext);
 
         retrofitClient = new RetrofitClient();
