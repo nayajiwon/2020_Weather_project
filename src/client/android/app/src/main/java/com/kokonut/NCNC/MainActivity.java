@@ -1,6 +1,5 @@
 package com.kokonut.NCNC;
 
-import android.database.Cursor;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
@@ -10,21 +9,15 @@ import android.view.ViewGroup;
 import com.google.android.material.bottomnavigation.BottomNavigationMenuView;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
-import android.os.Build;
 import android.os.Bundle;
 
 import android.widget.TextView;
-import android.widget.Toast;
 import android.content.Context;
 
-import com.gun0912.tedpermission.PermissionListener;
-import com.gun0912.tedpermission.TedPermission;
 import com.google.android.material.tabs.TabLayout;
 
 import com.google.gson.Gson;
 
-
-import com.kokonut.NCNC.Calendar.CalendarDBHelper;
 
 import com.kokonut.NCNC.Calendar.CalendarFragment;
 import com.kokonut.NCNC.Calendar.Calendar_PopupFragment;
@@ -33,24 +26,17 @@ import com.kokonut.NCNC.Home.HomeFragment;
 import com.kokonut.NCNC.Home.Tab1Fragment;
 import com.kokonut.NCNC.Map.MapFragment;
 import com.kokonut.NCNC.MyPage.MypageFragment;
-import com.kokonut.NCNC.UsingScoreData;
 
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 
-import java.util.ArrayList;
-import androidx.fragment.app.Fragment;
-
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.viewpager2.widget.ViewPager2;
 
-import java.util.ArrayList;
 import java.util.List;
-
-import javax.xml.transform.Result;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -70,7 +56,7 @@ public class MainActivity extends AppCompatActivity implements Calendar_PopupFra
     MapFragment mapFragment;
     //CastFragment castFragment;
     MypageFragment mypageFragment;
-
+    Context mContext;
 
     UsingScoreData usingScoreData;
     Tab1Fragment tab1Fragment;
@@ -78,7 +64,7 @@ public class MainActivity extends AppCompatActivity implements Calendar_PopupFra
 
     BottomNavigationView bottomNavigationBar;
 
-
+    KakaoAdapter kakaoAdapter;
     TabLayout tabLayout;
     ViewPager2 viewPager2;
 
@@ -86,13 +72,14 @@ public class MainActivity extends AppCompatActivity implements Calendar_PopupFra
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-
         TextView textView;
+        mContext = getApplicationContext();
         //textView = findViewById(R.id.mainText);
         //Bundle bundle = new Bundle();
-
         //서버 통신
+
+        kakaoAdapter = KakaoAdapter.getInstance(mContext);
+
         retrofitClient = new RetrofitClient();
         scoreInterface = retrofitClient.getClient().create(ScoreInterface.class);
         scoreInterface.fetchScore().enqueue(new Callback<ScoreContents>() {
@@ -184,6 +171,7 @@ public class MainActivity extends AppCompatActivity implements Calendar_PopupFra
                 return true;
             }
         });
+        kakaoAdapter.kakaoLogin();
     }
 
 
@@ -198,5 +186,6 @@ public class MainActivity extends AppCompatActivity implements Calendar_PopupFra
             calendarFragment.removeCustomDecorator(popupResult);
         }
     }
+
 
 }

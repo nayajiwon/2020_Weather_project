@@ -28,6 +28,8 @@ public class Tab1CarWashInfo_Viewpager2Adapter extends FragmentStateAdapter {
         return VIEW_CNT;
     }
 
+
+
     public int getRealPosition(int position){
         return position % VIEW_CNT;
     }
