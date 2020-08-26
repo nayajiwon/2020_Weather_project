@@ -1,6 +1,5 @@
 package com.kokonut.NCNC;
 
-import android.database.Cursor;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
@@ -9,24 +8,16 @@ import android.view.ViewGroup;
 
 import com.google.android.material.bottomnavigation.BottomNavigationMenuView;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
-import com.kakao.sdk.common.KakaoSdk;
-import com.kakao.sdk.common.util.Utility;
-import android.os.Build;
+
 import android.os.Bundle;
 
 import android.widget.TextView;
-import android.widget.Toast;
 import android.content.Context;
 
-import com.gun0912.tedpermission.PermissionListener;
-import com.gun0912.tedpermission.TedPermission;
 import com.google.android.material.tabs.TabLayout;
 
 import com.google.gson.Gson;
 
-
-import com.kakao.sdk.auth.LoginClient;
-import com.kokonut.NCNC.Calendar.CalendarDBHelper;
 
 import com.kokonut.NCNC.Calendar.CalendarFragment;
 import com.kokonut.NCNC.Calendar.Calendar_PopupFragment;
@@ -34,26 +25,18 @@ import com.kokonut.NCNC.Calendar.Calendar_PopupFragment;
 import com.kokonut.NCNC.Home.HomeFragment;
 import com.kokonut.NCNC.Home.Tab1Fragment;
 import com.kokonut.NCNC.Map.MapFragment;
-import com.kokonut.NCNC.MyPage.KakaoAdapter;
 import com.kokonut.NCNC.MyPage.MypageFragment;
-import com.kokonut.NCNC.UsingScoreData;
 
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 
-import java.util.ArrayList;
-import androidx.fragment.app.Fragment;
-
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.viewpager2.widget.ViewPager2;
 
-import java.util.ArrayList;
 import java.util.List;
-
-import javax.xml.transform.Result;
 
 import retrofit2.Call;
 import retrofit2.Callback;

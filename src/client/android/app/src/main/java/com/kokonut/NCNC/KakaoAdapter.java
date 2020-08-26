@@ -1,4 +1,4 @@
-package com.kokonut.NCNC.MyPage;
+package com.kokonut.NCNC;
 
 import android.content.Context;
 import android.util.Log;
@@ -87,7 +87,6 @@ public class KakaoAdapter {
         }));
 
     }
-
 
     public User getUser() {
         return user;
