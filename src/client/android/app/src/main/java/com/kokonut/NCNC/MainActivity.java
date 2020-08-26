@@ -9,7 +9,8 @@ import android.view.ViewGroup;
 
 import com.google.android.material.bottomnavigation.BottomNavigationMenuView;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
-
+import com.kakao.sdk.common.KakaoSdk;
+import com.kakao.sdk.common.util.Utility;
 import android.os.Build;
 import android.os.Bundle;
 
@@ -24,6 +25,7 @@ import com.google.android.material.tabs.TabLayout;
 import com.google.gson.Gson;
 
 
+import com.kakao.sdk.auth.LoginClient;
 import com.kokonut.NCNC.Calendar.CalendarDBHelper;
 
 import com.kokonut.NCNC.Calendar.CalendarFragment;
@@ -32,6 +34,7 @@ import com.kokonut.NCNC.Calendar.Calendar_PopupFragment;
 import com.kokonut.NCNC.Home.HomeFragment;
 import com.kokonut.NCNC.Home.Tab1Fragment;
 import com.kokonut.NCNC.Map.MapFragment;
+import com.kokonut.NCNC.MyPage.KakaoAdapter;
 import com.kokonut.NCNC.MyPage.MypageFragment;
 import com.kokonut.NCNC.UsingScoreData;
 
@@ -70,7 +73,7 @@ public class MainActivity extends AppCompatActivity implements Calendar_PopupFra
     MapFragment mapFragment;
     //CastFragment castFragment;
     MypageFragment mypageFragment;
-
+    Context mContext;
 
     UsingScoreData usingScoreData;
     Tab1Fragment tab1Fragment;
@@ -78,7 +81,7 @@ public class MainActivity extends AppCompatActivity implements Calendar_PopupFra
 
     BottomNavigationView bottomNavigationBar;
 
-
+    KakaoAdapter kakaoAdapter;
     TabLayout tabLayout;
     ViewPager2 viewPager2;
 
@@ -86,13 +89,15 @@ public class MainActivity extends AppCompatActivity implements Calendar_PopupFra
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-
         TextView textView;
+        mContext = getApplicationContext();
         //textView = findViewById(R.id.mainText);
         //Bundle bundle = new Bundle();
-
         //서버 통신
+
+   //     KakaoSdk.init(mContext, "161c3ebdf4c87831197714a8529765a4");
+        kakaoAdapter = KakaoAdapter.getInstance(mContext);
+
         retrofitClient = new RetrofitClient();
         scoreInterface = retrofitClient.getClient().create(ScoreInterface.class);
         scoreInterface.fetchScore().enqueue(new Callback<ScoreContents>() {
@@ -184,6 +189,7 @@ public class MainActivity extends AppCompatActivity implements Calendar_PopupFra
                 return true;
             }
         });
+        kakaoAdapter.kakaoLogin();
     }
 
 
@@ -198,5 +204,6 @@ public class MainActivity extends AppCompatActivity implements Calendar_PopupFra
             calendarFragment.removeCustomDecorator(popupResult);
         }
     }
+
 
 }
