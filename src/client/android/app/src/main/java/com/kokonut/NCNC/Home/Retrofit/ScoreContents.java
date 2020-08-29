@@ -1,4 +1,4 @@
-package com.kokonut.NCNC;
+package com.kokonut.NCNC.Home.Retrofit;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
@@ -46,9 +46,6 @@ public class ScoreContents {
         @SerializedName("ta_lv")
         @Expose
         private Integer taLv;
-        @SerializedName("score")
-        @Expose
-        private Integer score;
 
         public String getDate() {
             return date;
@@ -82,13 +79,6 @@ public class ScoreContents {
             this.taLv = taLv;
         }
 
-        public Integer getScore() {
-            return score;
-        }
-
-        public void setScore(Integer score) {
-            this.score = score;
-        }
     }
 
 }

@@ -72,7 +72,7 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:layout_gravity="right"
-            android:layout_marginBottom="10dp"
+            android:layout_marginBottom="8dp"
             android:layout_marginLeft="30dp"
             android:layout_marginRight="40dp">
             <TextView
@@ -98,7 +98,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:orientation="horizontal"
-            android:layout_marginBottom="10dp"
+            android:layout_marginBottom="13dp"
             android:columnCount="5"
             android:rowCount="2">
 
@@ -147,7 +147,7 @@
                         android:src="@drawable/face_mask"/></TableRow>
                 <TableRow>
                     <TextView
-                        android:id="@+id/termometer"
+                        android:id="@+id/thermometer"
                         android:textSize="12sp"
                         android:layout_gravity="center"
                         android:fontFamily="@font/ns_bold"/>
@@ -171,14 +171,14 @@
             android:layout_marginLeft="20dp"
             android:layout_marginRight="20dp"
             android:background="@color/color_border_bold"
-            android:layout_marginBottom="10dp"/>
+            android:layout_marginBottom="13dp"/>
 
 
         <GridLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:layout_marginBottom="15dp"
+            android:layout_marginBottom="13dp"
             android:columnCount="13"
             android:rowCount="2">
 
@@ -189,6 +189,7 @@
                 android:background="@drawable/home_daybox_white"
                 android:layout_row="0"
                 android:layout_column="0"
+                android:layout_marginBottom="5dp"
                 android:fontFamily="@font/ns_regular"
                 android:gravity="center"/>
             <View
@@ -215,6 +216,7 @@
                 android:background="@drawable/home_daybox_white"
                 android:layout_row="0"
                 android:layout_column="2"
+                android:layout_marginBottom="5dp"
                 android:fontFamily="@font/ns_regular"
                 android:gravity="center"/>
             <View
@@ -241,6 +243,7 @@
                 android:background="@drawable/home_daybox_white"
                 android:layout_row="0"
                 android:layout_column="4"
+                android:layout_marginBottom="5dp"
                 android:fontFamily="@font/ns_regular"
                 android:gravity="center"/>
             <View
@@ -267,6 +270,7 @@
                 android:background="@drawable/home_daybox_white"
                 android:layout_row="0"
                 android:layout_column="6"
+                android:layout_marginBottom="5dp"
                 android:fontFamily="@font/ns_regular"
                 android:gravity="center"/>
             <View
@@ -293,6 +297,7 @@
                 android:background="@drawable/home_daybox_white"
                 android:layout_row="0"
                 android:layout_column="8"
+                android:layout_marginBottom="5dp"
                 android:fontFamily="@font/ns_regular"
                 android:gravity="center"/>
             <View
@@ -319,6 +324,7 @@
                 android:background="@drawable/home_daybox_white"
                 android:layout_row="0"
                 android:layout_column="10"
+                android:layout_marginBottom="5dp"
                 android:fontFamily="@font/ns_regular"
                 android:gravity="center"/>
             <View
@@ -345,6 +351,7 @@
                 android:background="@drawable/home_daybox_white"
                 android:layout_row="0"
                 android:layout_column="12"
+                android:layout_marginBottom="5dp"
                 android:fontFamily="@font/ns_regular"
                 android:gravity="center"/>
             <TextView
@@ -362,17 +369,20 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content">
             <ImageView
-                android:id="@+id/home_tab1_box_today"
+                android:id="@+id/home_tab1_goodday"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/home_goodday"
+                android:src="@drawable/home_tab1_gooddaybox"
                 android:layout_gravity="center_horizontal"/>
 
             <TextView
-                android:id="@+id/home_tab1_text_day"
+                android:id="@+id/home_tab1_goodday_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:fontFamily="@font/ns_extrabold"/>
+                android:textColor="@color/color_white"
+                android:textSize="12sp"
+                android:fontFamily="@font/ns_extrabold"
+                android:layout_gravity="center"/>
         </FrameLayout>
     </LinearLayout>
 

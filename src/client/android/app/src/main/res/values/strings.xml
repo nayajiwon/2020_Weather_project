@@ -9,4 +9,7 @@
     <string name="suggest_permissison_grant_in_setting">위치 권한이 필요합니다. 확인을 누르면 설정 화면으로 이동합니다.</string>
     <string name="no_permission_msg">권한이 없어 해당 기능을 실행할 수 없습니다.</string>
 
+    <string name="location_spinner1">시</string>
+    <string name="location_spinner2">구</string>
+    <string name="location_spinner3">동</string>
 </resources>
