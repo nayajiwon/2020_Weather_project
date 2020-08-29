@@ -21,19 +21,13 @@ import com.gun0912.tedpermission.PermissionListener;
 import com.gun0912.tedpermission.TedPermission;
 import com.google.android.material.tabs.TabLayout;
 
-import com.google.gson.Gson;
-
-
 import com.kokonut.NCNC.Calendar.CalendarDBHelper;
 
 import com.kokonut.NCNC.Calendar.CalendarFragment;
 import com.kokonut.NCNC.Calendar.Calendar_PopupFragment;
-import com.kokonut.NCNC.Cast.CastFragment;
 import com.kokonut.NCNC.Home.HomeFragment;
-import com.kokonut.NCNC.Home.Tab1Fragment;
 import com.kokonut.NCNC.Map.MapFragment;
 import com.kokonut.NCNC.MyPage.MypageFragment;
-import com.kokonut.NCNC.UsingScoreData;
 
 
 import androidx.annotation.NonNull;
@@ -52,32 +46,14 @@ import java.util.List;
 
 import javax.xml.transform.Result;
 
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
-import retrofit2.Retrofit;
-
 public class MainActivity extends AppCompatActivity implements Calendar_PopupFragment.uploadDialogInterface{
-
-    private Retrofit retrofit;
-    private ScoreInterface scoreInterface;
-    private RetrofitClient retrofitClient;
-    private Gson mGson;
-    FragmentTransaction fragmentTransaction;
 
     HomeFragment homeFragment;
     CalendarFragment calendarFragment;
     MapFragment mapFragment;
-    CastFragment castFragment;
     MypageFragment mypageFragment;
 
-
-    UsingScoreData usingScoreData;
-    Tab1Fragment tab1Fragment;
-
-
     BottomNavigationView bottomNavigationBar;
-
 
     TabLayout tabLayout;
     ViewPager2 viewPager2;
@@ -86,50 +62,6 @@ public class MainActivity extends AppCompatActivity implements Calendar_PopupFra
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-
-        TextView textView;
-        //textView = findViewById(R.id.mainText);
-        //Bundle bundle = new Bundle();
-
-        //서버 통신
-        retrofitClient = new RetrofitClient();
-        scoreInterface = retrofitClient.getClient().create(ScoreInterface.class);
-        scoreInterface.fetchScore().enqueue(new Callback<ScoreContents>() {
-            @Override
-            public void onResponse(Call<ScoreContents> call, Response<ScoreContents> response) {
-                Log.d("Score_ServerCall", "success");
-                List<ScoreContents.Content> mlist = response.body().getContents();
-                //textView.setText(mlist.toString());
-                /*
-                List<ScoreContents.Content> mlist = response.body().getContents();
-                usingScoreData = new UsingScoreData(mmlist); //contents list 넘겨줌
-                //List<String> scoreList = usingScoreData.getScoreList(); //score만 들어있는 list
-                String[] scores = usingScoreData.getScoreArr(); //score 들어있는 array
-
-                for(int i=0; i<scores.length; i++){
-                    Log.println(1,"Response_Score",scores[i]);
-                }
-
-                 */
-
-
-                //Tab1Fragment로 scores 전달
-                //bundle.putStringArray("scores", scores);
-                //tab1Fragment.setArguments(bundle);
-                //fragmentTransaction = getSupportFragmentManager().beginTransaction();
-
-
-
-            }
-
-            @Override
-            public void onFailure(Call<ScoreContents> call, Throwable t) {
-                Log.e("Score_ServerCall", "failure");
-            }
-        });
-
-
 
         viewPager2 = findViewById(R.id.home_viewpager2);
         tabLayout = findViewById(R.id.home_tablayout);
@@ -145,7 +77,6 @@ public class MainActivity extends AppCompatActivity implements Calendar_PopupFra
         homeFragment = new HomeFragment();
         calendarFragment = new CalendarFragment();
         mapFragment = new MapFragment();
-        castFragment = new CastFragment();
         mypageFragment = new MypageFragment();
 
         //첫 화면 HomeFragment로 설정

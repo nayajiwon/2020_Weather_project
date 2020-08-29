@@ -57,7 +57,6 @@ public class Tab1Fragment extends Fragment implements ActivityCompat.OnRequestPe
 
     private RetrofitAPI retrofitAPI;
     public String[] scoreList = new String[8];
-    public String[] weatherInfo = new String[9];
 
     TextView tvLocation;
 
@@ -209,6 +208,8 @@ public class Tab1Fragment extends Fragment implements ActivityCompat.OnRequestPe
             public void onClick(View v) {
                 Log.d("11111", "onCreateView: 2");
 
+                Tab1_PopupFragment dialog = new Tab1_PopupFragment();
+                dialog.show(getActivity().getSupportFragmentManager(), "tab1");
             }
         });
 
