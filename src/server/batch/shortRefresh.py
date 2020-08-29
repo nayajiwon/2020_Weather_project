@@ -1,3 +1,5 @@
+import csv
+
 import pymongo
 import json
 import urllib.request
@@ -9,16 +11,19 @@ db = conn.get_database('scsc')
 weather_col = db.get_collection('weather')
 score_col = db.get_collection('score')
 
-with open("./config/config.json", "r") as sk_json:
+with open("../config/key.json", "r") as sk_json:
     service_key = json.load(sk_json)['key']
 
 
 class ScoreCaculator:
 
-    def __init__(self, rec):
-        self.rec = list(rec)
+    def __init__(self):
         self.lv_list = []
-        self.cnt = rec.count()
+        self.rec = {}
+        self.cnt = 0
+        with open('location_code.csv', 'r') as f:
+            rdr = csv.reader(f)
+            self.code = [item for item in rdr][0]
 
     def calc_ta(self, i):
         line = self.rec[i]
@@ -46,12 +51,12 @@ class ScoreCaculator:
 
     def make_rnlv(self):
 
-        for i in range(len(self.rec)):
+        for i in range(self.cnt):
             am_lv = self.calc_rn(self.rec[i].get('rnStAm', None))
             pm_lv = self.calc_rn(self.rec[i].get('rnStPm', None))
             self.lv_list.append((am_lv, pm_lv))
 
-    def run(self):
+    def make_record(self):
         result = []
         self.make_rnlv()
 
@@ -70,15 +75,47 @@ class ScoreCaculator:
             result.append(doc)
         return result
 
+    def run(self):
+        size = len(self.code)
+        res = []
+        print("Start to refresh weather score...")
+        for i in range(size):
+            self.rec = weather_col.find({"regID": self.code[i], "date": {"$gte": datetime.now().strftime('%Y%m%d')}})
+            self.cnt = self.rec.count()
+            res.extend(self.make_record())
+        bulk_list = [pymongo.UpdateOne({'date': x['date'], 'regID': x['regID']}, {'$set': x}, upsert=True) for x in res]
+        score_col.bulk_write(bulk_list)
+        print("Complete to update weather score")
+
 
 class ShortWeatherService:
+
+    def __init__(self):
+        with open('location_code.csv', 'r') as f:
+            rdr = csv.reader(f)
+            self.code = [item for item in rdr][0]
+        self.TIME_OUT = 0.5
+
+    def call_api(self, address):
+        req = None
+        try_cnt = 0
+
+        while try_cnt < 10 and req is None:
+            try:
+                req = urllib.request.urlopen(address, timeout=10)
+            except Exception as err:
+                try_cnt += 1
+                print("TIMEOUT Retry:", try_cnt)
+                time.sleep(self.TIME_OUT)
+
+        return req
 
     def make_record(self, regID='11B10101'):
         result = []
         date = datetime.now()
         address = "http://apis.data.go.kr/1360000/VilageFcstMsgService/getLandFcst?serviceKey=" + service_key + "&numOfRows=10&pageNo=1&numOfRows=10&pageNo=1&dataType=JSON"
 
-        req = urllib.request.urlopen(address + "&regId=" + regID)
+        req = self.call_api(address + "&regId=" + regID)
         res = req.readline()
 
         j = json.loads(res)
@@ -128,16 +165,23 @@ class ShortWeatherService:
 
         return result
 
+    def run(self):
+        size = len(self.code)
+        res = []
+        print("Update short Weather Start[0/{}]".format(size))
+        for i in range(0, size):
+            if i % 10 == 0:
+                print('Update.... {}/{}'.format(i, size))
+            res.extend(self.make_record(self.code[i]))
+
+        bulk_list = [pymongo.UpdateOne({'date': x['date'], 'regID': x['regID']}, {'$set': x}, upsert=True) for x in res]
+        print(bulk_list)
+        weather_col.bulk_write(bulk_list)
+        print("Complete to update short Weather")
+
 
 s_service = ShortWeatherService()
-res = s_service.make_record()
-bulk_list = [pymongo.UpdateOne({'date': x['date'], 'regID': x['regID']}, {'$set': x}, upsert=True) for x in res]
-weather_col.bulk_write(bulk_list)
-print("Update short weather")
+s_service.run()
 
-rec = weather_col.find({"date": {"$gte": datetime.now().strftime('%Y%m%d')}})
-calculator = ScoreCaculator(rec)
-res = calculator.run()
-bulk_list = [pymongo.UpdateOne({'date': x['date'], 'regID': x['regID']}, {'$set': x}, upsert=True) for x in res]
-score_col.bulk_write(bulk_list)
-print("Update cleaner score")
+calculator = ScoreCaculator()
+calculator.run()

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/tab1"
+        android:icon="@drawable/ic_tap1_gray"
+        android:enabled="true"
+        android:title="홈" />
+
+    <item android:id="@+id/tab2"
+        android:icon="@drawable/ic_tap2_gray"
+        android:enabled="true"
+        android:title="세차 일정"/>
+
+    <item
+        android:id="@+id/tab3"
+        android:icon="@drawable/ic_tap3_gray"
+        android:enabled="true"
+        android:title="주변 세차장"/>
+
+    <item
+        android:id="@+id/tab5"
+        android:icon="@drawable/ic_tap5_gray"
+        android:enabled="true"
+        android:title="MY"/>
+
+</menu>

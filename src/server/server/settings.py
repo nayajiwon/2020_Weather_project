@@ -12,14 +12,17 @@ https://docs.djangoproject.com/en/3.0/ref/settings/
 
 import os
 import json
+import socket
+import pymongo
 
-
-with open("./config/db.json", "r") as config_json:
-    config_dict = json.load(config_json)
+os.environ['API_KEY'] = '9a3bb4a52c09371ab3dcab7b20d03210'
+#os.environ['IP'] = '127.0.0.1'
+os.environ['IP'] = '52.26.131.225'
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-
+with open(BASE_DIR+"/config/mysql.json", "r") as config_json:
+    config_dict = json.load(config_json)
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.0/howto/deployment/checklist/
@@ -35,6 +38,11 @@ ALLOWED_HOSTS = ['*']
 
 # Application definitionX
 
+# AUTHENTICATION_BACKENDS = (
+#     'django.contrib.auth.backends.ModelBackend',
+#     'allauth.accounts.auth_backends.AuthenticationBackend',
+# )
+
 INSTALLED_APPS = [
     'django_crontab',
     'django.contrib.admin',
@@ -43,15 +51,28 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+
+    #LOGIN
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
+    'allauth.socialaccount.providers.kakao',
+    'django.contrib.sites',
+
+
+    #APPS
     'weather',
     'location',
+    'wscore',
+    'car_wash',
+    'accounts',
 ]
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
-    'django.middleware.csrf.CsrfViewMiddleware',
+  #  'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
@@ -88,14 +109,13 @@ DATABASES = {
         'NAME': 'scsc',
         'USER': config_dict['user'],
         'PASSWORD': config_dict['pw'],
-        'HOST': 'localhost',
+        'HOST': os.environ['IP'],
         'PORT': '3306',
         'OPTIONS': {
             'init_command': 'SET sql_mode="STRICT_TRANS_TABLES"'
         }
     }
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/3.0/ref/settings/#auth-password-validators
@@ -123,7 +143,7 @@ CRONJOBS = [
 # Internationalization
 # https://docs.djangoproject.com/en/3.0/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'ko'
 
 TIME_ZONE = 'Asia/Seoul'
 
@@ -136,5 +156,13 @@ USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.0/howto/static-files/
+LOGIN_REDIRECT_URL = 'index' # 로그인 후 리디렉션할 페이지
+ACCOUNT_LOGOUT_REDIRECT_URL = "index"  # 로그아웃 후 리디렉션 할 페이지
+ACCOUNT_LOGOUT_ON_GET = True
+
+
+
 
 STATIC_URL = '/static/'
+
+SITE_ID = 1
