@@ -55,6 +55,43 @@ class ScoreCaculator:
             pm_lv = self.calc_rn(self.rec[i].get('rnStPm', None))
             self.lv_list.append((am_lv, pm_lv))
 
+    def call_api(self, address):
+        req = None
+        try_cnt = 0
+
+        while try_cnt < 10 and req is None:
+            try:
+                req = urllib.request.urlopen(address, timeout=10)
+            except Exception as err:
+                try_cnt += 1
+                print("TIMEOUT Retry:", try_cnt)
+                time.sleep(self.TIME_OUT)
+
+        return req
+
+
+
+    def call_air(self):
+        air_address = "https://api.waqi.info/feed/seoul/?token=bfefdf2135b7497e3133bfe335a6db21842ad697"
+        req = self.call_api(air_address)
+        res = req.readline()
+        j = json.loads(res)["data"]["forecast"]["daily"]["pm10"]
+        result = {}
+        for item in j:
+            date_id = datetime.strptime(item['day'],"%Y-%m-%d").date().strftime('%Y%m%d')
+            if item['avg'] < 31:
+                pm10_lv = 4
+            elif item['avg'] < 81:
+                pm10_lv = 3
+            elif item['avg'] < 150:
+                pm10_lv = 2
+            else:
+                pm10_lv = 1
+
+            result[date_id] = pm10_lv
+
+        self.pm10 = result
+
     def make_record(self):
         result = []
         self.make_rnlv()
@@ -65,7 +102,9 @@ class ScoreCaculator:
             doc = {
                 'date': line['date'],
                 'regID': line['regID'],
+                'pm10_lv': self.pm10[line['date']]
                    }
+
             for j in range(i, i+4):
                 pivot = min(self.lv_list[j])
                 score += pivot*(i+5-j)
@@ -81,6 +120,7 @@ class ScoreCaculator:
     def run(self):
         size = len(self.code)
         res = []
+        self.call_air()
         print("Start to refresh weather score...")
         for i in range(size):
             self.rec = weather_col.find({"regID": self.code[i], "date": {"$gte": datetime.now().strftime('%Y%m%d')}})
@@ -226,5 +266,3 @@ m_service.run()
 
 calculator = ScoreCaculator()
 calculator.run()
-
-

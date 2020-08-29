@@ -13,6 +13,13 @@ def washer_list(request):
     if request.method == "GET":
         washer_set = Washer.objects.all()
         data = list(washer_set.values())
+        for i in range(len(data)):
+            temp = Washer.objects.get(pk=data[i]['id'])
+            wash_list = []
+            for item in temp.wash_type.all().values():
+                wash_list.append(item['name'])
+            print(wash_list)
+            data[i]['wash'] = wash_list
         return JsonResponse(data, safe=False, json_dumps_params={'ensure_ascii': False})
 
     elif request.method == "POST":
