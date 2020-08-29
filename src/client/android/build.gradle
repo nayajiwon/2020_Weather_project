@@ -29,8 +29,6 @@ allprojects {
         maven { url 'https://navercorp.bintray.com/maps'}
         //캘린더뷰
         maven { url 'https://jitpack.io' }
-        //카카오
-        maven { url 'https://devrepo.kakao.com/nexus/content/groups/public/' }
     }
 }
 

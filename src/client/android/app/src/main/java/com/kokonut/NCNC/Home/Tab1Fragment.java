@@ -209,6 +209,9 @@ public class Tab1Fragment extends Fragment implements ActivityCompat.OnRequestPe
             public void onClick(View v) {
                 Log.d("11111", "onCreateView: 2");
 
+                Tap1_PopupFragment dialog = new Tap1_PopupFragment();
+                dialog.show(getActivity().getSupportFragmentManager(), "tab1");
+
             }
         });
 
