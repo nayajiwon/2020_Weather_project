@@ -1,5 +1,8 @@
 package com.kokonut.NCNC;
 
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
+import android.content.pm.Signature;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
@@ -36,6 +39,8 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.viewpager2.widget.ViewPager2;
 
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.List;
 
 import retrofit2.Call;
@@ -74,6 +79,7 @@ public class MainActivity extends AppCompatActivity implements Calendar_PopupFra
         setContentView(R.layout.activity_main);
         TextView textView;
         mContext = getApplicationContext();
+        Log.e("getKeyHash", ""+getKeyHash(MainActivity.this));
         //textView = findViewById(R.id.mainText);
         //Bundle bundle = new Bundle();
         //서버 통신
@@ -174,6 +180,27 @@ public class MainActivity extends AppCompatActivity implements Calendar_PopupFra
         kakaoAdapter.kakaoLogin();
     }
 
+    public static String getKeyHash(final Context context) {
+        PackageManager pm = context.getPackageManager();
+        try {
+            PackageInfo packageInfo = pm.getPackageInfo(context.getPackageName(), PackageManager.GET_SIGNATURES);
+            if (packageInfo == null)
+                return null;
+
+            for (Signature signature : packageInfo.signatures) {
+                try {
+                    MessageDigest md = MessageDigest.getInstance("SHA");
+                    md.update(signature.toByteArray());
+                    return android.util.Base64.encodeToString(md.digest(), android.util.Base64.NO_WRAP);
+                } catch (NoSuchAlgorithmException e) {
+                    e.printStackTrace();
+                }
+            }
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
 
     @Override
     public void senddatatoCalendarFragment(int popupResult) {
