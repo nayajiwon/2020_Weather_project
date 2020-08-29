@@ -1,6 +1,5 @@
 package com.kokonut.NCNC;
 
-import android.database.Cursor;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
@@ -10,71 +9,38 @@ import android.view.ViewGroup;
 import com.google.android.material.bottomnavigation.BottomNavigationMenuView;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
-import android.os.Build;
 import android.os.Bundle;
 
-import android.widget.TextView;
-import android.widget.Toast;
-import android.content.Context;
-
-import com.gun0912.tedpermission.PermissionListener;
-import com.gun0912.tedpermission.TedPermission;
 import com.google.android.material.tabs.TabLayout;
 
-import com.google.gson.Gson;
-
-
-import com.kokonut.NCNC.Calendar.CalendarDBHelper;
 
 import com.kokonut.NCNC.Calendar.CalendarFragment;
 import com.kokonut.NCNC.Calendar.Calendar_PopupFragment;
 import com.kokonut.NCNC.Cast.CastFragment;
 import com.kokonut.NCNC.Home.HomeFragment;
-import com.kokonut.NCNC.Home.Tab1Fragment;
+import com.kokonut.NCNC.Home.SharedViewModel;
 import com.kokonut.NCNC.Map.MapFragment;
 import com.kokonut.NCNC.MyPage.MypageFragment;
-import com.kokonut.NCNC.UsingScoreData;
 
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 
-import java.util.ArrayList;
-import androidx.fragment.app.Fragment;
-
 import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.viewpager2.widget.ViewPager2;
-
-import java.util.ArrayList;
-import java.util.List;
-
-import javax.xml.transform.Result;
-
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
-import retrofit2.Retrofit;
 
 public class MainActivity extends AppCompatActivity implements Calendar_PopupFragment.uploadDialogInterface{
 
-    private Retrofit retrofit;
-    private ScoreInterface scoreInterface;
-    private RetrofitClient retrofitClient;
-    private Gson mGson;
-    FragmentTransaction fragmentTransaction;
+    ViewModelProvider.Factory viewModelFactory;
+    private SharedViewModel sharedViewModel;
 
     HomeFragment homeFragment;
     CalendarFragment calendarFragment;
     MapFragment mapFragment;
     CastFragment castFragment;
     MypageFragment mypageFragment;
-
-
-    UsingScoreData usingScoreData;
-    Tab1Fragment tab1Fragment;
-
 
     BottomNavigationView bottomNavigationBar;
 
@@ -87,20 +53,42 @@ public class MainActivity extends AppCompatActivity implements Calendar_PopupFra
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        Bundle bundle = new Bundle();
 
-        TextView textView;
-        //textView = findViewById(R.id.mainText);
-        //Bundle bundle = new Bundle();
-
-        //서버 통신
-        retrofitClient = new RetrofitClient();
-        scoreInterface = retrofitClient.getClient().create(ScoreInterface.class);
+        /*//서버 통신 - 세차점수
+        scoreInterface = RetrofitClient.getClient().create(ScoreInterface.class);
         scoreInterface.fetchScore().enqueue(new Callback<ScoreContents>() {
             @Override
             public void onResponse(Call<ScoreContents> call, Response<ScoreContents> response) {
-                Log.d("Score_ServerCall", "success");
+                Log.d("Retrofit_Score", "Success: "+new Gson().toJson(response.body().getContents()));
+
                 List<ScoreContents.Content> mlist = response.body().getContents();
-                //textView.setText(mlist.toString());
+                if(mlist.isEmpty()){ //서버에 해당정보 없을 때
+                    Log.e("Retrofit_Score", "NULL");
+                }
+                else{
+                    //usingScoreData = new UsingScoreData(mlist);
+                    scoreList= new String[8]; //초기화
+                    for(int i=0; i<7; i++){
+                        scoreList[i] = makeScoreList(mlist.get(i).getRnLv(), mlist.get(i).getTaLv());
+                        //Log.d("scoreList", scoreList[i]);
+                    }
+                    //dataToTab1Fragment = new DataToTab1Fragment(scoreList);
+
+                    bundle.putString("score","hi");
+                    homeFragment.setArguments(bundle);
+
+                    //intent = new Intent(getApplication(), Tab1Fragment.class);
+                    //intent.putExtra("DataToTab1Fragment", dataToTab1Fragment);
+                    //intent.addFlags(intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    //startActivity(intent);
+
+                    //bundle.putParcelable("DataToTab1Fragment", dataToTab1Fragment);
+                    //bundle.putStringArray("score",scoreList);
+                    //tab1Fragment.setArguments(bundle);
+                }
+
+
                 /*
                 List<ScoreContents.Content> mlist = response.body().getContents();
                 usingScoreData = new UsingScoreData(mmlist); //contents list 넘겨줌
@@ -111,11 +99,12 @@ public class MainActivity extends AppCompatActivity implements Calendar_PopupFra
                     Log.println(1,"Response_Score",scores[i]);
                 }
 
-                 */
+
 
 
                 //Tab1Fragment로 scores 전달
-                //bundle.putStringArray("scores", scores);
+                //Bundle bundle = new Bundle();
+                //bundle.putStringArray("scoreList", scoreList);
                 //tab1Fragment.setArguments(bundle);
                 //fragmentTransaction = getSupportFragmentManager().beginTransaction();
 
@@ -125,9 +114,10 @@ public class MainActivity extends AppCompatActivity implements Calendar_PopupFra
 
             @Override
             public void onFailure(Call<ScoreContents> call, Throwable t) {
-                Log.e("Score_ServerCall", "failure");
+                Log.e("Retrofit_Score", "failure: "+t.toString());
             }
         });
+*/
 
 
 
@@ -182,7 +172,9 @@ public class MainActivity extends AppCompatActivity implements Calendar_PopupFra
                 return true;
             }
         });
+
     }
+
 
 
     @Override
@@ -194,5 +186,4 @@ public class MainActivity extends AppCompatActivity implements Calendar_PopupFra
             Log.d("((((((TAG))))))))))))))", "senddatatoCalendarFragment: ");
             calendarFragment.removeCustomDecorator(popupResult);
     }
-
 }
