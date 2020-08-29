@@ -1,5 +1,7 @@
 package com.kokonut.NCNC.Home;
 
+import android.os.Parcelable;
+
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
@@ -10,6 +12,7 @@ import java.util.List;
 public class Tab_Viewpager2Adapter extends FragmentStateAdapter {
     private final List<Fragment> mFragmentList = new ArrayList<>();
     int PAGE_CNT = 2;
+
 
     public Tab_Viewpager2Adapter(@NonNull Fragment fragment) {
         super(fragment);
