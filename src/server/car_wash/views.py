@@ -18,7 +18,6 @@ def washer_list(request):
             wash_list = []
             for item in temp.wash_type.all().values():
                 wash_list.append(item['name'])
-            print(wash_list)
             data[i]['wash'] = wash_list
         return JsonResponse(data, safe=False, json_dumps_params={'ensure_ascii': False})
 
