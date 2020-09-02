@@ -1,5 +1,5 @@
 from django.db import models
-
+from accounts.models import User
 # Create your models here.
 from django.utils import timezone
 
@@ -27,5 +27,16 @@ class Washer(models.Model):
     def __str__(self):
         return self.name
 
+class Review(models.Model):
+    washer = models.ForeignKey('Washer', 
+            on_delete=models.CASCADE,
+            related_name='reviews'
+            )
+    user = models.ForeignKey(User, on_delete=models.CASCADE,
+            )
+    created_date = models.DateTimeField(default=timezone.now)
+    content = models.CharField(max_length=100, default = '내용이 없습니다.')
 
+    def __str__(self):
+        return self.user
 

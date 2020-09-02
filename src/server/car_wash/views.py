@@ -4,7 +4,8 @@ from django.shortcuts import render, redirect
 from django.core import serializers
 
 from .forms import PostForm
-from .models import Washer
+from .models import *
+from accounts.models import User
 # Create your views here.
 
 
@@ -22,7 +23,6 @@ def washer_list(request):
         return JsonResponse(data, safe=False, json_dumps_params={'ensure_ascii': False})
 
     elif request.method == "POST":
-        print('POST')
         form = PostForm(request.POST)
         if form.is_valid():  # 폼 검증 메소드
             washer = form.save(commit=False)  # lotto 오브젝트를 form으로 부터 가져오지만, 실제로 DB반영은 하지 않는다.
@@ -41,5 +41,24 @@ def washer_detail(request, pk):
             }
     return JsonResponse(content, safe=False, json_dumps_params={'ensure_ascii': False})
 
+def review(request, pk):
+    washer = Washer.objects.get(id = pk)
+    if request.method == "GET":
+        reviews = list(washer.reviews.all().values())
+        review_list = []
+        for r in reviews:
+            user = User.objects.get(id=r['user_id'])
+            r['user_name'] = user.name
+            review_list.append(r)
+        data = {}
+        data['id'] = pk
+        data['reviews'] = reviews
+        return JsonResponse(data, safe=False, json_dumps_params={'ensure_ascii': False})
 
-
+    if request.method == "POST":
+        washer = Washer.objects.get(id = pk)
+        user_id = request.POST['id']
+        user = User.objects.get(id = user_id)
+        content = request.POST['content']
+        review = Review.objects.create(washer = washer, user = user, content = content)
+        return JsonResponse({"status":"200", "id":review.id}, safe=False, json_dumps_params={'ensure_ascii': False})

@@ -19,7 +19,7 @@ def user_check(request):
 
     response = {}
 
-    user, created = User.objects.get_or_create(id=user_id)
+    user, created = User.objects.get_or_create(id=user_id, name = user_name)
 
     if created:
         response['status'] = 'register'
