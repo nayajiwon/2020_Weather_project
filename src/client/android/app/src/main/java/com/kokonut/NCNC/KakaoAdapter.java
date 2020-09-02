@@ -42,6 +42,9 @@ public class KakaoAdapter {
         if(kakaoAdapter == null) kakaoAdapter = new KakaoAdapter(mContext);
         return kakaoAdapter;
     }
+    public static KakaoAdapter getInstance(){
+        return kakaoAdapter;
+    }
 
     private void loadTokenInfo(){
         UserApiClient.getInstance().accessTokenInfo((accessTokenInfo, throwable1) -> {
