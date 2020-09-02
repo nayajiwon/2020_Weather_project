@@ -52,7 +52,7 @@ public class MainActivity extends AppCompatActivity implements Calendar_PopupFra
     CalendarFragment calendarFragment;
     MapFragment mapFragment;
     MypageFragment mypageFragment;
-
+    KakaoAdapter kakaoAdapter;
     BottomNavigationView bottomNavigationBar;
 
     TabLayout tabLayout;
@@ -62,7 +62,8 @@ public class MainActivity extends AppCompatActivity implements Calendar_PopupFra
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
+        kakaoAdapter = KakaoAdapter.getInstance(getApplicationContext());
+        kakaoAdapter.kakaoLogin();
         viewPager2 = findViewById(R.id.home_viewpager2);
         tabLayout = findViewById(R.id.home_tablayout);
         bottomNavigationBar = findViewById(R.id.bottom_navigation_bar);
