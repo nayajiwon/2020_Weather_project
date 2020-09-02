@@ -20,6 +20,9 @@ class Washer(models.Model):
     dong = models.CharField(max_length=10, default='도곡동')
     phone = models.CharField(max_length=20, default = '010-0000-0000')
     wash_type = models.ManyToManyField(WashType)
+    open_week = models.CharField(max_length=20, default = '09:00-18:00')
+    open_sat = models.CharField(max_length=20, default = '09:00-18:00')
+    open_sun = models.CharField(max_length=20, default = '99:99-99:99')
 
     def __str__(self):
         return self.name
