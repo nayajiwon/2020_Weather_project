@@ -2,6 +2,7 @@ package com.kokonut.NCNC;
 
 import android.content.Context;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.kakao.sdk.auth.LoginClient;
@@ -12,6 +13,7 @@ import com.kakao.sdk.user.model.AccessTokenInfo;
 import com.kakao.sdk.user.model.User;
 import com.kokonut.NCNC.Home.Retrofit.RetrofitAPI;
 import com.kokonut.NCNC.Home.Retrofit.RetrofitClient;
+import com.kokonut.NCNC.Home.Retrofit.ReviewResponse;
 import com.kokonut.NCNC.Home.Retrofit.ScoreContents;
 import com.kokonut.NCNC.Home.Retrofit.UserContents;
 
@@ -28,6 +30,7 @@ public class KakaoAdapter {
     String appKey = "161c3ebdf4c87831197714a8529765a4";
     String TAG = "OAUTH";
     User user = null;
+    Boolean isLogin = false;
     AccessTokenInfo accessTokenInfo = null;
 
 
@@ -65,10 +68,13 @@ public class KakaoAdapter {
         }
         else if (oAuthToken != null) {
             Log.i(TAG, "로그인 성공 "+oAuthToken);
+            this.isLogin = true;
             this.oAuthToken = oAuthToken;
             loadProfile();
         }
     }
+
+    public boolean isLogin(){return isLogin;}
 
     public void kakaoLogin(){
 
@@ -126,6 +132,7 @@ public class KakaoAdapter {
             }
         });
     }
+
 
     public User getUser() {
         return user;

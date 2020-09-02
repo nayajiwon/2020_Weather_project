@@ -33,24 +33,4 @@ public class RetrofitClient {
         return mRetrofit;
     }
 
-    private void write_review(String washerId, String content){
-        RetrofitAPI retrofitAPI = RetrofitClient.getClient().create(RetrofitAPI.class);
-        String id = Long.toString(KakaoAdapter.getInstance().getUser().getId());
-        HashMap<String,String> param = new HashMap<>();
-        param.put("id",id);
-        param.put("content",content);
-
-        retrofitAPI.writeReview(washerId, param).enqueue(new Callback<ReviewResponse>() {
-            @Override
-            public void onResponse(Call<ReviewResponse> call, Response<ReviewResponse> response) {
-                Log.d("user_check", "Success: "+new Gson().toJson(response.body().getStatus()));
-
-            }
-
-            @Override
-            public void onFailure(Call<ReviewResponse> call, Throwable t) {
-                Log.e("user_check", "failure: "+t.toString());
-            }
-        });
-    }
 }

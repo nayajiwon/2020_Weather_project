@@ -23,11 +23,15 @@ import android.content.Context;
 
 import com.google.android.material.tabs.TabLayout;
 
+import com.google.gson.Gson;
 import com.kokonut.NCNC.Calendar.CalendarDBHelper;
 
 import com.kokonut.NCNC.Calendar.CalendarFragment;
 import com.kokonut.NCNC.Calendar.Calendar_PopupFragment;
 import com.kokonut.NCNC.Home.HomeFragment;
+import com.kokonut.NCNC.Home.Retrofit.RetrofitAPI;
+import com.kokonut.NCNC.Home.Retrofit.RetrofitClient;
+import com.kokonut.NCNC.Home.Retrofit.ReviewContents;
 import com.kokonut.NCNC.Map.MapFragment;
 import com.kokonut.NCNC.MyPage.MypageFragment;
 
@@ -49,6 +53,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.xml.transform.Result;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class MainActivity extends AppCompatActivity implements Calendar_PopupFragment.uploadDialogInterface{
 
