@@ -20,8 +20,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.content.Context;
 
-import com.gun0912.tedpermission.PermissionListener;
-import com.gun0912.tedpermission.TedPermission;
+
 import com.google.android.material.tabs.TabLayout;
 
 import com.kokonut.NCNC.Calendar.CalendarDBHelper;
