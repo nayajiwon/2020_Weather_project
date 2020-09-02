@@ -1,5 +1,8 @@
 package com.kokonut.NCNC;
 
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
+import android.content.pm.Signature;
 import android.database.Cursor;
 import android.util.Log;
 import android.view.MenuItem;
@@ -34,6 +37,8 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import androidx.fragment.app.Fragment;
 
@@ -52,7 +57,7 @@ public class MainActivity extends AppCompatActivity implements Calendar_PopupFra
     CalendarFragment calendarFragment;
     MapFragment mapFragment;
     MypageFragment mypageFragment;
-
+    KakaoAdapter kakaoAdapter;
     BottomNavigationView bottomNavigationBar;
 
     TabLayout tabLayout;
@@ -62,11 +67,13 @@ public class MainActivity extends AppCompatActivity implements Calendar_PopupFra
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
+        kakaoAdapter = KakaoAdapter.getInstance(getApplicationContext());
+        kakaoAdapter.kakaoLogin();
         viewPager2 = findViewById(R.id.home_viewpager2);
         tabLayout = findViewById(R.id.home_tablayout);
         bottomNavigationBar = findViewById(R.id.bottom_navigation_bar);
         BottomNavigationMenuView menuView = (BottomNavigationMenuView) bottomNavigationBar.getChildAt(0);
+        Log.d("hash_key", getKeyHash(getApplicationContext()));
 
         for (int i = 0; i < menuView.getChildCount(); i++) {
             final View iconView = menuView.getChildAt(i).findViewById(R.id.icon);
@@ -124,6 +131,28 @@ public class MainActivity extends AppCompatActivity implements Calendar_PopupFra
         else if (popupResult == 4)
             Log.d("((((((TAG))))))))))))))", "senddatatoCalendarFragment: ");
             calendarFragment.removeCustomDecorator(popupResult);
+    }
+
+    public static String getKeyHash(final Context context) {
+        PackageManager pm = context.getPackageManager();
+        try {
+            PackageInfo packageInfo = pm.getPackageInfo(context.getPackageName(), PackageManager.GET_SIGNATURES);
+            if (packageInfo == null)
+                return null;
+
+            for (Signature signature : packageInfo.signatures) {
+                try {
+                    MessageDigest md = MessageDigest.getInstance("SHA");
+                    md.update(signature.toByteArray());
+                    return android.util.Base64.encodeToString(md.digest(), android.util.Base64.NO_WRAP);
+                } catch (NoSuchAlgorithmException e) {
+                    e.printStackTrace();
+                }
+            }
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
 }

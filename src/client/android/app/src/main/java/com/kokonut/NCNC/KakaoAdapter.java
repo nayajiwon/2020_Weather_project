@@ -3,12 +3,24 @@ package com.kokonut.NCNC;
 import android.content.Context;
 import android.util.Log;
 
+import com.google.gson.Gson;
 import com.kakao.sdk.auth.LoginClient;
 import com.kakao.sdk.auth.model.OAuthToken;
 import com.kakao.sdk.common.KakaoSdk;
 import com.kakao.sdk.user.UserApiClient;
 import com.kakao.sdk.user.model.AccessTokenInfo;
 import com.kakao.sdk.user.model.User;
+import com.kokonut.NCNC.Home.Retrofit.RetrofitAPI;
+import com.kokonut.NCNC.Home.Retrofit.RetrofitClient;
+import com.kokonut.NCNC.Home.Retrofit.ScoreContents;
+import com.kokonut.NCNC.Home.Retrofit.UserContents;
+
+import java.util.HashMap;
+import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class KakaoAdapter {
     Context mContext = null;
@@ -82,10 +94,34 @@ public class KakaoAdapter {
                 Log.i(TAG, "사용자 정보 요청 성공" +
                         "\n회원번호:" +user.getId()+
                         "\n이메일: " +user.getKakaoAccount().getProfile().getNickname());
+                register_server();
             }
             return null;
         }));
 
+    }
+
+    private void register_server(){
+        RetrofitAPI retrofitAPI = RetrofitClient.getClient().create(RetrofitAPI.class);
+        String name = this.user.getKakaoAccount().getProfile().getNickname();
+        String id = Long.toString(this.user.getId());
+
+        HashMap<String,String> param = new HashMap<>();
+        param.put("id",id);
+        param.put("name",name);
+
+        retrofitAPI.fetchUser(param).enqueue(new Callback<UserContents>() {
+            @Override
+            public void onResponse(Call<UserContents> call, Response<UserContents> response) {
+                Log.d("user_check", "Success: "+new Gson().toJson(response.body().getStatus()));
+
+                }
+
+            @Override
+            public void onFailure(Call<UserContents> call, Throwable t) {
+                Log.e("user_check", "failure: "+t.toString());
+            }
+        });
     }
 
     public User getUser() {
