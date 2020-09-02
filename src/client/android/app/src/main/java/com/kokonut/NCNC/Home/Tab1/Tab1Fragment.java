@@ -1,57 +1,45 @@
-package com.kokonut.NCNC.Home;
+package com.kokonut.NCNC.Home.Tab1;
 
-import android.Manifest;
-import android.content.Context;
-import android.content.Intent;
-import android.content.SharedPreferences;
-import android.content.pm.PackageManager;
-import android.location.Address;
-import android.location.Geocoder;
-import android.location.Location;
-import android.net.Uri;
+import android.annotation.SuppressLint;
+import android.graphics.Typeface;
 import android.os.Bundle;
 
+import androidx.annotation.DrawableRes;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
-import androidx.core.content.PermissionChecker;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentResultListener;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelStore;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
 import androidx.viewpager2.widget.ViewPager2;
 
-import android.provider.Settings;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
-import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.google.android.gms.location.FusedLocationProviderClient;
-import com.google.android.gms.location.LocationServices;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.material.snackbar.Snackbar;
 import com.google.gson.Gson;
+import com.kokonut.NCNC.Home.Retrofit.RealTimeWeatherContents;
 import com.kokonut.NCNC.Home.Retrofit.RetrofitAPI;
 import com.kokonut.NCNC.Home.Retrofit.RetrofitClient;
 import com.kokonut.NCNC.Home.Retrofit.ScoreContents;
 import com.kokonut.NCNC.Home.Retrofit.WeatherContents;
+import com.kokonut.NCNC.Home.SharedViewModel;
 import com.kokonut.NCNC.R;
 
-import java.io.IOException;
-import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.List;
-import java.util.Locale;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+import retrofit2.Retrofit;
 
 public class Tab1Fragment extends Fragment implements ActivityCompat.OnRequestPermissionsResultCallback{
 
@@ -74,6 +62,9 @@ public class Tab1Fragment extends Fragment implements ActivityCompat.OnRequestPe
     private ViewModelStore viewModelStore = new ViewModelStore();
     private SharedViewModel sharedViewModel;
 
+    //private static final String requestKey = "requestkey";
+    //private static final String resultKey = "key";
+
     public Tab1Fragment() {
         // Required empty public constructor
     }
@@ -86,6 +77,7 @@ public class Tab1Fragment extends Fragment implements ActivityCompat.OnRequestPe
         Log.d("Home_Tab1", "onCreate: 1");
 
         //sharedViewModel = new ViewModelProvider(getViewModelStore(), viewModelFactory).get(SharedViewModel.class);)
+
     }
 
 
@@ -119,13 +111,61 @@ public class Tab1Fragment extends Fragment implements ActivityCompat.OnRequestPe
         rain = viewGroup.findViewById(R.id.rain);
         mask = viewGroup.findViewById(R.id.mask);
 
+        //HomeFragment로부터 현재 위치 받아옴
+/*
+        getParentFragmentManager().setFragmentResultListener(requestKey, this, new FragmentResultListener() {
+            @Override
+            public void onFragmentResult(@NonNull String key, @NonNull Bundle bundle) {
+                String result = bundle.getString("bundleKey");
+                System.out.println(result);
 
-        //서버 통신 - 세차점수
-        retrofitAPI = RetrofitClient.getClient().create(RetrofitAPI.class);
+                if(result != null){
+                    tvLocation.setText(result);
+                    System.out.println(result);
+                }
+            }
+        }); */
+
+        /*getChildFragmentManager().setFragmentResultListener("requestkey", this, (key, bundle) -> {
+            // We use a String here, but any type that can be put in a Bundle is supported
+            String result = bundle.getString("bundleKey");
+            // Do something with the result...
+            Log.d("FragmentResultListener", result);
+        });
+         */
+
+        //서버 통신 - 현재 날씨
+        retrofitAPI = RetrofitClient.getInstance().getClient2().create(RetrofitAPI.class);
+        retrofitAPI.fetchRealtimeWeather().enqueue(new Callback<RealTimeWeatherContents>() {
+            @Override
+            public void onResponse(Call<RealTimeWeatherContents> call, Response<RealTimeWeatherContents> response) {
+                //Log.d("Retrofit_Realtime", "Success: "+new Gson().toJson(response.body().getData()));
+                RealTimeWeatherContents.Data result = response.body().getData();
+                if(result==null){
+                    Log.e("Retrofit_Realtime", "Success: NULL");
+                }
+                else{
+                    thermometer.setText(result.getIaqi().getT().getV()+"℃");
+                    rain.setText((result.getIaqi().getH().getV()).intValue()+"%");
+                    mask.setText(makeAQI((result.getAqi()).intValue()));
+                }
+            }
+
+            @Override
+            public void onFailure(Call<RealTimeWeatherContents> call, Throwable t) {
+                Log.e("Retrofit_Realtime", "failure: "+t.toString());
+            }
+        });
+
+
+
+        //서버 통신 - 세차 점수
+        retrofitAPI = RetrofitClient.getInstance().getClient1().create(RetrofitAPI.class);
         retrofitAPI.fetchScore().enqueue(new Callback<ScoreContents>() {
+            @SuppressLint("ResourceAsColor")
             @Override
             public void onResponse(Call<ScoreContents> call, Response<ScoreContents> response) {
-                Log.d("Retrofit_Score", "Success: "+new Gson().toJson(response.body().getContents()));
+                //Log.d("Retrofit_Score", "Success: "+new Gson().toJson(response.body().getContents()));
 
                 List<ScoreContents.Content> mlist = response.body().getContents();
                 if(mlist==null){ //서버에 해당정보 없을 때
@@ -135,13 +175,14 @@ public class Tab1Fragment extends Fragment implements ActivityCompat.OnRequestPe
                     scoreList= new String[8]; //초기화
                     int maxScore = 0, maxScoreDay = 0;
                     for(int i=0; i<7; i++){
-                        scoreList[i] = makeScoreList(mlist.get(i).getRnLv(), mlist.get(i).getTaLv());
+                        scoreList[i] = makeScoreList(mlist.get(i).getRnLv(), mlist.get(i).getTaLv(), mlist.get(i).getPm10Lv());
                         //Log.d("scoreList", scoreList[i]);
-                        if(maxScore<Integer.parseInt(scoreList[i])){
+                        if(maxScore < Integer.parseInt(scoreList[i])){
                             maxScore = Integer.parseInt(scoreList[i]);
                             maxScoreDay = i;
                         }
                     }
+
                     todayScore.setText(scoreList[0]+"점");
                     score1.setText(scoreList[0]+"점");
                     score2.setText(scoreList[1]+"점");
@@ -151,6 +192,45 @@ public class Tab1Fragment extends Fragment implements ActivityCompat.OnRequestPe
                     score6.setText(scoreList[5]+"점");
                     score7.setText(scoreList[6]+"점");
                     goodDay.setText("이번 주 세차하기 좋은 날은 "+getDate(maxScoreDay)+"일 입니다");
+
+                    switch (maxScoreDay){
+                        case 0:
+                            date1.setBackgroundResource(R.drawable.home_daybox_color);
+                            date1.setTextColor(ContextCompat.getColor(getActivity().getApplicationContext(), R.color.color_white));
+                            score1.setTextColor(ContextCompat.getColor(getActivity().getApplicationContext(), R.color.color_main));
+                            break;
+                        case 1:
+                            date2.setBackgroundResource(R.drawable.home_daybox_color);
+                            date2.setTextColor(ContextCompat.getColor(getActivity().getApplicationContext(), R.color.color_white));
+                            score2.setTextColor(ContextCompat.getColor(getActivity().getApplicationContext(), R.color.color_main));
+                            break;
+                        case 2:
+                            date3.setBackgroundResource(R.drawable.home_daybox_color);
+                            date3.setTextColor(ContextCompat.getColor(getActivity().getApplicationContext(), R.color.color_white));
+                            score3.setTextColor(ContextCompat.getColor(getActivity().getApplicationContext(), R.color.color_main));
+                            break;
+                        case 3:
+                            date4.setBackgroundResource(R.drawable.home_daybox_color);
+                            date4.setTextColor(ContextCompat.getColor(getActivity().getApplicationContext(), R.color.color_white));
+                            score4.setTextColor(ContextCompat.getColor(getActivity().getApplicationContext(), R.color.color_main));
+                            break;
+                        case 4:
+                            date5.setBackgroundResource(R.drawable.home_daybox_color);
+                            date5.setTextColor(ContextCompat.getColor(getActivity().getApplicationContext(), R.color.color_white));
+                            score5.setTextColor(ContextCompat.getColor(getActivity().getApplicationContext(), R.color.color_main));
+                            break;
+                        case 5:
+                            date6.setBackgroundResource(R.drawable.home_daybox_color);
+                            date6.setTextColor(ContextCompat.getColor(getActivity().getApplicationContext(), R.color.color_white));
+                            score6.setTextColor(ContextCompat.getColor(getActivity().getApplicationContext(), R.color.color_main));
+                            break;
+                        case 6:
+                            date7.setBackgroundResource(R.drawable.home_daybox_color);
+                            date7.setTextColor(ContextCompat.getColor(getActivity().getApplicationContext(), R.color.color_white));
+                            score7.setTextColor(ContextCompat.getColor(getActivity().getApplicationContext(), R.color.color_main));
+                            break;
+                    }
+
                 }
             }
 
@@ -160,40 +240,6 @@ public class Tab1Fragment extends Fragment implements ActivityCompat.OnRequestPe
             }
         });
 
-        //서버통신 - 날씨 -> 수정필요!!!!!
-        retrofitAPI.fetchWeather().enqueue(new Callback<WeatherContents>() {
-            @Override
-            public void onResponse(Call<WeatherContents> call, Response<WeatherContents> response) {
-                Log.d("Retrofit_Weather", "Success: "+ new Gson().toJson(response.body().getContents()));
-
-                List<WeatherContents.Content> mmlist = response.body().getContents();
-                if(mmlist==null){ //서버에 해당정보 없을 때
-                    Log.e("Retrofit_Weather", "Success: NULL");
-                }
-                else{
-                    thermometer.setText(String.valueOf((mmlist.get(0).getTaMin()+mmlist.get(0).getTaMax())/2)+"℃");
-
-                    Calendar now = Calendar.getInstance();
-                    now.setTime(now.getTime());
-                    int checkAMPM = now.get(Calendar.AM_PM);
-                    switch (checkAMPM){
-                        case Calendar.AM :
-                            rain.setText(mmlist.get(0).getRnStAm()+"%");
-                            mask.setText(mmlist.get(0).getWfAm());
-                            break;
-                        case Calendar.PM:
-                            rain.setText(mmlist.get(0).getRnStPm()+"%");
-                            mask.setText(mmlist.get(0).getWfPm());
-                            break;
-                    }
-                }
-            }
-
-            @Override
-            public void onFailure(Call<WeatherContents> call, Throwable t) {
-                Log.e("Retrofit_Weather", "failure: "+t.toString());
-            }
-        });
 
         //sharedViewModel = new ViewModelProvider(getViewModelStore(), viewModelFactory).get(SharedViewModel.class);
         if(viewModelFactory == null){
@@ -273,9 +319,22 @@ public class Tab1Fragment extends Fragment implements ActivityCompat.OnRequestPe
         return day;
     }
 
-    public String makeScoreList(int rn_lv, int ta_lv){
+    public String makeScoreList(int rn_lv, int ta_lv, int pm10_lv){
         String str = String.valueOf(rn_lv*9 + ta_lv*2);
         return str;
+    }
+
+    public String makeAQI(int aqi){
+        String aqiResult;
+        if(aqi>=0&&aqi<=30)
+            aqiResult="미세먼지 좋음";
+        else if(aqi>=31&&aqi<=80)
+            aqiResult="미세먼지 보통";
+        else if(aqi>=81&&aqi<=150)
+            aqiResult="미세먼지 나쁨";
+        else
+            aqiResult="미세먼지 매우나쁨";
+        return aqiResult;
     }
 
     @Override

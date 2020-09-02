@@ -5,7 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Home.Tab1_CarWashList"
+    tools:context=".Home.Tab1.Tab1_CarWashList"
     android:orientation="vertical"
     android:background="@color/color_white">
 

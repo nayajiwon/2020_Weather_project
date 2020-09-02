@@ -27,10 +27,10 @@
             android:name=".Map.WriteReviewActivity"
             android:label="WriteReview" />
         <activity
-            android:name=".Home.Tab2_SearchList"
+            android:name=".Home.Tab2.Tab2_SearchList"
             android:label="CarWash_SearchList" />
         <activity
-            android:name=".Home.Tab1_CarWashList"
+            android:name=".Home.Tab1.Tab1_CarWashList"
             android:label="CarWashList" />
         <activity
             android:name=".MainActivity"

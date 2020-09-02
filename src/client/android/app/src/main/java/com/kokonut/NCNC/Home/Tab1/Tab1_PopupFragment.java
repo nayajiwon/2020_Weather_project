@@ -1,4 +1,4 @@
-package com.kokonut.NCNC.Home;
+package com.kokonut.NCNC.Home.Tab1;
 
 import android.app.Activity;
 import android.os.Bundle;
@@ -95,7 +95,7 @@ public class Tab1_PopupFragment extends DialogFragment {
             public void onStopTrackingTouch(SeekBar seekbar3) {}
         });
 
-        seekBar1.setMax(100); seekBar2.setMax(100); seekBar3.setMax(100);
+        seekBar1.setMax(10); seekBar2.setMax(10); seekBar3.setMax(10);
         seekBar1.setProgress(0); seekBar2.setProgress(0); seekBar3.setProgress(0); //초기값
 
 
