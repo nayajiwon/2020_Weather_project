@@ -98,15 +98,12 @@ public class Tab1_PopupFragment extends DialogFragment {
         seekBar3.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekbar3, int progress, boolean fromUser) {
-//<<<<<<< HEAD:src/client/android/app/src/main/java/com/kokonut/NCNC/Home/Tab1/Tab1_PopupFragment.java
+
                 result3 = Integer.toString(progress);
                 textView3_score.setText(result3);
-//=======
-                String val3 = Integer.toString(progress);
-                textView3_score.setText(val3);
 
-                Log.d("11111111", "onProgressChanged: " + val3);
-//>>>>>>> android:src/client/android/app/src/main/java/com/kokonut/NCNC/Home/Tab1_PopupFragment.java
+                Log.d("11111111", "onProgressChanged: " + result3);
+
             }
             @Override
             public void onStartTrackingTouch(SeekBar seekbar3) {}
