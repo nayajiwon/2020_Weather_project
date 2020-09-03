@@ -103,7 +103,7 @@ public class HomeFragment extends Fragment {
 
         Log.d("HomeFragment", "onCreateView: 1");
 
-
+/*
         if ( locationPermission == PermissionChecker.PERMISSION_GRANTED) {
             // 이전에 사용자가 위치 접근 권한 허용한 경우
             Log.d("locationPermission", "PERMISSION_ACCEPTED");
@@ -129,6 +129,7 @@ public class HomeFragment extends Fragment {
             }
         }
 
+
         //Bundle bundle = new Bundle();
         //bundle.putString("key", str1);
         //Tab1Fragment tab1Fragment = new Tab1Fragment();
@@ -141,9 +142,12 @@ public class HomeFragment extends Fragment {
         //result.putString("bundleKey", str1);
         //getParentFragmentManager().setFragmentResult("requestKey", result);
 
+
+*/
+
         return viewGroup;
     }
-
+/*
     @Override
     public void onStart(){
         super.onStart();
@@ -258,4 +262,5 @@ public class HomeFragment extends Fragment {
             return true;
         }
     }
+ */
 }

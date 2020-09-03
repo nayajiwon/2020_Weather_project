@@ -33,7 +33,11 @@ import com.kokonut.NCNC.Home.Retrofit.RetrofitAPI;
 import com.kokonut.NCNC.Home.Retrofit.RetrofitClient;
 import com.kokonut.NCNC.Home.Retrofit.ScoreContents;
 import com.kokonut.NCNC.Home.Retrofit.WeatherContents;
+<<<<<<< HEAD:src/client/android/app/src/main/java/com/kokonut/NCNC/Home/Tab1/Tab1Fragment.java
 import com.kokonut.NCNC.Home.SharedViewModel;
+=======
+import com.kokonut.NCNC.MainActivity;
+>>>>>>> android:src/client/android/app/src/main/java/com/kokonut/NCNC/Home/Tab1Fragment.java
 import com.kokonut.NCNC.R;
 
 import java.util.Calendar;
@@ -164,6 +168,23 @@ public class Tab1Fragment extends Fragment implements ActivityCompat.OnRequestPe
                     score6.setText(scoreList[5]+"점");
                     score7.setText(scoreList[6]+"점");
                     goodDay.setText("이번 주 세차하기 좋은 날은 "+getDate(maxScoreDay)+"일 입니다");
+<<<<<<< HEAD:src/client/android/app/src/main/java/com/kokonut/NCNC/Home/Tab1/Tab1Fragment.java
+=======
+
+
+                    Log.d("111111", "onResponse: " + maxScoreDay);
+
+
+
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ScoreContents> call, Throwable t) {
+                Log.e("Retrofit_Score", "failure: "+t.toString());
+            }
+        });
+>>>>>>> android:src/client/android/app/src/main/java/com/kokonut/NCNC/Home/Tab1Fragment.java
 
                     switch (maxScoreDay){
                         case 0:
