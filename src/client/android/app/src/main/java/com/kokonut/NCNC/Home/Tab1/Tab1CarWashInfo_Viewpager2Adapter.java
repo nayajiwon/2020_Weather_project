@@ -1,4 +1,4 @@
-package com.kokonut.NCNC.Home;
+package com.kokonut.NCNC.Home.Tab1;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;

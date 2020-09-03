@@ -34,6 +34,7 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
+import com.kokonut.NCNC.Home.Tab1.Tab1Fragment;
 import com.kokonut.NCNC.R;
 
 import java.io.IOException;
@@ -45,6 +46,7 @@ import static androidx.constraintlayout.widget.Constraints.TAG;
 
 public class HomeFragment extends Fragment {
 
+
     private static final int PERMISSIONS_REQUEST_CODE = 100;
 
     // 앱을 실행하기 위해 필요한 퍼미션을 정의합니다.
@@ -53,9 +55,9 @@ public class HomeFragment extends Fragment {
             Manifest.permission.ACCESS_COARSE_LOCATION
     };
 
-    private String str1 = "";
-    private String str2 = "";
-    private String str3 = "";
+    public String str1 = ""; //시
+    public String str2 = ""; //구
+    public String str3 = ""; //동
 
     //ImageView gpsMark;
     LinearLayout layout;
@@ -73,12 +75,18 @@ public class HomeFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Log.d("HomeFragment", "onCreate: 1");
+
+
     }
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+
+
         viewGroup = (ViewGroup) inflater.inflate(R.layout.fragment_home, container, false);
+
+
         tabLayout = viewGroup.findViewById(R.id.home_tablayout);
         viewPager2 = viewGroup.findViewById(R.id.home_viewpager2);
         viewPager2.setAdapter(new Tab_Viewpager2Adapter(this));
@@ -101,6 +109,8 @@ public class HomeFragment extends Fragment {
             Log.d("locationPermission", "PERMISSION_ACCEPTED");
             //Toast.makeText(getContext(), "위치 정보 접근 권한 허용 상태", Toast.LENGTH_LONG).show();
             getCurrentLocation();
+            //result.putString("bundleKey", "result");
+            //getChildFragmentManager().setFragmentResult("requestKey", result);
         }else {
             Log.d("locationPermission", "PERMISSION_DENIED");
             // 이전에 사용자가 위치 접근 권한 거부한 경우
@@ -114,9 +124,27 @@ public class HomeFragment extends Fragment {
                 ActivityCompat.requestPermissions( getActivity(), PERMISSIONS,
                         PERMISSIONS_REQUEST_CODE);
                 getCurrentLocation();
+                //result.putString(resultKey, str1);
+                //getParentFragmentManager().setFragmentResult(requestKey, result);
             }
         }
+
+
+        //Bundle bundle = new Bundle();
+        //bundle.putString("key", str1);
+        //Tab1Fragment tab1Fragment = new Tab1Fragment();
+        //bundle.putSerializable("key", str1);
+        //tab1Fragment.setArguments(bundle);
+        
+
+        //현재 위치 정보 -> Tab1Fragment로 전송
+        //Bundle result = new Bundle();
+        //result.putString("bundleKey", str1);
+        //getParentFragmentManager().setFragmentResult("requestKey", result);
+
+
 */
+
         return viewGroup;
     }
 /*
@@ -165,8 +193,7 @@ public class HomeFragment extends Fragment {
             str2 = address.get(0).getSubLocality(); //구
             str3 = address.get(0).getThoroughfare(); //동
             Log.d("Home_GetAddress", str1+" "+str2+" "+str3);
-
-
+            //passingData();
         }
 
 

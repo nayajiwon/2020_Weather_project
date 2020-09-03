@@ -5,7 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Home.Tab2_SearchList"
+    tools:context=".Home.Tab2.Tab2_SearchList"
     android:background="@color/color_white">
 
     <FrameLayout

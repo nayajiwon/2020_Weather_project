@@ -1,7 +1,6 @@
-package com.kokonut.NCNC.Home;
+package com.kokonut.NCNC.Home.Tab1;
 
 import android.content.Intent;
-import android.media.Image;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;

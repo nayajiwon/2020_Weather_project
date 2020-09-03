@@ -6,7 +6,7 @@ import com.google.gson.annotations.SerializedName;
 import java.util.List;
 
 public class CarWashContents {
-    
+
     @SerializedName("id")
     @Expose
     private Integer id;
@@ -34,6 +34,15 @@ public class CarWashContents {
     @SerializedName("phone")
     @Expose
     private String phone;
+    @SerializedName("open_week")
+    @Expose
+    private String openWeek;
+    @SerializedName("open_sat")
+    @Expose
+    private String openSat;
+    @SerializedName("open_sun")
+    @Expose
+    private String openSun;
     @SerializedName("wash")
     @Expose
     private List<String> wash = null;
@@ -110,6 +119,30 @@ public class CarWashContents {
         this.phone = phone;
     }
 
+    public String getOpenWeek() {
+        return openWeek;
+    }
+
+    public void setOpenWeek(String openWeek) {
+        this.openWeek = openWeek;
+    }
+
+    public String getOpenSat() {
+        return openSat;
+    }
+
+    public void setOpenSat(String openSat) {
+        this.openSat = openSat;
+    }
+
+    public String getOpenSun() {
+        return openSun;
+    }
+
+    public void setOpenSun(String openSun) {
+        this.openSun = openSun;
+    }
+
     public List<String> getWash() {
         return wash;
     }
@@ -117,4 +150,5 @@ public class CarWashContents {
     public void setWash(List<String> wash) {
         this.wash = wash;
     }
+
 }

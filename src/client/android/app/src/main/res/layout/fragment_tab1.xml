@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Home.Tab1Fragment"
+    tools:context=".Home.Tab1.Tab1Fragment"
     android:orientation="vertical"
     android:id="@+id/tab1_layout">
 
@@ -105,11 +105,10 @@
             <TextView
                 android:id="@+id/home_score"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="40dp"
                 android:textSize="30sp"
                 android:textColor="@color/color_home_score"
-                android:layout_marginLeft="20dp"
-                android:layout_marginRight="20dp"
+                android:layout_gravity="center"
                 android:layout_rowSpan="2"
                 android:fontFamily="@font/ns_extrabold"/>
             <View
@@ -134,17 +133,20 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
-                        android:src="@drawable/thermometer"/>
+                        android:src="@drawable/thermometer"
+                        android:layout_marginBottom="3dp"/>
                     <ImageView
                         android:layout_height="wrap_content"
                         android:layout_width="wrap_content"
                         android:layout_gravity="center_vertical"
-                        android:src="@drawable/rain"/>
+                        android:src="@drawable/rain"
+                        android:layout_marginBottom="3dp"/>
                     <ImageView
                         android:layout_height="wrap_content"
                         android:layout_width="wrap_content"
                         android:layout_gravity="center_vertical"
-                        android:src="@drawable/face_mask"/></TableRow>
+                        android:src="@drawable/face_mask"
+                        android:layout_marginBottom="3dp"/></TableRow>
                 <TableRow>
                     <TextView
                         android:id="@+id/thermometer"
