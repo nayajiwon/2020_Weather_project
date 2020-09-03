@@ -52,7 +52,7 @@ public class CarWashReviewActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 if(!KakaoAdapter.getInstance().isLogin()){
-                    Toast.makeText(getApplicationContext(),"로그인이 필요합니다.",Toast.LENGTH_SHORT);
+                    Toast.makeText(getApplicationContext(),"로그인이 필요합니다.",Toast.LENGTH_SHORT).show();
                     return;
                 }
                 Intent intent = new Intent(getApplicationContext(), WriteReviewActivity.class);
