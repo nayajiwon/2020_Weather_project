@@ -1,6 +1,7 @@
 package com.kokonut.NCNC.Calendar;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.graphics.Paint;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.Log;
@@ -18,7 +19,10 @@ import com.prolificinteractive.materialcalendarview.CalendarDay;
 import com.prolificinteractive.materialcalendarview.CalendarMode;
 import com.prolificinteractive.materialcalendarview.MaterialCalendarView;
 import com.prolificinteractive.materialcalendarview.OnDateSelectedListener;
+
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashSet;
 
@@ -34,14 +38,17 @@ public class CalendarFragment extends Fragment{
     TextView bottomeText2;
     TextView bottomeText3;
     TextView initbutton;
+    TextView text1, text2, text3;
     int[] dates_info;
     private CalendarDBHelper CalendardbHelper;
+    int maxScoreDay;
 
     customDecorator CustomDecorator;
     ArrayList<CalendarInfo> CalendarList;
 
     SQLiteDatabase sqlDB;
 
+    Calendar calToday = Calendar.getInstance();
     private CalendarInfo CalendarInfo;
 
     private static final int LOADER_ID = 1;
@@ -61,12 +68,26 @@ public class CalendarFragment extends Fragment{
         bottomeText2 = viewGroup.findViewById(R.id.bottom2_2);
         bottomeText3 = viewGroup.findViewById(R.id.bottom3_3);
         initbutton = viewGroup.findViewById(R.id.initbutton);
+        text1 = viewGroup.findViewById(R.id.text1);
+        text2 = viewGroup.findViewById(R.id.text2);
+        text3 = viewGroup.findViewById(R.id.text3);
         CalendarList = new ArrayList<CalendarInfo>();
         drawable = this.getResources().getDrawable(R.drawable.calendar_circle_inside);
         CalendardbHelper = CalendarDBHelper.getInstance(getActivity());
 
+        maxScoreDay = getArguments().getInt("maxScoreDay");
+        Log.d("끝0", "initCalendarDB: " + maxScoreDay);
+        Log.d("끝1", "initCalendarDB: " + out_minmilli);
+        Log.d("끝2", "initCalendarDB: " + in_minmilli);
+
+
         initCalendarDB();
         initCalendar();
+
+        //세차추천일
+        String maxDayString = getDate(maxScoreDay);
+        text3.setText(maxDayString);
+        text3.setPaintFlags(text1.getPaintFlags() | Paint.FAKE_BOLD_TEXT_FLAG);
 
         return viewGroup;
     }
@@ -87,6 +108,17 @@ public class CalendarFragment extends Fragment{
     public void onPause(){
         super.onPause();
 
+    }
+
+
+    public static String getDate(int weekday){
+        java.text.SimpleDateFormat format = new java.text.SimpleDateFormat("MM월dd일");
+        Calendar calendar = Calendar.getInstance(); //현재 날짜
+        calendar.add(Calendar.DAY_OF_MONTH, weekday); //오늘로부터 일주일일때
+        String day = format.format(calendar.getTime());
+        Log.d("끝5", "getDate: "+day);
+
+        return day;
     }
 
     public void initCalendar() {
@@ -118,9 +150,8 @@ public class CalendarFragment extends Fragment{
                 calendar_popupfragment.show(getFragmentManager(), "tag");
                 clickedDate = date;
             }
-
-
         });
+
 
         initbutton.setText("초기화");
         initbutton.setOnClickListener(new View.OnClickListener() {
@@ -138,7 +169,6 @@ public class CalendarFragment extends Fragment{
                 sqlDB = CalendardbHelper.getWritableDatabase();
                 CalendardbHelper.onUpgrade(sqlDB, 1, 2);
                 sqlDB.close();
-
             }
         });
     }
@@ -158,36 +188,19 @@ public class CalendarFragment extends Fragment{
     public void devidepopupValue(int checkedList){
         /*value 가 내부 , 외부 , 전체 인지에 따라 동그라미 아래 text 달리해줄것 */
         int cur_part;
+
         //이미 '내부'나 '외부' 중 하나가 체크돼있을 경우 '전체'로 바꿀지 말지 결정
         for(int p=0; p<CalendarList.size(); p++){
 
-            Log.d("cur_part00 ", "devidepopupValue: ");
-
-            Log.d("cur_part22 ", "devidepopupValue: " + checkedList);
-
-            Log.d("cur_part33 ", "devidepopupValue: " + CalendarList.get(p).getPart());
-
-
-            Log.d("cur_part44 ", "devidepopupValue: " + (CalendarList.get(p).getDate().toString()));
-
-            Log.d("cur_part55 ", "devidepopupValue: " + clickedDate);
-
-            Log.d(" 1 1 1 ", "\n\n\n\n");
-
-
+            Log.d("~!~!", "devidepopupValue: "+ CalendarList.get(p).getPart());
+            //이미 동그라미가 처져있는 날짜를 또다시 클릭했을 때 전체로 바꿀지 판단
             if(CalendarList.get(p).getDate().toString().equals(clickedDate.toString())){
-                cur_part = CalendarList.get(p).getPart();
+                cur_part = CalendarList.get(p).getPart(); //내부, 외부 여부를 가져옴
 
-                Log.d("cur_part1 ", "devidepopupValue: ");
-
-                Log.d("cur_part2 ", "devidepopupValue: " + checkedList);
-
-                Log.d("cur_part3 ", "devidepopupValue: " + cur_part);
-
-                if(checkedList != cur_part){
+                if(checkedList != cur_part){ //내부, 외부를 겹쳐 선택 했을 경우
+                    //기존뷰를 삭제해야함
                     checkedList = 3;
                 }
-
             }
         }
 
@@ -199,13 +212,21 @@ public class CalendarFragment extends Fragment{
         CalendarList.add(new CalendarInfo(CustomDecorator, clickedDate, checkedList));
 
         // 3. db에 날짜 추가
-        CalendardbHelper.insertRecord(clickedDate.toString(), CustomDecorator.getColor(), CustomDecorator.getpart());
+        Log.d("csg", "devidepopupValue: " + checkedList);
+        CalendardbHelper.insertRecord(clickedDate.toString(), CustomDecorator.getColor(), checkedList);
 
     }
 
 
+    long in_minmilli = -1; //내부세차
+    long out_minmilli = -1; //외부세차
+    long calmilli = 0;
 
     private void initCalendarDB(){
+
+        Calendar calTemp;
+        calTemp = calToday;
+
 
         //1. 빼고
         //2. 뺀 정보를 info class 에 나눠서 넣기
@@ -217,11 +238,45 @@ public class CalendarFragment extends Fragment{
             int itemId = cursor.getInt(cursor.getColumnIndexOrThrow(CalendarContract.CalendarEntry._ID)); //?
             String gotDate = cursor.getString(cursor.getColumnIndexOrThrow(CalendarContract.CalendarEntry.COLUMN_DATE));
             int gotPart = cursor.getInt(cursor.getColumnIndexOrThrow(CalendarContract.CalendarEntry.COLUMN_PART));
+            Log.d("gjkd1", "initCalendarDB: "+gotPart);
             String getCalendarObject = cursor.getString(cursor.getColumnIndexOrThrow(CalendarContract.CalendarEntry.COLUMN_CALENDAROBJECT));
 
             //db 초기화 과정*
             parceDate(gotDate);
             CalendarDay CalendarDay_date = CalendarDay.from(dates_info[0], dates_info[1], dates_info[2]);
+            Log.d("222223", "initCalendarDB: " + CalendarDay_date.toString());
+
+
+            //가장 최근 날짜를 찾음
+            //milisecond 로 변환하기 위해 calendar type 설정
+            calTemp.set(Calendar.YEAR , dates_info[0]);
+            calTemp.set(Calendar.MONTH, dates_info[1]);
+            calTemp.set(Calendar.DATE, dates_info[2]);
+
+
+            calmilli = calTemp.getTimeInMillis(); //millisecond 형태로 비교
+
+            //가장 최근 날짜로 저장한 내부, 외부 세차 날짜를 알기위해 최대값을 찾음
+            Log.d("쭉", "initCalendarDB: " + in_minmilli);
+            Date date2 = new Date(in_minmilli);
+            SimpleDateFormat format2 = new SimpleDateFormat("yyyy-MM-dd");
+            Log.d("포맷 쭉", "getGapDay: " + format2.format(date2));
+            Log.d("포맷 쭉", "getGapDay: " + in_minmilli);
+
+            if(gotPart == 1){
+                if(calmilli > in_minmilli){
+                    in_minmilli = calmilli;
+                    Log.d("77771", "initCalendarDB: " + in_minmilli);
+                }
+            }
+
+            if(gotPart == 2){
+                if(calmilli > out_minmilli){
+                    out_minmilli = calmilli;
+                    Log.d("77772", "initCalendarDB: " + out_minmilli);
+                }
+            }
+
             customDecorator CustomDecorator = new customDecorator(getActivity(), drawable, CalendarDay_date , gotPart);
 
             // 1. arraylist 에 날짜대입
@@ -232,6 +287,67 @@ public class CalendarFragment extends Fragment{
 
         }
         cursor.close();
+
+
+        Date date = new Date(calToday.getTimeInMillis());
+        SimpleDateFormat format1 = new SimpleDateFormat("yyyy-MM-dd");
+        System.out.println(format1.format(date));
+        Log.d("포맷 데이트3", "getGapDay: " + format1.format(date));
+
+        Log.d("끝1", "initCalendarDB: " + out_minmilli);
+        Log.d("끝2", "initCalendarDB: " + in_minmilli);
+
+
+
+        long subCal;
+
+        if(in_minmilli > -1){
+            subCal = getGapDay(in_minmilli);
+            text1.setText(Long.toString(subCal)+"일 경과");
+            text1.setPaintFlags(text1.getPaintFlags() | Paint.FAKE_BOLD_TEXT_FLAG);
+
+        }
+        else{ // 가장 최근에 한 내부세차를 찾음
+
+        }
+
+        if(out_minmilli > -1){
+            subCal = getGapDay(out_minmilli);
+            text2.setText(Long.toString(subCal)+"일 경과");
+            text2.setPaintFlags(text1.getPaintFlags() | Paint.FAKE_BOLD_TEXT_FLAG);
+        }
+        else{
+
+        }
+
+
+
+
+    }
+
+    private long getGapDay(long calendaree){
+
+        Calendar calendarToday = Calendar.getInstance();
+/*
+        Date date = new Date(calendarToday.getTimeInMillis());
+        SimpleDateFormat format1 = new SimpleDateFormat("yyyy-MM-dd");
+
+        Date date2 = new Date(calendaree);
+        SimpleDateFormat format2 = new SimpleDateFormat("yyyy-MM-dd");
+  */
+
+        long sub = (calendaree - calendarToday.getTimeInMillis());
+        Log.d("포맷 데이트4410", "getGapDay: " + sub);
+
+        if(sub < 0){
+            sub *= -1;
+        }
+
+        long oneday = 1000 * 60 * 60 * 24;
+        long day = sub / oneday;
+        Log.d("차이", "getGapDay: " + day);
+
+        return day;
     }
 
     private void parceDate(String calendar_date){
@@ -256,6 +372,7 @@ public class CalendarFragment extends Fragment{
 
     public void removeCustomDecorator(int checkedList) {
 
+        //삭제 버튼을 눌렀을 때
         if (CalendarList.size() > 0 && checkedList == 4) {
             for (int i = 0; i < CalendarList.size(); i++) {
                 if (CalendarList.get(i).getDate().equals(clickedDate.toString())) {
@@ -270,5 +387,7 @@ public class CalendarFragment extends Fragment{
                 }
             }
         }
+
+
     }
 }
