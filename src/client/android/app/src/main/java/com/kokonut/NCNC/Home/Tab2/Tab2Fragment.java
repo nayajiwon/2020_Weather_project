@@ -9,6 +9,7 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelStore;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,6 +24,9 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.kokonut.NCNC.Home.Retrofit.Location2Contents;
+import com.kokonut.NCNC.Home.Retrofit.RetrofitAPI;
+import com.kokonut.NCNC.Home.Retrofit.RetrofitClient;
 import com.kokonut.NCNC.Home.SharedViewModel;
 import com.kokonut.NCNC.R;
 
@@ -31,7 +35,13 @@ import org.w3c.dom.Text;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
 public class Tab2Fragment extends Fragment {
+    private RetrofitAPI retrofitAPI;
+
     public String selectedLocation1; //시
     public String selectedLocation2; //구
     public String selectedLocation3; //동
@@ -43,10 +53,6 @@ public class Tab2Fragment extends Fragment {
     }
 
 
-    private ViewModelProvider.AndroidViewModelFactory viewModelFactory;
-    private ViewModelStore viewModelStore = new ViewModelStore();
-    //private SharedViewModel sharedViewModel;
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -56,32 +62,6 @@ public class Tab2Fragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         ViewGroup viewGroup = (ViewGroup) inflater.inflate(R.layout.fragment_tab2, container, false);
-
-        TextView test = viewGroup.findViewById(R.id.test);
-
-        if(viewModelFactory == null){
-            viewModelFactory = ViewModelProvider.AndroidViewModelFactory.getInstance(getActivity().getApplication());
-        }
-        final SharedViewModel sharedViewModel = new ViewModelProvider(this, viewModelFactory).get(SharedViewModel.class);
-        sharedViewModel.getMessage().observe(getViewLifecycleOwner(), new Observer() {
-            @Override
-            public void onChanged(Object o) {
-                //Log.d("communication using viewModel", o.toString());
-                if(o.toString()==null){
-                    test.setText("null");
-                }
-                else
-                    test.setText(o.toString());
-            }
-/*
-            @Override
-            public void onChanged(@Nullable String s) {
-                Log.d("communication using viewModel", s);
-                //Toast.makeText(getContext(), s.toString(), Toast.LENGTH_LONG);
-            }
-
- */
-        });
 
         ImageButton searchButton = (ImageButton) viewGroup.findViewById(R.id.home_tab2_searchbutton);
 
@@ -102,19 +82,60 @@ public class Tab2Fragment extends Fragment {
         location_sp1.setPrompt(getResources().getString(R.string.location_spinner1)); location_sp2.setPrompt(getResources().getString(R.string.location_spinner2)); location_sp3.setPrompt(getResources().getString(R.string.location_spinner3));
 
         ArrayList location1_items = new ArrayList();
-        location1_items.add(("서울시"));
+        location1_items.add("시"); location1_items.add("서울시");
         ArrayAdapter<String> locationsp1Adapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_dropdown_item, location1_items);
         locationsp1Adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         location_sp1.setAdapter(locationsp1Adapter);
 
         ArrayList location2_items = new ArrayList();
+        location2_items.add("동");
         ArrayAdapter<String> locationsp2Adapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_dropdown_item, location2_items);
         locationsp2Adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         location_sp2.setAdapter(locationsp2Adapter);
 
-        location_sp2.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        ArrayList location3_items = new ArrayList();
+        location3_items.add("구");
+        ArrayAdapter<String> locationsp3Adapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_dropdown_item, location3_items);
+        locationsp3Adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        location_sp3.setAdapter(locationsp3Adapter);
+
+        //서버통신 시구동
+
+        // '서울시' 선택 -> 구 -> 동
+        location_sp1.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
-            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+            public void onItemSelected(AdapterView<?> adapterView, View view, int position, long id) {
+                if(position!=0){
+                    selectedLocation1 = locationsp1Adapter.getItem(position);
+
+                    location2_items.clear();
+                    location2_items.add("동");
+
+                    //서울시 선택 -> 동 받아오기
+                    retrofitAPI = RetrofitClient.getInstance().getClient3().create(RetrofitAPI.class);
+                    retrofitAPI.fetchLocation2().enqueue(new Callback<Location2Contents>() {
+                        @Override
+                        public void onResponse(Call<Location2Contents> call, Response<Location2Contents> response) {
+                            Location2Contents.SiGunGuList[] ss = response.body().getSiGunGuListResponse().getSiGunGuList();
+                            //Log.d("SigunguList", ss[0].getSignguCd());
+                            for(int i=0; i<ss.length; i++){
+                                location2_items.add(ss[i].getSignguCd());
+                                locationsp2Adapter.notifyDataSetChanged();
+                            }
+                        }
+                        @Override
+                        public void onFailure(Call<Location2Contents> call, Throwable t) {
+
+                        }
+                    });
+
+                    location_sp2.setAdapter(locationsp2Adapter);
+                    location_sp2.setSelection(0);
+                }
+                else{
+                    Toast.makeText(getContext(),"주소를 선택해주세요.",Toast.LENGTH_LONG).show();
+                    location_sp1.requestFocus();
+                }
 
             }
 
@@ -124,10 +145,6 @@ public class Tab2Fragment extends Fragment {
             }
         });
 
-        ArrayList location3_items = new ArrayList();
-        ArrayAdapter<String> locationsp3Adapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_dropdown_item, location3_items);
-        locationsp3Adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        location_sp3.setAdapter(locationsp3Adapter);
 
         Spinner time_sp1 = (Spinner) viewGroup.findViewById(R.id.home_tab2_spinner_visitingtime1);
         Spinner time_sp2 = (Spinner) viewGroup.findViewById(R.id.home_tab2_spinner_visitingtime2);
@@ -155,29 +172,12 @@ public class Tab2Fragment extends Fragment {
                     location_sp3.setVisibility(View.INVISIBLE);
 
                     //현재 내 위치 정보 받아오기
-                    //LiveData<String> s = sharedViewModel.getMessage();
-                    //Log.i("communication using viewModel", s.toString());
-                    //Toast.makeText(getContext(), s.toString(), Toast.LENGTH_LONG);
-                    /*
-                    sharedViewModel.getMessage().observe(this, new Observer<String>() {
-                        @Override
-                        public void onChanged(@Nullable String s) {
-                            Log.i("communication using viewModel", s);
-                            //Toast.makeText(getContext(), o.toString(), Toast.LENGTH_LONG);
-                        }
-                    });
 
-                     */
                 }
                 else{
                     location_sp1.setVisibility(View.VISIBLE);
                     location_sp2.setVisibility(View.VISIBLE);
                     location_sp3.setVisibility(View.VISIBLE);
-
-                    //시,구,동 선택
-
-                    //선택한 위치 정보 -> 검색에 이용
-
                 }
             }
         });
@@ -202,8 +202,15 @@ public class Tab2Fragment extends Fragment {
         time_sp1.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int position, long id) {
-                selectedTime1 = time_sp1.getSelectedItem().toString();
-
+                //selectedTime1 = time_sp1.getSelectedItem().toString();
+                if(position!=0){
+                    timeSp1Adapter.notifyDataSetChanged();
+                    selectedTime1 = timeSp1Adapter.getItem(position);
+                }
+                else{
+                    Toast.makeText(getContext(),"요일을 선택해주세요.",Toast.LENGTH_LONG).show();
+                    time_sp1.requestFocus();
+                }
             }
 
             @Override
@@ -216,8 +223,16 @@ public class Tab2Fragment extends Fragment {
         //시간 spinner 선택리스너
         time_sp2.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
-            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                selectedTime2 = time_sp2.getSelectedItem().toString();
+            public void onItemSelected(AdapterView<?> adapterView, View view, int position, long id) {
+                //selectedTime2 = time_sp2.getSelectedItem().toString();
+                if(position!=0){
+                    timeSp2Adapter.notifyDataSetChanged();
+                    selectedTime2 = timeSp2Adapter.getItem(position);
+                }
+                else{
+                    Toast.makeText(getContext(),"시간을 선택해주세요.",Toast.LENGTH_LONG).show();
+                    time_sp2.requestFocus();
+                }
             }
 
             @Override
@@ -277,12 +292,6 @@ public class Tab2Fragment extends Fragment {
     @Override
     public void onDestroy(){
         super.onDestroy();
-        viewModelStore.clear();
     }
 
-    @NonNull
-    @Override
-    public ViewModelStore getViewModelStore(){
-        return viewModelStore;
-    }
 }

@@ -1,6 +1,7 @@
 package com.kokonut.NCNC.Home.Tab1;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.Bundle;
 
@@ -9,6 +10,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
+import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentResultListener;
@@ -25,6 +27,7 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.google.gson.Gson;
+import com.kokonut.NCNC.Home.HomeFragment;
 import com.kokonut.NCNC.Home.Retrofit.RealTimeWeatherContents;
 import com.kokonut.NCNC.Home.Retrofit.RetrofitAPI;
 import com.kokonut.NCNC.Home.Retrofit.RetrofitClient;
@@ -46,7 +49,7 @@ public class Tab1Fragment extends Fragment implements ActivityCompat.OnRequestPe
     private RetrofitAPI retrofitAPI;
     public String[] scoreList = new String[8];
 
-    TextView tvLocation;
+    public TextView tvLocation;
 
     ViewGroup viewGroup;
     ImageButton popupButton;
@@ -58,13 +61,6 @@ public class Tab1Fragment extends Fragment implements ActivityCompat.OnRequestPe
     TextView todayScore, score1, score2, score3, score4, score5, score6, score7, goodDay;
     TextView thermometer, rain, mask;
 
-    private ViewModelProvider.AndroidViewModelFactory viewModelFactory;
-    private ViewModelStore viewModelStore = new ViewModelStore();
-    private SharedViewModel sharedViewModel;
-
-    //private static final String requestKey = "requestkey";
-    //private static final String resultKey = "key";
-
     public Tab1Fragment() {
         // Required empty public constructor
     }
@@ -75,8 +71,6 @@ public class Tab1Fragment extends Fragment implements ActivityCompat.OnRequestPe
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Log.d("Home_Tab1", "onCreate: 1");
-
-        //sharedViewModel = new ViewModelProvider(getViewModelStore(), viewModelFactory).get(SharedViewModel.class);)
 
     }
 
@@ -111,28 +105,6 @@ public class Tab1Fragment extends Fragment implements ActivityCompat.OnRequestPe
         rain = viewGroup.findViewById(R.id.rain);
         mask = viewGroup.findViewById(R.id.mask);
 
-        //HomeFragment로부터 현재 위치 받아옴
-/*
-        getParentFragmentManager().setFragmentResultListener(requestKey, this, new FragmentResultListener() {
-            @Override
-            public void onFragmentResult(@NonNull String key, @NonNull Bundle bundle) {
-                String result = bundle.getString("bundleKey");
-                System.out.println(result);
-
-                if(result != null){
-                    tvLocation.setText(result);
-                    System.out.println(result);
-                }
-            }
-        }); */
-
-        /*getChildFragmentManager().setFragmentResultListener("requestkey", this, (key, bundle) -> {
-            // We use a String here, but any type that can be put in a Bundle is supported
-            String result = bundle.getString("bundleKey");
-            // Do something with the result...
-            Log.d("FragmentResultListener", result);
-        });
-         */
 
         //서버 통신 - 현재 날씨
         retrofitAPI = RetrofitClient.getInstance().getClient2().create(RetrofitAPI.class);
@@ -241,19 +213,11 @@ public class Tab1Fragment extends Fragment implements ActivityCompat.OnRequestPe
         });
 
 
-        //sharedViewModel = new ViewModelProvider(getViewModelStore(), viewModelFactory).get(SharedViewModel.class);
-        if(viewModelFactory == null){
-            viewModelFactory = ViewModelProvider.AndroidViewModelFactory.getInstance(getActivity().getApplication());
-        }
-        sharedViewModel = new ViewModelProvider(this, viewModelFactory).get(SharedViewModel.class);
-
-
         //'맞춤형 세차점수 설정하기' 버튼 클릭 시
         popupButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Log.d("11111", "onCreateView: 2");
-
                 Tab1_PopupFragment dialog = new Tab1_PopupFragment();
                 dialog.show(getActivity().getSupportFragmentManager(), "tab1");
             }
@@ -326,11 +290,11 @@ public class Tab1Fragment extends Fragment implements ActivityCompat.OnRequestPe
 
     public String makeAQI(int aqi){
         String aqiResult;
-        if(aqi>=0&&aqi<=30)
+        if(aqi>=0 && aqi<=30)
             aqiResult="미세먼지 좋음";
-        else if(aqi>=31&&aqi<=80)
+        else if(aqi>=31 && aqi<=80)
             aqiResult="미세먼지 보통";
-        else if(aqi>=81&&aqi<=150)
+        else if(aqi>=81 && aqi<=150)
             aqiResult="미세먼지 나쁨";
         else
             aqiResult="미세먼지 매우나쁨";
@@ -340,11 +304,5 @@ public class Tab1Fragment extends Fragment implements ActivityCompat.OnRequestPe
     @Override
     public void onDestroy(){
         super.onDestroy();
-        viewModelStore.clear();
-    }
-
-    @NonNull @Override
-    public ViewModelStore getViewModelStore(){
-        return viewModelStore;
     }
 }

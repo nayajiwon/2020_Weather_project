@@ -55,16 +55,9 @@ public class HomeFragment extends Fragment {
             Manifest.permission.ACCESS_COARSE_LOCATION
     };
 
-    private static final String requestKey = "requestkey";
-    private static final String resultKey = "key";
-
-    private static final String ARG_STR1 = "시";
-    private static final String ARG_STR2 = "구";
-    private static final String ARG_STR3 = "동";
-
-    private String str1 = ""; //시
-    private String str2 = ""; //구
-    private String str3 = ""; //동
+    public String str1 = ""; //시
+    public String str2 = ""; //구
+    public String str3 = ""; //동
 
     //ImageView gpsMark;
     LinearLayout layout;
@@ -77,18 +70,6 @@ public class HomeFragment extends Fragment {
     ViewPager2 viewPager2;
     ViewGroup viewGroup;
     List<String> tabLayoutTextArray = Arrays.asList("오늘의 세차", "세차장 검색");
-
-    /*public static HomeFragment newInstance(String str1, String str2, String str3){
-        HomeFragment homeFragment = new HomeFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_STR1, str1);
-        args.putString(ARG_STR2, str2);
-        args.putString(ARG_STR3, str3);
-        homeFragment.setArguments(args);
-        return homeFragment;
-    }
-
-     */
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -148,18 +129,17 @@ public class HomeFragment extends Fragment {
             }
         }
 
-        Bundle bundle = new Bundle();
-        bundle.putString("key", str1);
-        Tab1Fragment tab1Fragment = new Tab1Fragment();
-        bundle.putSerializable("key", str1);
-        tab1Fragment.setArguments(bundle);
+        //Bundle bundle = new Bundle();
+        //bundle.putString("key", str1);
+        //Tab1Fragment tab1Fragment = new Tab1Fragment();
+        //bundle.putSerializable("key", str1);
+        //tab1Fragment.setArguments(bundle);
         
 
         //현재 위치 정보 -> Tab1Fragment로 전송
         //Bundle result = new Bundle();
         //result.putString("bundleKey", str1);
         //getParentFragmentManager().setFragmentResult("requestKey", result);
-
 
         return viewGroup;
     }

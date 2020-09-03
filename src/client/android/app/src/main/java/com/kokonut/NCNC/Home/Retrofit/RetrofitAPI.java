@@ -16,6 +16,6 @@ public interface RetrofitAPI {
     @GET("seoul/?token=0610c5df7c85fe03547cb636204d1f4c6e87bd28")
     Call<RealTimeWeatherContents> fetchRealtimeWeather();
 
-    //@GET("getSiGunGuList?ServiceKey=GXmd7CyHCZHX4C42RPWEDDQ7k3vAV6JfoKhWYloFs0iCho%2BxNaXY1Eod1FpctxTHNoJqtajSqpgbfUiyFltYVQ%3D%3D&brtcCd=서울")
-    //Call<Location1Contents> fetchLocation1();
+    @GET("getSiGunGuList?ServiceKey=GXmd7CyHCZHX4C42RPWEDDQ7k3vAV6JfoKhWYloFs0iCho%2BxNaXY1Eod1FpctxTHNoJqtajSqpgbfUiyFltYVQ%3D%3D&brtcCd=서울")
+    Call<Location2Contents> fetchLocation2();
 }
