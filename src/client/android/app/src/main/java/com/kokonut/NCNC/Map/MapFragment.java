@@ -1,7 +1,6 @@
 package com.kokonut.NCNC.Map;
 
 import android.Manifest;
-import android.app.ProgressDialog;
 import android.content.Intent;
 import android.location.Location;
 import android.location.LocationListener;
@@ -14,21 +13,24 @@ import androidx.annotation.Nullable;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.PermissionChecker;
 import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
-import com.kokonut.NCNC.CarWashAdapter;
-import com.kokonut.NCNC.CarWashInfoData;
 import com.kokonut.NCNC.GpsTracker;
 import com.kokonut.NCNC.R;
+import com.kokonut.NCNC.Retrofit.CarWashContents;
+import com.kokonut.NCNC.Retrofit.CarWashDetail;
+import com.kokonut.NCNC.Retrofit.CarWashDetailType;
+import com.kokonut.NCNC.Retrofit.RetrofitAPI;
 import com.naver.maps.geometry.LatLng;
 import com.naver.maps.map.CameraAnimation;
 import com.naver.maps.map.CameraUpdate;
@@ -38,21 +40,24 @@ import com.naver.maps.map.MapView;
 import com.naver.maps.map.NaverMap;
 import com.naver.maps.map.OnMapReadyCallback;
 import com.naver.maps.map.overlay.Marker;
-import com.naver.maps.map.overlay.Overlay;
 import com.naver.maps.map.overlay.OverlayImage;
 import com.naver.maps.map.util.FusedLocationSource;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
+import org.w3c.dom.Text;
 
-import java.io.BufferedReader;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.OutputStream;
-import java.net.HttpURLConnection;
-import java.net.URL;
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 import static android.content.Context.LOCATION_SERVICE;
 
@@ -61,7 +66,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback,
         LocationListener, LocationSource {
 
     private GpsTracker gpsTracker;
-    private static String IP_ADDRESS = "52.26.131.225";
+    private static String IP_ADDRESS = "3.131.33.128";
     private static String TAG = "phptest";
     public static final int sub = 1001;
     private static final int LOCATION_PERMISSION_REQUEST_CODE = 1000;
@@ -70,13 +75,24 @@ public class MapFragment extends Fragment implements OnMapReadyCallback,
             Manifest.permission.ACCESS_COARSE_LOCATION
     };
 
-    LinearLayout llMoreInfo;
+    private class CarWashType {
+        String carWashName;
+        List<String> carWashTypeName;
+    }
+    private Map<String, String> carWashTypeMap = new HashMap<>();
+
+    private List<CarWashContents> carWashContentsList;
+    private List<CarWashType> carWashTypeList;
+    private List<String> mCarWashTypeList = new ArrayList<>();
+    private String typeStr;
+
+    FrameLayout carWashInfoBox;
     ImageButton ibMarkGPS;
+    TextView tvBoxName, tvBoxType, tvBoxTime, tvBoxAddress;
+
     private MapView mapView;
     Marker selectedMarker;
 
-    private ArrayList<CarWashInfoData> carWashList;
-    private ArrayList<CarWashInfoData> mArrayList;
     private ArrayList<Marker> markerArrayList = new ArrayList();
 
     private CarWashAdapter mAdapter;
@@ -107,28 +123,53 @@ public class MapFragment extends Fragment implements OnMapReadyCallback,
         ViewGroup viewGroup = (ViewGroup) inflater.inflate(R.layout.fragment_map, container, false);
 
         mapView = (MapView)viewGroup.findViewById(R.id.map_view);
+        carWashInfoBox = (FrameLayout) viewGroup.findViewById(R.id.map_car_wash_info_box);
+        tvBoxName = (TextView)viewGroup.findViewById(R.id.map_info_name);
+        tvBoxType = (TextView)viewGroup.findViewById(R.id.map_info_type);
+        tvBoxTime = (TextView)viewGroup.findViewById(R.id.map_info_time);
+        tvBoxAddress = (TextView)viewGroup.findViewById(R.id.map_info_address);
+
         ibMarkGPS = (ImageButton) viewGroup.findViewById(R.id.map_mark_gps);
-        carWashList = new ArrayList<>();
-
-        mRecyclerView = (RecyclerView) viewGroup.findViewById(R.id.listView_main_list);
-        mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        mArrayList = new ArrayList<>();
-
-        mAdapter = new CarWashAdapter(getActivity(), mArrayList);
-        mRecyclerView.setAdapter(mAdapter);
-
-        mArrayList.clear();
-        mAdapter.notifyDataSetChanged();
-
-        MapFragment.GetData task = new MapFragment.GetData();
-        task.execute( "http://" + IP_ADDRESS + "/getjson.php", "");
-
-
         locationSource = new FusedLocationSource(this, LOCATION_PERMISSION_REQUEST_CODE);
         locationManager = (LocationManager)getActivity().getSystemService(LOCATION_SERVICE);
         selectedMarker = new Marker();
 
+        carWashInfoBox.setVisibility(View.INVISIBLE);
         mapView.getMapAsync(this);
+
+        new AsyncTask<Void, Void, String>() {
+
+            @Override
+            protected String doInBackground(Void... params) {
+                RetrofitAPI retrofitAPI = RetrofitAPI.retrofit.create(RetrofitAPI.class);
+                RetrofitAPI retrofitAPI2 = RetrofitAPI.retrofit.create(RetrofitAPI.class);
+                Call<List<CarWashContents>> call = retrofitAPI.fetchCarWash();
+
+                try {
+                    carWashContentsList = call.execute().body();
+                    for(int i = 0; i < carWashContentsList.size(); i++){
+                        Call<CarWashDetail> call2 = retrofitAPI2.getCarWashType(carWashContentsList.get(i).getId());
+                        CarWashDetail carWashDetail = call2.execute().body();
+                        typeStr = carWashDetail.getType().get(0).getName();
+                        if(carWashDetail.getType().size() > 1){
+                            for(int j = 1; j < carWashDetail.getType().size(); j++) {
+                                typeStr = typeStr + ", " + carWashDetail.getType().get(j).getName();
+                            }
+                        }
+                        carWashTypeMap.put(carWashDetail.getName(), typeStr);
+
+                    }
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                return null;
+            }
+
+            @Override
+            protected void onPostExecute(String s) {
+                super.onPostExecute(s);
+            }
+        }.execute();
 
 
         ibMarkGPS.setOnClickListener(new View.OnClickListener() {
@@ -139,7 +180,6 @@ public class MapFragment extends Fragment implements OnMapReadyCallback,
                 double latitude = gpsTracker.getLatitude();
                 double longitude = gpsTracker.getLongitude();
 
-//                Toast.makeText(getContext(), "현재위치 \n위도 " + latitude + "\n경도 " + longitude, Toast.LENGTH_LONG).show();
                 CameraUpdate cameraUpdate = CameraUpdate.scrollTo(new LatLng(latitude, longitude)).animate(CameraAnimation.Easing);;
                 naverMap.moveCamera(cameraUpdate);
             }
@@ -210,20 +250,6 @@ public class MapFragment extends Fragment implements OnMapReadyCallback,
     @Override
     public void onMapReady(@NonNull NaverMap naverMap) {
         Log.d(TAG, "----------OnMapReady--------");
-        int totalElements = carWashList.size();
-        if(totalElements == 0){
-            Log.d(TAG, "----------OnMapReady Init--------");
-        }
-        else{
-            Log.d(TAG, "----------showCarWashList--------");
-            for (int index = 0; index < totalElements; index++) {
-                System.out.println(carWashList.get(index).getMember_id());
-                System.out.println(carWashList.get(index).getMember_name());
-                System.out.println(carWashList.get(index).getMember_latitude());
-                System.out.println(carWashList.get(index).getMember_longitude());
-                System.out.println();
-            }
-        }
         this.naverMap = naverMap;
         // GPS 허용할건지 묻는 팝업창
         naverMap.setContentPadding(0, 0, 0, 350);
@@ -232,41 +258,72 @@ public class MapFragment extends Fragment implements OnMapReadyCallback,
 
         OverlayImage markerImage = OverlayImage.fromResource(R.drawable.map_mark_black);
         OverlayImage selectedMarkerImage = OverlayImage.fromResource(R.drawable.map_mark_blue);
+        while(true){
+            System.out.println("OnMapReadyWhile--");
+            if(carWashContentsList != null){
+                System.out.println("OnMapReadyWhileBreak");
+                for (int index = 0; index < carWashContentsList.size(); index++) {
+//                    System.out.println("Marker Index : " + index);
+                    Marker marker = new Marker();
+                    marker.setPosition(new LatLng(carWashContentsList.get(index).getLat(),
+                            carWashContentsList.get(index).getLon()));
+                    marker.setIcon(markerImage);
+                    marker.setCaptionText(carWashContentsList.get(index).getName());
+                    marker.setCaptionRequestedWidth(200);
+                    marker.setMap(naverMap);
+                    markerArrayList.add(marker);
 
-        for (int index = 0; index < totalElements; index++) {
-            Marker marker = new Marker();
-            marker.setPosition(new LatLng(Double.parseDouble(carWashList.get(index).getMember_latitude()),
-                    Double.parseDouble(carWashList.get(index).getMember_longitude())));
-            marker.setIcon(markerImage);
-            marker.setCaptionText(carWashList.get(index).getMember_name());
-            marker.setCaptionRequestedWidth(200);
-            marker.setMap(naverMap);
-            markerArrayList.add(marker);
+                    marker.setOnClickListener(overlay -> {
+                        for (int i = 0; i < markerArrayList.size(); i++) {
+                            markerArrayList.get(i).setIcon(markerImage);
+                        }
+                        marker.setIcon(selectedMarkerImage);
 
-            marker.setOnClickListener(overlay -> {
-                for(int i = 0; i < markerArrayList.size(); i++){
-                    markerArrayList.get(i).setIcon(markerImage);
+                        carWashInfoBox.setVisibility(View.VISIBLE);
+                        tvBoxName.setText(carWashContentsList.get(markerArrayList.indexOf(marker)).getName());
+                        tvBoxTime.setText(carWashContentsList.get(markerArrayList.indexOf(marker)).getOpenWeek());
+                        tvBoxAddress.setText(carWashContentsList.get(markerArrayList.indexOf(marker)).getAddress());
+                        tvBoxType.setText(carWashTypeMap.get(carWashContentsList.get(markerArrayList.indexOf(marker)).getName()));
+                        carWashInfoBox.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                Intent intent = new Intent(getContext(), CarWashInfoActivity.class);
+
+                                intent.putExtra("id", carWashContentsList.get(markerArrayList.indexOf(marker)).getId());
+                                intent.putExtra("name", carWashContentsList.get(markerArrayList.indexOf(marker)).getName());
+                                intent.putExtra("latitude", carWashContentsList.get(markerArrayList.indexOf(marker)).getLat());
+                                intent.putExtra("longitude", carWashContentsList.get(markerArrayList.indexOf(marker)).getLon());
+                                intent.putExtra("address", carWashContentsList.get(markerArrayList.indexOf(marker)).getAddress());
+                                intent.putExtra("phone", carWashContentsList.get(markerArrayList.indexOf(marker)).getPhone());
+                                intent.putExtra("city", carWashContentsList.get(markerArrayList.indexOf(marker)).getCity());
+                                intent.putExtra("district", carWashContentsList.get(markerArrayList.indexOf(marker)).getDistrict());
+                                intent.putExtra("dong", carWashContentsList.get(markerArrayList.indexOf(marker)).getDong());
+                                intent.putExtra("type", carWashTypeMap.get(carWashContentsList.get(markerArrayList.indexOf(marker)).getName()));
+                                intent.putExtra("open_week", carWashContentsList.get(markerArrayList.indexOf(marker)).getOpenWeek());
+                                intent.putExtra("open_sat", carWashContentsList.get(markerArrayList.indexOf(marker)).getOpenSat());
+                                intent.putExtra("open_sun", carWashContentsList.get(markerArrayList.indexOf(marker)).getOpenSun());
+
+
+                                System.out.println(carWashContentsList.get(markerArrayList.indexOf(marker)).getId());
+                                System.out.println(carWashContentsList.get(markerArrayList.indexOf(marker)).getName());
+                                System.out.println(carWashContentsList.get(markerArrayList.indexOf(marker)).getLat());
+                                System.out.println(carWashContentsList.get(markerArrayList.indexOf(marker)).getLon());
+                                System.out.println(carWashContentsList.get(markerArrayList.indexOf(marker)).getAddress());
+                                System.out.println(carWashContentsList.get(markerArrayList.indexOf(marker)).getPhone());
+                                System.out.println(carWashContentsList.get(markerArrayList.indexOf(marker)).getCity());
+                                System.out.println(carWashContentsList.get(markerArrayList.indexOf(marker)).getDistrict());
+                                System.out.println(carWashContentsList.get(markerArrayList.indexOf(marker)).getDong());
+
+                                startActivityForResult(intent, sub);
+                            }
+                        });
+
+                        return true;
+                    });
                 }
-                marker.setIcon(selectedMarkerImage);
-                marker.setWidth(80);
-                marker.setHeight(112);
-                mArrayList.clear();
-                mArrayList.add(carWashList.get(markerArrayList.indexOf(marker)));
-                mAdapter.setmList(mArrayList);
-                mAdapter.setOnItemClickListener(new CarWashAdapter.OnItemClickListener() {
-                    @Override
-                    public void onItemClick(View v, int position) {
-                        Intent intent = new Intent(getContext(), CarWashInfoActivity.class);
-                        startActivityForResult(intent, sub);
-                    }
-                }) ;
-
-                mRecyclerView.setAdapter(mAdapter);
-
-                return true;
-            });
+                break;
+            }
         }
-
     }
 
     @Override
@@ -337,221 +394,5 @@ public class MapFragment extends Fragment implements OnMapReadyCallback,
     @Override
     public void onProviderDisabled(String provider) {
     }
-
-    private boolean hasPermission() {
-        return PermissionChecker.checkSelfPermission(getContext(), PERMISSIONS[0])
-                == PermissionChecker.PERMISSION_GRANTED
-                && PermissionChecker.checkSelfPermission(getContext(), PERMISSIONS[1])
-                == PermissionChecker.PERMISSION_GRANTED;
-    }
-
-
-    private class GetData extends AsyncTask<String, Void, String>{
-
-        ProgressDialog progressDialog;
-        String errorString = null;
-
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-
-            progressDialog = ProgressDialog.show(getActivity(),
-                    "Please Wait", null, true, true);
-        }
-
-
-        @Override
-        protected void onPostExecute(String result) {
-            super.onPostExecute(result);
-
-            progressDialog.dismiss();
-            //mTextViewResult.setText(result);
-            Log.d(TAG, "response - " + result);
-
-            if (result == null){
-
-                //mTextViewResult.setText(errorString);
-            }
-            else {
-
-                mJsonString = result;
-                showLocation();
-                //showResult();
-                onMapReady(naverMap);
-            }
-        }
-
-
-        @Override
-        protected String doInBackground(String... params) {
-
-            String serverURL = params[0];
-            String postParameters = params[1];
-
-
-            try {
-
-                URL url = new URL(serverURL);
-                HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
-
-
-                httpURLConnection.setReadTimeout(5000);
-                httpURLConnection.setConnectTimeout(5000);
-                httpURLConnection.setRequestMethod("POST");
-                httpURLConnection.setDoInput(true);
-                httpURLConnection.connect();
-
-
-                OutputStream outputStream = httpURLConnection.getOutputStream();
-                outputStream.write(postParameters.getBytes("UTF-8"));
-                outputStream.flush();
-                outputStream.close();
-
-
-                int responseStatusCode = httpURLConnection.getResponseCode();
-                Log.d(TAG, "response code - " + responseStatusCode);
-
-                InputStream inputStream;
-                if(responseStatusCode == HttpURLConnection.HTTP_OK) {
-                    inputStream = httpURLConnection.getInputStream();
-                }
-                else{
-                    inputStream = httpURLConnection.getErrorStream();
-                }
-
-
-                InputStreamReader inputStreamReader = new InputStreamReader(inputStream, "UTF-8");
-                BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
-
-                StringBuilder sb = new StringBuilder();
-                String line;
-
-                while((line = bufferedReader.readLine()) != null){
-                    sb.append(line);
-                }
-
-                bufferedReader.close();
-
-                return sb.toString().trim();
-
-
-            } catch (Exception e) {
-
-                Log.d(TAG, "GetData : Error ", e);
-                errorString = e.toString();
-
-                return null;
-            }
-
-        }
-    }
-
-
-        private void showResult(){
-
-    //        String TAG_JSON="kokonut";
-    //        String TAG_ID = "car_wash_id";
-    //        String TAG_NAME = "car_wash_name";
-    //        String TAG_LATITUDE = "latitude";
-    //        String TAG_LONGITUDE = "longitude";
-
-            String TAG_JSON="scsc";
-            String TAG_ID="id";
-            String TAG_LATITUDE = "lat";
-            String TAG_LONGITUDE = "lon";
-            String TAG_NAME = "name";
-            String TAG_ADDRESS = "address";
-            String TAG_PHONE = "phone";
-
-
-            try {
-                JSONObject jsonObject = new JSONObject(mJsonString);
-                JSONArray jsonArray = jsonObject.getJSONArray(TAG_JSON);
-
-    //            for(int i=0;i<jsonArray.length();i++){
-
-                for(int i=0;i<1;i++){
-                    JSONObject item = jsonArray.getJSONObject(i);
-
-                    String id = item.getString(TAG_ID);
-                    String latitude = item.getString(TAG_LATITUDE);
-                    String longitude = item.getString(TAG_LONGITUDE);
-                    String name = item.getString(TAG_NAME);
-                    String address = item.getString(TAG_ADDRESS);
-                    String phone = item.getString(TAG_PHONE);
-
-                    CarWashInfoData carWashInfoData = new CarWashInfoData();
-
-                    carWashInfoData.setMember_id(id);
-                    carWashInfoData.setMember_longitude(longitude);
-                    carWashInfoData.setMember_latitude(latitude);
-                    carWashInfoData.setMember_name(name);
-                    carWashInfoData.setMember_address(address);
-                    carWashInfoData.setMember_phone(phone);
-
-                    mArrayList.add(carWashInfoData);
-                    mAdapter.notifyDataSetChanged();
-                }
-
-
-
-            } catch (JSONException e) {
-
-                Log.d(TAG, "showResult : ", e);
-            }
-
-        }
-
-
-
-        public void showLocation() {
-
-            Log.d(TAG, "Show LocationTest");
-
-            String TAG_JSON="scsc";
-            String TAG_ID="id";
-            String TAG_LATITUDE = "lat";
-            String TAG_LONGITUDE = "lon";
-            String TAG_NAME = "name";
-            String TAG_ADDRESS = "address";
-            String TAG_PHONE = "phone";
-
-
-            try {
-                JSONObject jsonObject = new JSONObject(mJsonString);
-                JSONArray jsonArray = jsonObject.getJSONArray(TAG_JSON);
-
-                for(int i=0;i<jsonArray.length();i++){
-                    JSONObject item = jsonArray.getJSONObject(i);
-
-                    String id = item.getString(TAG_ID);
-                    String latitude = item.getString(TAG_LATITUDE);
-                    String longitude = item.getString(TAG_LONGITUDE);
-                    String name = item.getString(TAG_NAME);
-                    String address = item.getString(TAG_ADDRESS);
-                    String phone = item.getString(TAG_PHONE);
-
-                    CarWashInfoData carWashInfoData = new CarWashInfoData();
-
-                    carWashInfoData.setMember_id(id);
-                    carWashInfoData.setMember_longitude(longitude);
-                    carWashInfoData.setMember_latitude(latitude);
-                    carWashInfoData.setMember_name(name);
-                    carWashInfoData.setMember_address(address);
-                    carWashInfoData.setMember_phone(phone);
-
-                    carWashList.add(carWashInfoData);
-                    mAdapter.notifyDataSetChanged();
-                }
-
-
-
-            } catch (JSONException e) {
-
-                Log.d(TAG, "showResult : ", e);
-            }
-
-
-        }
 
 }

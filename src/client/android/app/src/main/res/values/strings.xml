@@ -1,5 +1,6 @@
 <resources>
     <string name="app_name">세차새차</string>
+    <string name="car_wash_time">영업시간 : </string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
