@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TableLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <TableRow>
+            <LinearLayout>
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation = "vertical"
+                android:text="세차하기 좋은 날"
+            </LinearLayout>
+            <Switch
+                android:id="@+id/visibilitySwitch1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:switchMinWidth="100dp"
+                android:switchPadding="20dp"
+                android:text="Text Visibility" />
+        </TableRow>
+        <TableRow>
+            <LinearLayout>
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation = "vertical"
+                android:text="세차하기 좋은 날"
+            </LinearLayout>
+            <Switch
+                android:id="@+id/visibilitySwitch2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:switchMinWidth="100dp"
+                android:switchPadding="20dp"
+                android:text="Text Visibility" />
+
+        </TableRow>
+        <TableRow>
+            <LinearLayout>
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation = "vertical"
+                android:text="세차하기 좋은 날"
+            </LinearLayout>
+            <Switch
+                android:id="@+id/visibilitySwitch3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:switchMinWidth="100dp"
+                android:switchPadding="20dp"
+                android:text="Text Visibility" />
+
+        </TableRow>
+        <TableRow>
+            <LinearLayout>
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation = "vertical"
+                android:text="세차하기 좋은 날"
+            </LinearLayout>
+            <Switch
+                android:id="@+id/visibilitySwitch4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:switchMinWidth="100dp"
+                android:switchPadding="20dp"
+                android:text="Text Visibility" />
+
+        </TableRow>
+
+    </TableLayout>
+
+</LinearLayout>
