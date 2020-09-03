@@ -1,20 +1,12 @@
 package com.kokonut.NCNC.Home.Tab1;
 
 import android.annotation.SuppressLint;
-import android.content.Intent;
-import android.graphics.Typeface;
 import android.os.Bundle;
 
-import androidx.annotation.DrawableRes;
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
-import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.lifecycle.ViewModelProvider;
-import androidx.lifecycle.ViewModelStore;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
 import androidx.viewpager2.widget.ViewPager2;
 
@@ -25,15 +17,11 @@ import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
-import com.google.gson.Gson;
-import com.kokonut.NCNC.Home.HomeFragment;
-import com.kokonut.NCNC.Home.Retrofit.RealTimeWeatherContents;
-import com.kokonut.NCNC.Home.Retrofit.RetrofitAPI;
-import com.kokonut.NCNC.Home.Retrofit.RetrofitClient;
-import com.kokonut.NCNC.Home.Retrofit.ScoreContents;
-import com.kokonut.NCNC.Home.Retrofit.WeatherContents;
+import com.kokonut.NCNC.Retrofit.RealTimeWeatherContents;
+import com.kokonut.NCNC.Retrofit.RetrofitAPI;
+import com.kokonut.NCNC.Retrofit.RetrofitClient;
+import com.kokonut.NCNC.Retrofit.ScoreContents;
 //<<<<<<< HEAD:src/client/android/app/src/main/java/com/kokonut/NCNC/Home/Tab1/Tab1Fragment.java
-import com.kokonut.NCNC.MainActivity;
 //>>>>>>> android:src/client/android/app/src/main/java/com/kokonut/NCNC/Home/Tab1Fragment.java
 import com.kokonut.NCNC.R;
 
@@ -43,9 +31,6 @@ import java.util.List;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-import retrofit2.Retrofit;
-
-import static com.kokonut.NCNC.Calendar.CalendarFragment.getDate;
 
 public class Tab1Fragment extends Fragment implements ActivityCompat.OnRequestPermissionsResultCallback{
 

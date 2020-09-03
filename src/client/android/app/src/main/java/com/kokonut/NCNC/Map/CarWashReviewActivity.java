@@ -55,7 +55,8 @@ public class CarWashReviewActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_car_wash_review);
         initView();
-        fetchReview("1"); // 이 안에 washer의 id를 넣으면 해당 세차장의 리뷰들을 가져옵니다.
+        //fetchReview("1");
+        // 이 안에 washer의 id를 넣으면 해당 세차장의 리뷰들을 가져옵니다.
 
         Intent intent = getIntent();
         String wash_id = intent.getExtras().getString("id");
@@ -87,16 +88,6 @@ public class CarWashReviewActivity extends AppCompatActivity {
 
             }
         });
-
-
-
-//        fetchReview(wash_id); // 이 안에 washer의 id를 넣으면 해당 세차장의 리뷰들을 가져옵니다.
-
-//        mRecyclerView = (RecyclerView) findViewById(R.id.recycler_view_review);
-//        mLinearLayoutManager = new LinearLayoutManager(this);
-//        mRecyclerView.setLayoutManager(mLinearLayoutManager);
-//        mAdapter = new ReviewAdapter(reviewContents);
-//        mRecyclerView.setAdapter(mAdapter);
 
         ivBack.setOnClickListener(new View.OnClickListener() {
             @Override

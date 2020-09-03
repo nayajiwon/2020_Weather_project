@@ -24,9 +24,9 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.kokonut.NCNC.Home.Retrofit.Location2Contents;
-import com.kokonut.NCNC.Home.Retrofit.RetrofitAPI;
-import com.kokonut.NCNC.Home.Retrofit.RetrofitClient;
+import com.kokonut.NCNC.Retrofit.Location2Contents;
+import com.kokonut.NCNC.Retrofit.RetrofitAPI;
+import com.kokonut.NCNC.Retrofit.RetrofitClient;
 import com.kokonut.NCNC.Home.SharedViewModel;
 import com.kokonut.NCNC.R;
 
