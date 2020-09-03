@@ -1,7 +1,9 @@
-package com.kokonut.NCNC.Home;
+package com.kokonut.NCNC.Home.Tab1;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,8 +20,9 @@ import androidx.fragment.app.FragmentManager;
 import com.kokonut.NCNC.R;
 
 public class Tab1_PopupFragment extends DialogFragment {
-    private Fragment fragment;
+
     private int lastValue1, lastValue2, lastValue3; //마지막으로 설정한 '맞춤형 세차점수 설정하기'
+    public String result1, result2, result3; //설정한거
 
     View view;
     TextView textView_title, textView_subtitle;
@@ -39,17 +42,22 @@ public class Tab1_PopupFragment extends DialogFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
+
         view = inflater.inflate(R.layout.fragment_tab1__popup, container, false);
         textView_title = view.findViewById(R.id.home_popup_title);
         textView_subtitle = view.findViewById(R.id.home_popup_subtitle);
+
         buttonX = view.findViewById(R.id.home_popup_buttonX);
         buttonOK = view.findViewById(R.id.home_popupButton);
+
         imageView1 = view.findViewById(R.id.home_popup_Image1);
         imageView2 = view.findViewById(R.id.home_popup_Image2);
         imageView3 = view.findViewById(R.id.home_popup_Image3);
+
         textView1 = view.findViewById(R.id.home_popup_text1);
         textView2 = view.findViewById(R.id.home_popup_text2);
         textView3 = view.findViewById(R.id.home_popup_text3);
+
         textView1_score = view.findViewById(R.id.home_popup_score1);
         textView2_score = view.findViewById(R.id.home_popup_score2);
         textView3_score = view.findViewById(R.id.home_popup_score3);
@@ -59,22 +67,26 @@ public class Tab1_PopupFragment extends DialogFragment {
         //seekBar1.incrementProgressBy(1); 1씩 증가
         seekBar1.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
-            public void onProgressChanged(SeekBar seekbar1, int progress, boolean fromUser) {
-                String val1 = Integer.toString(progress);
-                textView1_score.setText(val1);
+            public void onProgressChanged(SeekBar seekbar1, int progress, boolean fromUser) { //드래그하는중
+                result1 = Integer.toString(progress);
+                textView1_score.setText(result1);
             }
             @Override
-            public void onStartTrackingTouch(SeekBar seekbar1) {}
+            public void onStartTrackingTouch(SeekBar seekbar1) { //드래그 시작
+
+            }
             @Override
-            public void onStopTrackingTouch(SeekBar seekbar1) {}
+            public void onStopTrackingTouch(SeekBar seekbar1) { //드래그 멈춤
+
+            }
         });
 
         final SeekBar seekBar2 = view.findViewById(R.id.home_popup_seekBar2);
         seekBar2.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekbar2, int progress, boolean fromUser) {
-                String val2 = Integer.toString(progress);
-                textView2_score.setText(val2);
+                result2 = Integer.toString(progress);
+                textView2_score.setText(result2);
             }
             @Override
             public void onStartTrackingTouch(SeekBar seekbar2) {}
@@ -86,8 +98,12 @@ public class Tab1_PopupFragment extends DialogFragment {
         seekBar3.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekbar3, int progress, boolean fromUser) {
-                String val3 = Integer.toString(progress);
-                textView3_score.setText(val3);
+
+                result3 = Integer.toString(progress);
+                textView3_score.setText(result3);
+
+                Log.d("11111111", "onProgressChanged: " + result3);
+
             }
             @Override
             public void onStartTrackingTouch(SeekBar seekbar3) {}
@@ -95,7 +111,7 @@ public class Tab1_PopupFragment extends DialogFragment {
             public void onStopTrackingTouch(SeekBar seekbar3) {}
         });
 
-        seekBar1.setMax(100); seekBar2.setMax(100); seekBar3.setMax(100);
+        seekBar1.setMax(10); seekBar2.setMax(10); seekBar3.setMax(10);
         seekBar1.setProgress(0); seekBar2.setProgress(0); seekBar3.setProgress(0); //초기값
 
 
@@ -103,13 +119,23 @@ public class Tab1_PopupFragment extends DialogFragment {
         buttonX.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
-                //dismiss();
-                FragmentManager manager = getFragmentManager();
+                getDialog().dismiss();
+                /*FragmentManager manager = getFragmentManager();
                 Fragment prev = manager.findFragmentByTag("tab1");
                 if(prev!=null){
                     DialogFragment dialogfragment = (DialogFragment) prev;
                     dialogfragment.dismiss();
-                }
+                }*/
+            }
+        });
+
+        //설정하기버튼 클릭
+        buttonOK.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //result1,2,3 디비에 저장하기
+
+                getDialog().dismiss();
             }
         });
 
@@ -118,4 +144,5 @@ public class Tab1_PopupFragment extends DialogFragment {
 
         return view;
     }
+
 }

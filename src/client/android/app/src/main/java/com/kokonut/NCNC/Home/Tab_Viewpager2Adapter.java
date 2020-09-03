@@ -1,10 +1,11 @@
 package com.kokonut.NCNC.Home;
 
-import android.os.Parcelable;
-
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
+
+import com.kokonut.NCNC.Home.Tab1.Tab1Fragment;
+import com.kokonut.NCNC.Home.Tab2.Tab2Fragment;
 
 import java.util.ArrayList;
 import java.util.List;

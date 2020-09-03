@@ -46,6 +46,9 @@ public class ScoreContents {
         @SerializedName("ta_lv")
         @Expose
         private Integer taLv;
+        @SerializedName("pm10_lv")
+        @Expose
+        private Integer pm10Lv;
 
         public String getDate() {
             return date;
@@ -77,6 +80,14 @@ public class ScoreContents {
 
         public void setTaLv(Integer taLv) {
             this.taLv = taLv;
+        }
+
+        public Integer getPm10Lv() {
+            return pm10Lv;
+        }
+
+        public void setPm10Lv(Integer taLv) {
+            this.pm10Lv = pm10Lv;
         }
 
     }
