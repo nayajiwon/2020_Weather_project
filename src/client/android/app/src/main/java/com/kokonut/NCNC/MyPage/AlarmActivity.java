@@ -329,6 +329,4 @@ class WeekCheck {
         SimpleDateFormat formatter = new SimpleDateFormat("yyyyMMdd");
         return formatter.format(cal.getTime());
     }
-
-
 }

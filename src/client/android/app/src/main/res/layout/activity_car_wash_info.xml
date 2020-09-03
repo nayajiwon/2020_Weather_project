@@ -39,294 +39,215 @@
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:gravity ="center"
         android:layout_weight="1"
-        android:fillViewport="true">
+        android:fillViewport="true"
+        android:gravity="center"
+        android:orientation="vertical">
 
         <LinearLayout
-            android:orientation="vertical"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <FrameLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
-
-                <ImageView
-                    android:id="@+id/car_wash_info_sample_img"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:src="@drawable/car_wash_info_sample_img"/>
-
-            </FrameLayout>
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="32dp"
-                android:layout_gravity="center_horizontal"
-                android:textSize="19sp"
-                android:textColor="#000000"
-                android:lineSpacingExtra="11sp"
-                android:fontFamily="@font/ns_extrabold"
-                android:text="쓱싹쓱싹 세차장"/>
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
 
             <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/car_wash_info_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="35dp"
+                    android:fontFamily="@font/ns_extrabold"
+                    android:lineSpacingExtra="11sp"
+                    android:textColor="#000000"
+                    android:textSize="19sp" />
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="8.6dp"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/car_wash_info_star_yellow" />
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="1dp"
+                        android:src="@drawable/car_wash_info_star_yellow" />
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="1dp"
+                        android:src="@drawable/car_wash_info_star_yellow" />
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="1dp"
+                        android:src="@drawable/car_wash_info_star_yellow" />
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="1dp"
+                        android:src="@drawable/car_wash_info_star_blank" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginLeft="5dp"
+                        android:fontFamily="@font/ns_bold"
+                        android:gravity="center_horizontal"
+                        android:lineSpacingExtra="1sp"
+                        android:text="4.8"
+                        android:textColor="#000000"
+                        android:textSize="13sp" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="21dp"
+                    android:orientation="horizontal">
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:src="@drawable/car_wash_info_phone" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_horizontal"
+                            android:layout_marginTop="4dp"
+                            android:text="전화"
+                            android:textColor="#000000"
+                            android:textSize="9sp" />
+
+                    </LinearLayout>
+
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="48dp"
+                        android:orientation="vertical">
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:src="@drawable/car_wash_info_share" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_horizontal"
+                            android:layout_marginTop="4dp"
+                            android:text="공유"
+                            android:textColor="#000000"
+                            android:textSize="9sp" />
+
+                    </LinearLayout>
+
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="43dp"
+                        android:orientation="vertical">
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_horizontal"
+                            android:src="@drawable/car_wash_info_star" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_horizontal"
+                            android:layout_marginTop="4dp"
+                            android:text="즐겨찾기"
+                            android:textColor="#000000"
+                            android:textSize="9sp" />
+
+                    </LinearLayout>
+
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="44dp"
+                        android:orientation="vertical">
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:src="@drawable/car_wash_info_map" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_horizontal"
+                            android:layout_marginTop="4dp"
+                            android:text="지도"
+                            android:textColor="#000000"
+                            android:textSize="9sp" />
+
+                    </LinearLayout>
+                </LinearLayout>
+            </LinearLayout>
+
+            <ImageView
+                android:id="@+id/car_wash_info_review_box"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
-                android:layout_marginTop="5dp"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textSize="12sp"
-                    android:textColor="#777777"
-                    android:text="3.8km"/>
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="4dp"
-                    android:layout_marginRight="4dp"
-                    android:textSize="12sp"
-                    android:textColor="#777777"
-                    android:text="ㅣ"/>
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textSize="12sp"
-                    android:textColor="#777777"
-                    android:text="셀프 세차장"/>
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginTop="7dp"
-                android:orientation="horizontal">
-
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:src="@drawable/star_yellow"/>
-
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:src="@drawable/star_yellow"/>
-
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:src="@drawable/star_yellow"/>
-
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:src="@drawable/star_yellow"/>
-
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:src="@drawable/star_blank"/>
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:layout_marginLeft="4dp"
-                    android:textSize="10sp"
-                    android:textColor="#777777"
-                    android:fontFamily="@font/ns_bold"
-                    android:text="4.8"/>
-
-                <ImageView
-                    android:id="@+id/car_wash_info_review_box"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="15dp"
-                    android:src="@drawable/car_wash_info_review_box"/>
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:layout_gravity="center_horizontal"
-                android:orientation="horizontal"
-                android:background="@drawable/car_wash_info_main_box">
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="12dp"
-                    android:layout_marginLeft="33dp"
-                    android:orientation="vertical">
-
-                    <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:src="@drawable/car_wash_info_phone"/>
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="3dp"
-                        android:textSize="8sp"
-                        android:textColor="#7a7a81"
-                        android:gravity="center_horizontal"
-                        android:text="전화"/>
-
-                </LinearLayout>
-
-                <View
-                    android:layout_width="0.2dp"
-                    android:layout_height="33dp"
-                    android:layout_marginTop="5.5dp"
-                    android:layout_marginLeft="34dp"
-                    android:background="#707070">
-                </View>
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="12dp"
-                    android:layout_marginLeft="33dp"
-                    android:orientation="vertical">
-
-                    <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:src="@drawable/car_wash_info_share"/>
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="3dp"
-                        android:textSize="8sp"
-                        android:textColor="#7a7a81"
-                        android:gravity="center_horizontal"
-                        android:text="공유"/>
-
-                </LinearLayout>
-
-                <View
-                    android:layout_width="0.2dp"
-                    android:layout_height="33dp"
-                    android:layout_marginTop="5.5dp"
-                    android:layout_marginLeft="34dp"
-                    android:background="#707070">
-                </View>
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="12dp"
-                    android:layout_marginLeft="33dp"
-                    android:orientation="vertical">
-
-                    <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_horizontal"
-                        android:src="@drawable/car_wash_info_like"/>
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="3dp"
-                        android:textSize="8sp"
-                        android:textColor="#7a7a81"
-                        android:gravity="center_horizontal"
-                        android:text="즐겨찾기"/>
-
-                </LinearLayout>
-
-                <View
-                    android:layout_width="0.2dp"
-                    android:layout_height="33dp"
-                    android:layout_marginTop="5.5dp"
-                    android:layout_marginLeft="34dp"
-                    android:background="#707070">
-                </View>
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="12dp"
-                    android:layout_marginLeft="33dp"
-                    android:orientation="vertical">
-
-                    <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:src="@drawable/car_wash_info_map"/>
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="3dp"
-                        android:textSize="8sp"
-                        android:textColor="#7a7a81"
-                        android:gravity="center_horizontal"
-                        android:text="지도"/>
-
-                </LinearLayout>
-
-            </LinearLayout>
+                android:layout_marginTop="14dp"
+                android:src="@drawable/car_wash_info_review_box" />
 
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="30dp"
-                android:layout_marginTop="50dp"
+                android:layout_marginTop="48dp"
                 android:orientation="vertical">
 
                 <TextView
+                    android:id="@+id/car_wash_info_type"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textSize="14sp"
-                    android:textColor="#000000"
                     android:fontFamily="@font/ns_bold"
-                    android:text="주소"/>
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="12dp"
-                    android:textSize="13sp"
-                    android:textColor="#000000"
-                    android:text="경기도 안양시 동안구 평촌대로223번길 59 서련코아빌딩"/>
-
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="12dp"
-                    android:textSize="13sp"
-                    android:textColor="#000000"
-                    android:text="범계역 3번 출구에서 82m"/>
+                    android:textColor="@color/color_main"
+                    android:textSize="14sp" />
 
             </LinearLayout>
+
 
             <View
                 android:layout_width="310dp"
                 android:layout_height="0.2dp"
+                android:layout_marginLeft="25dp"
                 android:layout_marginTop="25dp"
-                android:layout_marginLeft="25dp"
-                android:background="#707070">
-            </View>
+                android:background="#707070"></View>
+
 
             <LinearLayout
                 android:layout_width="wrap_content"
@@ -338,34 +259,36 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textSize="14sp"
-                    android:textColor="#000000"
                     android:fontFamily="@font/ns_bold"
-                    android:text="영업시간"/>
+                    android:text="주소"
+                    android:textColor="#000000"
+                    android:textSize="14sp" />
+
+                <TextView
+                    android:id="@+id/car_wash_info_address"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:textColor="#000000"
+                    android:textSize="13sp" />
+
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="12dp"
-                    android:textSize="13sp"
+                    android:text="범계역 3번 출구에서 82m"
                     android:textColor="#000000"
-                    android:text="평일 08:00 ~ 21:00"/>
+                    android:textSize="13sp" />
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="6dp"
-                    android:textSize="13sp"
-                    android:textColor="#000000"
-                    android:text="주말 10:00 ~ 21:00"/>
             </LinearLayout>
+
             <View
                 android:layout_width="310dp"
                 android:layout_height="0.2dp"
-                android:layout_marginTop="20dp"
                 android:layout_marginLeft="25dp"
-                android:background="#707070">
-            </View>
+                android:layout_marginTop="25dp"
+                android:background="#707070"></View>
 
             <LinearLayout
                 android:layout_width="wrap_content"
@@ -377,10 +300,10 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textSize="14sp"
-                    android:textColor="#000000"
                     android:fontFamily="@font/ns_bold"
-                    android:text="가격"/>
+                    android:text="영업시간"
+                    android:textColor="#000000"
+                    android:textSize="14sp" />
 
                 <LinearLayout
                     android:layout_width="wrap_content"
@@ -391,25 +314,112 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textSize="13sp"
+                        android:text="평일 : "
                         android:textColor="#000000"
-                        android:text="30분"/>
+                        android:textSize="13sp" />
+
+                    <TextView
+                        android:id="@+id/car_wash_info_time_1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="#000000"
+                        android:textSize="13sp" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="6dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="토요일 : "
+                        android:textColor="#000000"
+                        android:textSize="13sp" />
+
+                    <TextView
+                        android:id="@+id/car_wash_info_time_2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="#000000"
+                        android:textSize="13sp" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="6dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="일요일 : "
+                        android:textColor="#000000"
+                        android:textSize="13sp" />
+
+                    <TextView
+                        android:id="@+id/car_wash_info_time_3"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="#000000"
+                        android:textSize="13sp" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <View
+                android:layout_width="310dp"
+                android:layout_height="0.2dp"
+                android:layout_marginLeft="25dp"
+                android:layout_marginTop="20dp"
+                android:background="#707070"></View>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="30dp"
+                android:layout_marginTop="24dp"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/ns_bold"
+                    android:text="가격"
+                    android:textColor="#000000"
+                    android:textSize="14sp" />
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="위도"
+                        android:textColor="#000000"
+                        android:textSize="13sp" />
 
                     <View
                         android:layout_width="100dp"
                         android:layout_height="0.2dp"
                         android:layout_gravity="center_vertical"
                         android:layout_marginLeft="15dp"
-                        android:background="#707070">
-                    </View>
+                        android:background="#707070"></View>
 
                     <TextView
+                        android:id="@+id/car_wash_info_price_1"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="15dp"
-                        android:textSize="13sp"
                         android:textColor="#000000"
-                        android:text="12000원"/>
+                        android:textSize="13sp" />
 
                 </LinearLayout>
 
@@ -422,25 +432,24 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textSize="13sp"
+                        android:text="경도"
                         android:textColor="#000000"
-                        android:text="60분"/>
+                        android:textSize="13sp" />
 
                     <View
                         android:layout_width="100dp"
                         android:layout_height="0.2dp"
                         android:layout_gravity="center_vertical"
                         android:layout_marginLeft="15dp"
-                        android:background="#707070">
-                    </View>
+                        android:background="#707070"></View>
 
                     <TextView
+                        android:id="@+id/car_wash_info_price_2"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="15dp"
-                        android:textSize="13sp"
                         android:textColor="#000000"
-                        android:text="20000원"/>
+                        android:textSize="13sp" />
 
                 </LinearLayout>
 
@@ -449,10 +458,9 @@
             <View
                 android:layout_width="310dp"
                 android:layout_height="0.2dp"
-                android:layout_marginTop="20dp"
                 android:layout_marginLeft="25dp"
-                android:background="#707070">
-            </View>
+                android:layout_marginTop="20dp"
+                android:background="#707070"></View>
 
             <LinearLayout
                 android:layout_width="wrap_content"
@@ -464,34 +472,27 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textSize="14sp"
-                    android:textColor="#000000"
                     android:fontFamily="@font/ns_bold"
-                    android:text="이벤트"/>
+                    android:text="이벤트"
+                    android:textColor="#000000"
+                    android:textSize="14sp" />
 
                 <TextView
+                    android:id="@+id/car_wash_info_event"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="12dp"
-                    android:textSize="13sp"
                     android:textColor="#000000"
-                    android:text="1+1대 30% 세일 행사"/>
+                    android:textSize="13sp" />
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="6dp"
-                    android:textSize="13sp"
-                    android:textColor="#000000"
-                    android:text="카샴푸 20% 세일 행사"/>
             </LinearLayout>
+
             <View
                 android:layout_width="310dp"
                 android:layout_height="0.2dp"
-                android:layout_marginTop="20dp"
                 android:layout_marginLeft="25dp"
-                android:background="#707070">
-            </View>
+                android:layout_marginTop="20dp"
+                android:background="#707070"></View>
 
             <LinearLayout
                 android:layout_width="wrap_content"
@@ -503,35 +504,28 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textSize="14sp"
-                    android:textColor="#000000"
                     android:fontFamily="@font/ns_bold"
-                    android:text="구비 물품"/>
+                    android:text="구비 물품"
+                    android:textColor="#000000"
+                    android:textSize="14sp" />
 
                 <TextView
+                    android:id="@+id/car_wash_info_facilities"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="12dp"
-                    android:textSize="13sp"
                     android:textColor="#000000"
-                    android:text="카샴푸"/>
+                    android:textSize="13sp" />
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="6dp"
-                    android:textSize="13sp"
-                    android:textColor="#000000"
-                    android:text="하부세차"/>
             </LinearLayout>
+
             <View
                 android:layout_width="310dp"
                 android:layout_height="0.2dp"
-                android:layout_marginTop="20dp"
                 android:layout_marginLeft="25dp"
+                android:layout_marginTop="20dp"
                 android:layout_marginBottom="15dp"
-                android:background="#707070">
-            </View>
+                android:background="#707070"></View>
 
         </LinearLayout>
     </ScrollView>

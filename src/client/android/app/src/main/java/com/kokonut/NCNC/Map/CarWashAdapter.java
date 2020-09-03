@@ -1,4 +1,4 @@
-package com.kokonut.NCNC;
+package com.kokonut.NCNC.Map;
 
 import android.app.Activity;
 import androidx.annotation.NonNull;
@@ -10,21 +10,21 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.kokonut.NCNC.Map.CarWashInfoActivity;
+import com.kokonut.NCNC.Retrofit.CarWashContents;
+import com.kokonut.NCNC.R;
 
 import java.util.ArrayList;
+import java.util.List;
 
 
 public class CarWashAdapter extends RecyclerView.Adapter<CarWashAdapter.CustomViewHolder> {
 
-    private ArrayList<CarWashInfoData> mList = null;
+    private List<CarWashContents> mList = null;
     private Activity context = null;
-    public static final int sub = 1001;
-    private OnItemClickListener mListener = null;
+    private CarWashAdapter.OnItemClickListener mListener = null;
 
 
-
-    public CarWashAdapter(Activity context, ArrayList<CarWashInfoData> list) {
+    public CarWashAdapter(Activity context, List<CarWashContents> list) {
         this.context = context;
         this.mList = list;
     }
@@ -34,7 +34,7 @@ public class CarWashAdapter extends RecyclerView.Adapter<CarWashAdapter.CustomVi
     }
 
     // OnItemClickListener 리스너 객체 참조를 어댑터에 전달하는 메서드
-    public void setOnItemClickListener(OnItemClickListener listener) {
+    public void setOnItemClickListener(CarWashAdapter.OnItemClickListener listener) {
         this.mListener = listener ;
     }
 
@@ -46,6 +46,11 @@ public class CarWashAdapter extends RecyclerView.Adapter<CarWashAdapter.CustomVi
         protected TextView name;
         protected TextView address;
         protected TextView phone;
+        protected TextView city;
+        protected TextView district;
+        protected TextView dong;
+        protected TextView type;
+
 
 
         public CustomViewHolder(View view) {
@@ -56,7 +61,10 @@ public class CarWashAdapter extends RecyclerView.Adapter<CarWashAdapter.CustomVi
             this.name = (TextView) view.findViewById(R.id.textView_list_name);
             this.address = (TextView) view.findViewById(R.id.textView_list_address);
             this.phone = (TextView) view.findViewById(R.id.textView_list_phone);
-
+//            this.city = (TextView) view.findViewById(R.id.textView_list_city);
+//            this.district = (TextView) view.findViewById(R.id.textView_list_district);
+//            this.dong = (TextView) view.findViewById(R.id.textView_list_dong);
+//            this.type = (Textview) view.findViewById(R.id.textView_list_type);
             view.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -76,22 +84,26 @@ public class CarWashAdapter extends RecyclerView.Adapter<CarWashAdapter.CustomVi
 
 
     @Override
-    public CustomViewHolder onCreateViewHolder(ViewGroup viewGroup, int viewType) {
+    public CarWashAdapter.CustomViewHolder onCreateViewHolder(ViewGroup viewGroup, int viewType) {
         View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_list_output, null);
-        CustomViewHolder viewHolder = new CustomViewHolder(view);
+        CarWashAdapter.CustomViewHolder viewHolder = new CarWashAdapter.CustomViewHolder(view);
 
         return viewHolder;
     }
 
     @Override
-    public void onBindViewHolder(@NonNull CustomViewHolder viewholder, int position) {
+    public void onBindViewHolder(@NonNull CarWashAdapter.CustomViewHolder viewholder, int position) {
 
-        viewholder.id.setText(mList.get(position).getMember_id());
+        viewholder.id.setText(mList.get(position).getId());
 //        viewholder.latitude.setText(mList.get(position).getMember_latitude());
 //        viewholder.longitude.setText(mList.get(position).getMember_longitude());
-        viewholder.name.setText(mList.get(position).getMember_name());
-        viewholder.address.setText(mList.get(position).getMember_address());
-        viewholder.phone.setText(mList.get(position).getMember_phone());
+        viewholder.name.setText(mList.get(position).getName());
+        viewholder.address.setText(mList.get(position).getAddress());
+        viewholder.phone.setText(mList.get(position).getPhone());
+//        viewholder.city.setText(mList.get(position).getMember_city());
+//        viewholder.district.setText(mList.get(position).getMember_district());
+//        viewholder.dong.setText(mList.get(position).getMember_dong());
+//        viewholder.type.setText(mList.get(position).getMember_type());
     }
 
     @Override
@@ -103,7 +115,7 @@ public class CarWashAdapter extends RecyclerView.Adapter<CarWashAdapter.CustomVi
         return context;
     }
 
-    public ArrayList<CarWashInfoData> getmList() {
+    public List<CarWashContents> getmList() {
         return mList;
     }
 
@@ -111,7 +123,7 @@ public class CarWashAdapter extends RecyclerView.Adapter<CarWashAdapter.CustomVi
         this.context = context;
     }
 
-    public void setmList(ArrayList<CarWashInfoData> mList) {
+    public void setmList(List<CarWashContents> mList) {
         this.mList = mList;
     }
 
