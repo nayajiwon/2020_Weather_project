@@ -26,7 +26,6 @@ public class CarWashInfoActivity extends AppCompatActivity {
         setContentView(R.layout.activity_car_wash_info);
         initView();
 
-
         Intent intent = getIntent();
 
         String id = intent.getExtras().getString("id");
@@ -43,16 +42,7 @@ public class CarWashInfoActivity extends AppCompatActivity {
         String open_sat = intent.getExtras().getString("open_sat");
         String open_sun = intent.getExtras().getString("open_sun");
 
-        System.out.println(id);
-        System.out.println(name);
-        System.out.println(latitude);
-        System.out.println(longitude);
-        System.out.println(address);
-        System.out.println(phone);
-        System.out.println(city);
-        System.out.println(district);
-        System.out.println(dong);
-        System.out.println(type);
+        System.out.println("CarWashInfoActivity + " + id);
 
         tvReviewType.setText(type);
         tvReviewName.setText(name);
@@ -78,6 +68,7 @@ public class CarWashInfoActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(getApplicationContext(), CarWashReviewActivity.class);
+                intent.putExtra("id", id);
                 startActivityForResult(intent, sub);
             }
         });

@@ -289,7 +289,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback,
                             public void onClick(View view) {
                                 Intent intent = new Intent(getContext(), CarWashInfoActivity.class);
 
-                                intent.putExtra("id", carWashContentsList.get(markerArrayList.indexOf(marker)).getId());
+                                intent.putExtra("id", Integer.toString(carWashContentsList.get(markerArrayList.indexOf(marker)).getId()));
                                 intent.putExtra("name", carWashContentsList.get(markerArrayList.indexOf(marker)).getName());
                                 intent.putExtra("latitude", carWashContentsList.get(markerArrayList.indexOf(marker)).getLat());
                                 intent.putExtra("longitude", carWashContentsList.get(markerArrayList.indexOf(marker)).getLon());
