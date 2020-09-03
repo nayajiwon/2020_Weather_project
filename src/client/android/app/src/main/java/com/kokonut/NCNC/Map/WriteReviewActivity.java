@@ -71,7 +71,7 @@ public class WriteReviewActivity extends AppCompatActivity {
             return;
         }
 
-        RetrofitAPI retrofitAPI = RetrofitClient.getClient().create(RetrofitAPI.class);
+        RetrofitAPI retrofitAPI = RetrofitClient.getInstance().getClient1().create(RetrofitAPI.class);
         String id = Long.toString(KakaoAdapter.getInstance().getUser().getId());
         HashMap<String,String> param = new HashMap<>();
         param.put("id",id);
