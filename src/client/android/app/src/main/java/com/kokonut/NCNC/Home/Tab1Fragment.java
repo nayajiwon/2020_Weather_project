@@ -41,6 +41,7 @@ import com.kokonut.NCNC.Home.Retrofit.RetrofitAPI;
 import com.kokonut.NCNC.Home.Retrofit.RetrofitClient;
 import com.kokonut.NCNC.Home.Retrofit.ScoreContents;
 import com.kokonut.NCNC.Home.Retrofit.WeatherContents;
+import com.kokonut.NCNC.MainActivity;
 import com.kokonut.NCNC.R;
 
 import java.io.IOException;
@@ -151,6 +152,12 @@ public class Tab1Fragment extends Fragment implements ActivityCompat.OnRequestPe
                     score6.setText(scoreList[5]+"점");
                     score7.setText(scoreList[6]+"점");
                     goodDay.setText("이번 주 세차하기 좋은 날은 "+getDate(maxScoreDay)+"일 입니다");
+
+
+                    Log.d("111111", "onResponse: " + maxScoreDay);
+
+
+
                 }
             }
 
@@ -207,7 +214,6 @@ public class Tab1Fragment extends Fragment implements ActivityCompat.OnRequestPe
             @Override
             public void onClick(View v) {
                 Log.d("11111", "onCreateView: 2");
-
                 Tab1_PopupFragment dialog = new Tab1_PopupFragment();
                 dialog.show(getActivity().getSupportFragmentManager(), "tab1");
             }

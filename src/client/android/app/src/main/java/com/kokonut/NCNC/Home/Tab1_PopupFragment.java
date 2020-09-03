@@ -2,6 +2,7 @@ package com.kokonut.NCNC.Home;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -88,6 +89,8 @@ public class Tab1_PopupFragment extends DialogFragment {
             public void onProgressChanged(SeekBar seekbar3, int progress, boolean fromUser) {
                 String val3 = Integer.toString(progress);
                 textView3_score.setText(val3);
+
+                Log.d("11111111", "onProgressChanged: " + val3);
             }
             @Override
             public void onStartTrackingTouch(SeekBar seekbar3) {}
