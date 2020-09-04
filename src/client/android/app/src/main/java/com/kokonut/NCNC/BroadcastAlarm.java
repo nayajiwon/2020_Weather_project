@@ -69,5 +69,3 @@ public class BroadcastAlarm extends BroadcastReceiver {
     }
 
 }
-
-

@@ -35,11 +35,13 @@ import com.kokonut.NCNC.Calendar.CalendarDBHelper;
 import com.kokonut.NCNC.Calendar.CalendarFragment;
 import com.kokonut.NCNC.Calendar.Calendar_PopupFragment;
 import com.kokonut.NCNC.Home.HomeFragment;
-import com.kokonut.NCNC.Home.Retrofit.RetrofitAPI;
-import com.kokonut.NCNC.Home.Retrofit.RetrofitClient;
-import com.kokonut.NCNC.Home.Retrofit.ReviewContents;
-import com.kokonut.NCNC.Home.Retrofit.ScoreContents;
-import com.kokonut.NCNC.Home.Retrofit.WeatherContents;
+
+import com.kokonut.NCNC.Retrofit.RetrofitAPI;
+import com.kokonut.NCNC.Retrofit.RetrofitClient;
+import com.kokonut.NCNC.Retrofit.ReviewContents;
+import com.kokonut.NCNC.Retrofit.ScoreContents;
+import com.kokonut.NCNC.Retrofit.WeatherContents;
+
 import com.kokonut.NCNC.Map.MapFragment;
 import com.kokonut.NCNC.MyPage.AlarmActivity;
 import com.kokonut.NCNC.MyPage.MypageFragment;
@@ -89,7 +91,7 @@ public class MainActivity extends AppCompatActivity implements Calendar_PopupFra
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         kakaoAdapter = KakaoAdapter.getInstance(getApplicationContext());
-        kakaoAdapter.kakaoLogin();
+        //kakaoAdapter.kakaoLogin();
         viewPager2 = findViewById(R.id.home_viewpager2);
         tabLayout = findViewById(R.id.home_tablayout);
         bottomNavigationBar = findViewById(R.id.bottom_navigation_bar);
@@ -105,7 +107,7 @@ public class MainActivity extends AppCompatActivity implements Calendar_PopupFra
 
 
         //서버 통신 - 세차점수
-        retrofitAPI = RetrofitClient.getClient().create(RetrofitAPI.class);
+        retrofitAPI = RetrofitClient.getInstance().getClient1().create(RetrofitAPI.class);
         retrofitAPI.fetchScore().enqueue(new Callback<ScoreContents>() {
             @Override
             public void onResponse(Call<ScoreContents> call, Response<ScoreContents> response) {

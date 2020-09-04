@@ -7,17 +7,10 @@ import android.location.Address;
 import android.location.Geocoder;
 import android.os.Bundle;
 
-import androidx.annotation.DrawableRes;
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
-import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-//import androidx.fragment.app.FragmentResultListener;
-import androidx.lifecycle.ViewModelProvider;
-import androidx.lifecycle.ViewModelStore;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
 import androidx.viewpager2.widget.ViewPager2;
 
@@ -26,19 +19,15 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.google.gson.Gson;
 import com.kokonut.NCNC.GpsTracker;
-import com.kokonut.NCNC.Home.HomeFragment;
-import com.kokonut.NCNC.Home.Retrofit.RealTimeWeatherContents;
-import com.kokonut.NCNC.Home.Retrofit.RetrofitAPI;
-import com.kokonut.NCNC.Home.Retrofit.RetrofitClient;
-import com.kokonut.NCNC.Home.Retrofit.ScoreContents;
-import com.kokonut.NCNC.Home.Retrofit.WeatherContents;
-//<<<<<<< HEAD:src/client/android/app/src/main/java/com/kokonut/NCNC/Home/Tab1/Tab1Fragment.java
-import com.kokonut.NCNC.MainActivity;
-//>>>>>>> android:src/client/android/app/src/main/java/com/kokonut/NCNC/Home/Tab1Fragment.java
+import com.kokonut.NCNC.Retrofit.RealTimeWeatherContents;
+import com.kokonut.NCNC.Retrofit.RetrofitAPI;
+import com.kokonut.NCNC.Retrofit.RetrofitClient;
+import com.kokonut.NCNC.Retrofit.ScoreContents;
+
 import com.kokonut.NCNC.R;
 
 import java.io.IOException;
@@ -49,9 +38,6 @@ import java.util.Locale;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-import retrofit2.Retrofit;
-
-import static com.kokonut.NCNC.Calendar.CalendarFragment.getDate;
 
 public class Tab1Fragment extends Fragment implements ActivityCompat.OnRequestPermissionsResultCallback{
 
@@ -65,7 +51,9 @@ public class Tab1Fragment extends Fragment implements ActivityCompat.OnRequestPe
     TextView tvLocation;
 
     ViewGroup viewGroup;
-    ImageButton popupButton;
+    //ImageButton popupButton;
+    LinearLayout popupButton;
+
 
     ViewPager2 viewPager2;
     FragmentStateAdapter pagerAdapter;
@@ -92,6 +80,7 @@ public class Tab1Fragment extends Fragment implements ActivityCompat.OnRequestPe
     public View onCreateView(@Nullable LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
         viewGroup = (ViewGroup) inflater.inflate(R.layout.fragment_tab1, container, false);
+        //popupButton = viewGroup.findViewById(R.id.home_popupButton);
         popupButton = viewGroup.findViewById(R.id.home_popupButton);
 
         tvLocation = viewGroup.findViewById(R.id.tab1_tv_location);
@@ -117,6 +106,9 @@ public class Tab1Fragment extends Fragment implements ActivityCompat.OnRequestPe
         thermometer = viewGroup.findViewById(R.id.thermometer);
         rain = viewGroup.findViewById(R.id.rain);
         mask = viewGroup.findViewById(R.id.mask);
+
+
+        Log.d("팝업에서 돌아옴!! -- 탭1 ", "onCreateView: ");
 
 
         //서버 통신 - 현재 날씨
@@ -290,9 +282,7 @@ public class Tab1Fragment extends Fragment implements ActivityCompat.OnRequestPe
     }
 
     @Override
-    public void onResume(){
-        super.onResume();
-    }
+    public void onResume(){ super.onResume(); }
 
     @Override
     public void onPause(){

@@ -11,9 +11,10 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.gson.Gson;
-import com.kokonut.NCNC.Home.Retrofit.RetrofitAPI;
-import com.kokonut.NCNC.Home.Retrofit.RetrofitClient;
-import com.kokonut.NCNC.Home.Retrofit.ReviewResponse;
+
+import com.kokonut.NCNC.Retrofit.RetrofitAPI;
+import com.kokonut.NCNC.Retrofit.RetrofitClient;
+import com.kokonut.NCNC.Retrofit.ReviewResponse;
 import com.kokonut.NCNC.KakaoAdapter;
 import com.kokonut.NCNC.Map.CarWashReviewActivity;
 import com.kokonut.NCNC.R;
@@ -67,11 +68,11 @@ public class WriteReviewActivity extends AppCompatActivity {
 
     public void writeReview(String washerId, String content){
         if(!KakaoAdapter.getInstance().isLogin()){
-            Toast.makeText(getApplicationContext(),"로그인이 필요합니다.",Toast.LENGTH_SHORT);
+            Toast.makeText(getApplicationContext(),"로그인이 필요합니다.",Toast.LENGTH_SHORT).show();
             return;
         }
 
-        RetrofitAPI retrofitAPI = RetrofitClient.getClient().create(RetrofitAPI.class);
+        RetrofitAPI retrofitAPI = RetrofitClient.getInstance().getClient1().create(RetrofitAPI.class);
         String id = Long.toString(KakaoAdapter.getInstance().getUser().getId());
         HashMap<String,String> param = new HashMap<>();
         param.put("id",id);
