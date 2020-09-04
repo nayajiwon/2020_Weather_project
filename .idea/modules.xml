@@ -2,7 +2,8 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/2020_Weather_project.iml" filepath="$PROJECT_DIR$/.idea/2020_Weather_project.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/src/client/android/build.gradle/build.gradle.iml" filepath="$PROJECT_DIR$/.idea/modules/src/client/android/build.gradle/build.gradle.iml" group="secha_3/build.gradle" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/secha_3.iml" filepath="$PROJECT_DIR$/.idea/modules/secha_3.iml" group="secha_3" />
     </modules>
   </component>
 </project>

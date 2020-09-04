@@ -103,6 +103,11 @@ public class HomeFragment extends Fragment {
 
         Log.d("HomeFragment", "onCreateView: 1");
 
+
+
+
+
+
 /*
         if ( locationPermission == PermissionChecker.PERMISSION_GRANTED) {
             // 이전에 사용자가 위치 접근 권한 허용한 경우

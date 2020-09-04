@@ -15,6 +15,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.kokonut.NCNC.Retrofit.RealTimeWeatherContents;
@@ -40,7 +41,9 @@ public class Tab1Fragment extends Fragment implements ActivityCompat.OnRequestPe
     public TextView tvLocation;
 
     ViewGroup viewGroup;
-    ImageButton popupButton;
+    //ImageButton popupButton;
+    LinearLayout popupButton;
+
 
     ViewPager2 viewPager2;
     FragmentStateAdapter pagerAdapter;
@@ -67,6 +70,7 @@ public class Tab1Fragment extends Fragment implements ActivityCompat.OnRequestPe
     public View onCreateView(@Nullable LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
         viewGroup = (ViewGroup) inflater.inflate(R.layout.fragment_tab1, container, false);
+        //popupButton = viewGroup.findViewById(R.id.home_popupButton);
         popupButton = viewGroup.findViewById(R.id.home_popupButton);
 
         tvLocation = viewGroup.findViewById(R.id.tab1_tv_location);
@@ -92,6 +96,9 @@ public class Tab1Fragment extends Fragment implements ActivityCompat.OnRequestPe
         thermometer = viewGroup.findViewById(R.id.thermometer);
         rain = viewGroup.findViewById(R.id.rain);
         mask = viewGroup.findViewById(R.id.mask);
+
+
+        Log.d("팝업에서 돌아옴!! -- 탭1 ", "onCreateView: ");
 
 
         //서버 통신 - 현재 날씨
@@ -253,9 +260,7 @@ public class Tab1Fragment extends Fragment implements ActivityCompat.OnRequestPe
     }
 
     @Override
-    public void onResume(){
-        super.onResume();
-    }
+    public void onResume(){ super.onResume(); }
 
     @Override
     public void onPause(){
