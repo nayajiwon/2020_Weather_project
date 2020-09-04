@@ -1,6 +1,10 @@
 package com.kokonut.NCNC.Home.Tab1;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
+import android.graphics.Typeface;
+import android.location.Address;
+import android.location.Geocoder;
 import android.os.Bundle;
 
 import androidx.annotation.Nullable;
@@ -17,16 +21,18 @@ import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
+import com.kokonut.NCNC.GpsTracker;
 import com.kokonut.NCNC.Retrofit.RealTimeWeatherContents;
 import com.kokonut.NCNC.Retrofit.RetrofitAPI;
 import com.kokonut.NCNC.Retrofit.RetrofitClient;
 import com.kokonut.NCNC.Retrofit.ScoreContents;
-//<<<<<<< HEAD:src/client/android/app/src/main/java/com/kokonut/NCNC/Home/Tab1/Tab1Fragment.java
-//>>>>>>> android:src/client/android/app/src/main/java/com/kokonut/NCNC/Home/Tab1Fragment.java
+
 import com.kokonut.NCNC.R;
 
+import java.io.IOException;
 import java.util.Calendar;
 import java.util.List;
+import java.util.Locale;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -37,7 +43,11 @@ public class Tab1Fragment extends Fragment implements ActivityCompat.OnRequestPe
     private RetrofitAPI retrofitAPI;
     public String[] scoreList = new String[8];
 
-    public TextView tvLocation;
+    private GpsTracker gpsTracker;
+    Geocoder geocoder;
+    String str1, str2, str3;
+
+    TextView tvLocation;
 
     ViewGroup viewGroup;
     ImageButton popupButton;
@@ -211,6 +221,18 @@ public class Tab1Fragment extends Fragment implements ActivityCompat.OnRequestPe
             }
         });
 
+        gpsTracker = new GpsTracker(getContext());
+        double latitude = gpsTracker.getLatitude();
+        double longitude = gpsTracker.getLongitude();
+        GetAddress(latitude, longitude);
+        tvLocation.setText(str1+" "+str2+" "+str3);
+
+
+
+
+
+
+
 
         //'내주변세차장' viewpager 구현
         viewPager2 = (ViewPager2)viewGroup.findViewById(R.id.tab1_viewpager);
@@ -262,6 +284,11 @@ public class Tab1Fragment extends Fragment implements ActivityCompat.OnRequestPe
         super.onPause();
     }
 
+    @Override
+    public void onDestroy(){
+        super.onDestroy();
+    }
+
 
     public static String getDate(int weekday){
         java.text.SimpleDateFormat format = new java.text.SimpleDateFormat("d");
@@ -289,8 +316,26 @@ public class Tab1Fragment extends Fragment implements ActivityCompat.OnRequestPe
         return aqiResult;
     }
 
-    @Override
-    public void onDestroy(){
-        super.onDestroy();
+    //위도,경도 -> 시,구,동 변환
+    private void GetAddress(Double latitude, Double longitude){
+        List<Address> address = null;
+        geocoder = new Geocoder(getActivity(), Locale.getDefault());
+
+        try {
+            address = geocoder.getFromLocation(latitude, longitude, 1);
+        }
+        catch(IOException e){
+            e.printStackTrace();
+            Log.d("getaddress","input/output error");
+        }
+
+        if(!address.isEmpty()){
+            str1 = address.get(0).getLocality(); //시
+            //str1 = address.get(0).getAdminArea(); //시
+            str2 = address.get(0).getSubLocality(); //구
+            //str2 = address.get(0).getSubAdminArea(); //구
+            str3 = address.get(0).getThoroughfare(); //동
+            Log.d("Home_GetAddress", str1+" "+str2+" "+str3);
+        }
     }
 }

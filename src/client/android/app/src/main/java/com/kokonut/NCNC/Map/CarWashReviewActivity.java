@@ -66,7 +66,7 @@ public class CarWashReviewActivity extends AppCompatActivity {
                 .baseUrl(baseUrl)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
-        RetrofitAPI retrofitAPI= retrofit.create(RetrofitAPI.class);
+        RetrofitAPI retrofitAPI = retrofit.create(RetrofitAPI.class);
         Call<ReviewContents> call = retrofitAPI.fetchReview(wash_id);
         call.enqueue(new Callback<ReviewContents>() {
             @Override
@@ -100,8 +100,8 @@ public class CarWashReviewActivity extends AppCompatActivity {
         ivWriteReview.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(!KakaoAdapter.getInstance().isLogin()){
-                    Toast.makeText(getApplicationContext(),"로그인이 필요합니다.",Toast.LENGTH_SHORT).show();
+                if (!KakaoAdapter.getInstance().isLogin()) {
+                    Toast.makeText(getApplicationContext(), "로그인이 필요합니다.", Toast.LENGTH_SHORT).show();
                     return;
                 }
                 Intent intent = new Intent(getApplicationContext(), WriteReviewActivity.class);
@@ -117,12 +117,13 @@ public class CarWashReviewActivity extends AppCompatActivity {
     }
 
 
-    void initView(){
+    void initView() {
         ivBack = findViewById(R.id.car_wash_review_back_arrow);
         ivWriteReview = findViewById(R.id.car_wash_review_write_button);
     }
 
-
+    public void fetchReview(String washerId) {
+        RetrofitAPI retrofitAPI = RetrofitClient.getInstance().getClient1().create(RetrofitAPI.class);
 //    public void fetchReview(String washerId){
 //        RetrofitAPI retrofitAPI = RetrofitClient.getClient().create(RetrofitAPI.class);
 //
@@ -139,4 +140,6 @@ public class CarWashReviewActivity extends AppCompatActivity {
 //            }
 //        });
 //    }
+
+    }
 }

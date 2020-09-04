@@ -107,7 +107,6 @@ public class MainActivity extends AppCompatActivity implements Calendar_PopupFra
 
 
         //서버 통신 - 세차점수
-
         retrofitAPI = RetrofitClient.getInstance().getClient1().create(RetrofitAPI.class);
         retrofitAPI.fetchScore().enqueue(new Callback<ScoreContents>() {
             @Override
