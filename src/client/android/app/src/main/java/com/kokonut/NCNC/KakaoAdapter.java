@@ -111,7 +111,7 @@ public class KakaoAdapter {
     }
 
     private void register_server(){
-        RetrofitAPI retrofitAPI = RetrofitClient.getClient().create(RetrofitAPI.class);
+        RetrofitAPI retrofitAPI = RetrofitClient.getInstance().getClient1().create(RetrofitAPI.class);
         String name = this.user.getKakaoAccount().getProfile().getNickname();
         String id = Long.toString(this.user.getId());
 

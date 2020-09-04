@@ -1,11 +1,6 @@
 package com.kokonut.NCNC.Home.Retrofit;
 
 import android.content.Context;
-//<<<<<<< HEAD
-//=======
-import android.util.Log;
-//>>>>>>> android
-
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.kokonut.NCNC.KakaoAdapter;
@@ -13,7 +8,6 @@ import com.kokonut.NCNC.MainActivity;
 
 import java.util.HashMap;
 
-//<<<<<<< HEAD
 import java.io.IOException;
 import java.util.concurrent.TimeUnit;
 
@@ -21,14 +15,11 @@ import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.logging.HttpLoggingInterceptor;
-//=======
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
-//>>>>>>> android
+
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 import retrofit2.converter.simplexml.SimpleXmlConverterFactory;
+//import retrofit2.converter.simplexml.SimpleXmlConverterFactory;
 
 public class RetrofitClient {
     public static final String BaseURL1 = "http://3.131.33.128:8000/";

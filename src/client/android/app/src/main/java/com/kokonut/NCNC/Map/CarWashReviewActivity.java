@@ -70,7 +70,7 @@ public class CarWashReviewActivity extends AppCompatActivity {
     }
 
     public void fetchReview(String washerId){
-        RetrofitAPI retrofitAPI = RetrofitClient.getClient().create(RetrofitAPI.class);
+        RetrofitAPI retrofitAPI = RetrofitClient.getInstance().getClient1().create(RetrofitAPI.class);
 
         retrofitAPI.fetchReview(washerId).enqueue(new Callback<ReviewContents>() {
             @Override
