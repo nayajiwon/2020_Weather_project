@@ -11,15 +11,15 @@ import com.kakao.sdk.common.KakaoSdk;
 import com.kakao.sdk.user.UserApiClient;
 import com.kakao.sdk.user.model.AccessTokenInfo;
 import com.kakao.sdk.user.model.User;
-import com.kokonut.NCNC.Home.Retrofit.RetrofitAPI;
-import com.kokonut.NCNC.Home.Retrofit.RetrofitClient;
-import com.kokonut.NCNC.Home.Retrofit.ReviewResponse;
-import com.kokonut.NCNC.Home.Retrofit.ScoreContents;
-import com.kokonut.NCNC.Home.Retrofit.UserContents;
+
+import com.kokonut.NCNC.Retrofit.RetrofitAPI;
+import com.kokonut.NCNC.Retrofit.RetrofitClient;
+import com.kokonut.NCNC.Retrofit.ReviewResponse;
+import com.kokonut.NCNC.Retrofit.ScoreContents;
+import com.kokonut.NCNC.Retrofit.UserContents;
 
 import java.util.HashMap;
 import java.util.List;
-
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -107,7 +107,6 @@ public class KakaoAdapter {
             }
             return null;
         }));
-
     }
 
     private void register_server(){
@@ -123,8 +122,7 @@ public class KakaoAdapter {
             @Override
             public void onResponse(Call<UserContents> call, Response<UserContents> response) {
                 Log.d("user_check", "Success: "+new Gson().toJson(response.body().getStatus()));
-
-                }
+            }
 
             @Override
             public void onFailure(Call<UserContents> call, Throwable t) {

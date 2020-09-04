@@ -1,4 +1,4 @@
-package com.kokonut.NCNC.Home.Retrofit;
+package com.kokonut.NCNC.Retrofit;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
@@ -22,6 +22,9 @@ public class CarWashContents {
     @SerializedName("address")
     @Expose
     private String address;
+    @SerializedName("phone")
+    @Expose
+    private String phone;
     @SerializedName("city")
     @Expose
     private String city;
@@ -31,21 +34,15 @@ public class CarWashContents {
     @SerializedName("dong")
     @Expose
     private String dong;
-    @SerializedName("phone")
-    @Expose
-    private String phone;
-    @SerializedName("open_week")
-    @Expose
-    private String openWeek;
     @SerializedName("open_sat")
     @Expose
-    private String openSat;
+    private String open_sat;
     @SerializedName("open_sun")
     @Expose
-    private String openSun;
-    @SerializedName("wash")
+    private String open_sun;
+    @SerializedName("open_week")
     @Expose
-    private List<String> wash = null;
+    private String open_week;
 
     public Integer getId() {
         return id;
@@ -87,6 +84,14 @@ public class CarWashContents {
         this.address = address;
     }
 
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+
     public String getCity() {
         return city;
     }
@@ -111,44 +116,28 @@ public class CarWashContents {
         this.dong = dong;
     }
 
-    public String getPhone() {
-        return phone;
-    }
-
-    public void setPhone(String phone) {
-        this.phone = phone;
-    }
-
-    public String getOpenWeek() {
-        return openWeek;
-    }
-
-    public void setOpenWeek(String openWeek) {
-        this.openWeek = openWeek;
-    }
-
     public String getOpenSat() {
-        return openSat;
+        return open_sat;
     }
 
-    public void setOpenSat(String openSat) {
-        this.openSat = openSat;
+    public void setOpenSat(String open_sat) {
+        this.open_sat = open_sat;
     }
 
     public String getOpenSun() {
-        return openSun;
+        return open_sun;
     }
 
-    public void setOpenSun(String openSun) {
-        this.openSun = openSun;
+    public void setOpenSun(String open_sun) {
+        this.open_sun = open_sun;
     }
 
-    public List<String> getWash() {
-        return wash;
+    public String getOpenWeek() {
+        return open_week;
     }
 
-    public void setWash(List<String> wash) {
-        this.wash = wash;
+    public void setOpenWeek(String open_week) {
+        this.open_week = open_week;
     }
 
 }

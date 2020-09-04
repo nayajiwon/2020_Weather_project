@@ -1,4 +1,4 @@
-package com.kokonut.NCNC.Home.Retrofit;
+package com.kokonut.NCNC.Retrofit;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;

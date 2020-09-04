@@ -1,14 +1,16 @@
-package com.kokonut.NCNC.Home.Retrofit;
+package com.kokonut.NCNC.Retrofit;
+
+import retrofit2.Retrofit;
 
 public class Location2Contents {
-    private SiGunGuListResponse SiGunGuListResponse;
+    private Location2Contents.SiGunGuListResponse SiGunGuListResponse;
 
-    public SiGunGuListResponse getSiGunGuListResponse ()
+    public Location2Contents.SiGunGuListResponse getSiGunGuListResponse ()
     {
         return SiGunGuListResponse;
     }
 
-    public void setSiGunGuListResponse (SiGunGuListResponse SiGunGuListResponse)
+    public void setSiGunGuListResponse (Location2Contents.SiGunGuListResponse SiGunGuListResponse)
     {
         this.SiGunGuListResponse = SiGunGuListResponse;
     }
@@ -21,28 +23,28 @@ public class Location2Contents {
 
     public class SiGunGuListResponse
     {
-        private CmmMsgHeader cmmMsgHeader;
+        private Location2Contents.CmmMsgHeader cmmMsgHeader;
 
-        private SiGunGuList[] siGunGuList;
+        private Location2Contents.SiGunGuList[] siGunGuList;
 
         private String[] content;
 
-        public CmmMsgHeader getCmmMsgHeader ()
+        public Location2Contents.CmmMsgHeader getCmmMsgHeader ()
         {
             return cmmMsgHeader;
         }
 
-        public void setCmmMsgHeader (CmmMsgHeader cmmMsgHeader)
+        public void setCmmMsgHeader (Location2Contents.CmmMsgHeader cmmMsgHeader)
         {
             this.cmmMsgHeader = cmmMsgHeader;
         }
 
-        public SiGunGuList[] getSiGunGuList ()
+        public Location2Contents.SiGunGuList[] getSiGunGuList ()
         {
             return siGunGuList;
         }
 
-        public void setSiGunGuList (SiGunGuList[] siGunGuList)
+        public void setSiGunGuList (Location2Contents.SiGunGuList[] siGunGuList)
         {
             this.siGunGuList = siGunGuList;
         }
@@ -166,3 +168,4 @@ public class Location2Contents {
         }
     }
 }
+

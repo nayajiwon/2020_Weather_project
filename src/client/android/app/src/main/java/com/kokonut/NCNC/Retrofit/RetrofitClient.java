@@ -1,4 +1,4 @@
-package com.kokonut.NCNC.Home.Retrofit;
+package com.kokonut.NCNC.Retrofit;
 
 import android.content.Context;
 import com.google.gson.Gson;
@@ -20,6 +20,7 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 import retrofit2.converter.simplexml.SimpleXmlConverterFactory;
 //import retrofit2.converter.simplexml.SimpleXmlConverterFactory;
+
 
 public class RetrofitClient {
     public static final String BaseURL1 = "http://3.131.33.128:8000/";

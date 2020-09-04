@@ -35,11 +35,13 @@ import com.kokonut.NCNC.Calendar.CalendarDBHelper;
 import com.kokonut.NCNC.Calendar.CalendarFragment;
 import com.kokonut.NCNC.Calendar.Calendar_PopupFragment;
 import com.kokonut.NCNC.Home.HomeFragment;
-import com.kokonut.NCNC.Home.Retrofit.RetrofitAPI;
-import com.kokonut.NCNC.Home.Retrofit.RetrofitClient;
-import com.kokonut.NCNC.Home.Retrofit.ReviewContents;
-import com.kokonut.NCNC.Home.Retrofit.ScoreContents;
-import com.kokonut.NCNC.Home.Retrofit.WeatherContents;
+
+import com.kokonut.NCNC.Retrofit.RetrofitAPI;
+import com.kokonut.NCNC.Retrofit.RetrofitClient;
+import com.kokonut.NCNC.Retrofit.ReviewContents;
+import com.kokonut.NCNC.Retrofit.ScoreContents;
+import com.kokonut.NCNC.Retrofit.WeatherContents;
+
 import com.kokonut.NCNC.Map.MapFragment;
 import com.kokonut.NCNC.MyPage.AlarmActivity;
 import com.kokonut.NCNC.MyPage.MypageFragment;
