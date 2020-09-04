@@ -22,7 +22,10 @@ import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.google.gson.Gson;
 import com.kokonut.NCNC.GpsTracker;
+import com.kokonut.NCNC.Home.CarWashInfoData;
+import com.kokonut.NCNC.Retrofit.CarWashContents;
 import com.kokonut.NCNC.Retrofit.RealTimeWeatherContents;
 import com.kokonut.NCNC.Retrofit.RetrofitAPI;
 import com.kokonut.NCNC.Retrofit.RetrofitClient;
@@ -31,7 +34,9 @@ import com.kokonut.NCNC.Retrofit.ScoreContents;
 import com.kokonut.NCNC.R;
 
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.Calendar;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Locale;
 
@@ -44,8 +49,11 @@ public class Tab1Fragment extends Fragment implements ActivityCompat.OnRequestPe
     private RetrofitAPI retrofitAPI;
     public String[] scoreList = new String[8];
 
+    private CarWashInfoData[] carWashInfoData = new CarWashInfoData[29];
+
     private GpsTracker gpsTracker;
     Geocoder geocoder;
+    public Double myLat, myLon;
     String str1, str2, str3;
 
     TextView tvLocation;
@@ -228,11 +236,52 @@ public class Tab1Fragment extends Fragment implements ActivityCompat.OnRequestPe
             }
         });
 
+        //현재 위치
         gpsTracker = new GpsTracker(getContext());
-        double latitude = gpsTracker.getLatitude();
-        double longitude = gpsTracker.getLongitude();
-        GetAddress(latitude, longitude);
+        myLat = gpsTracker.getLatitude();
+        myLon = gpsTracker.getLongitude();
+        GetAddress(myLat, myLon);
         tvLocation.setText(str1+" "+str2+" "+str3);
+
+        //서버 통신 - 세차장 정보 리스트
+        carWashInfoData = new CarWashInfoData[29];
+        retrofitAPI.fetchCarWash().enqueue(new Callback<List<CarWashContents>>() {
+            @Override
+            public void onResponse(Call<List<CarWashContents>> call, Response<List<CarWashContents>> response) {
+                for(int i=0; i<carWashInfoData.length; i++){
+                   carWashInfoData[i] = new CarWashInfoData(response.body().get(i).getName(), response.body().get(i).getAddress(),
+                            response.body().get(i).getPhone(), response.body().get(i).getCity(), response.body().get(i).getDistrict(),
+                            response.body().get(i).getDong(), response.body().get(i).getOpenSat(), response.body().get(i).getOpenSun(),
+                            response.body().get(i).getOpenWeek(), makeDistance(response.body().get(i).getLat(), response.body().get(i).getLon()),
+                            response.body().get(i).getWash());
+
+
+                }
+
+
+                Arrays.sort(carWashInfoData);
+
+                for(int i=0; i<carWashInfoData.length; i++){
+                    System.out.println(new Gson().toJson(carWashInfoData[i]));
+                }
+
+/*
+                for(int i=0; i<carWashInfoData.length; i++){
+                    System.out.println(carWashInfoData[i].getDistance());
+                } */
+
+            }
+
+
+
+            @Override
+            public void onFailure(Call<List<CarWashContents>> call, Throwable t) {
+                Log.e("Retrofit_CarWash", "failure: "+t.toString());
+            }
+        });
+
+
+
 
 
 
@@ -335,12 +384,21 @@ public class Tab1Fragment extends Fragment implements ActivityCompat.OnRequestPe
         }
 
         if(!address.isEmpty()){
-            str1 = address.get(0).getLocality(); //시
-            //str1 = address.get(0).getAdminArea(); //시
+            str1 = address.get(0).getLocality(); //시 - 서울시
+            //str1 = address.get(0).getAdminArea(); //시 - 서울특별시
             str2 = address.get(0).getSubLocality(); //구
             //str2 = address.get(0).getSubAdminArea(); //구
             str3 = address.get(0).getThoroughfare(); //동
             Log.d("Home_GetAddress", str1+" "+str2+" "+str3);
         }
+    }
+
+    //현재 내위치~세차장 위치 거리
+    private double makeDistance(double carwashLat, double carwashLon){
+        double d = 6371 * Math.acos((Math.cos(Math.toRadians(myLat))*Math.cos(Math.toRadians(carwashLat))*
+                Math.cos(Math.toRadians(carwashLon)-Math.toRadians(myLon))+Math.sin(Math.toRadians(myLat))
+                *Math.sin(Math.toRadians(carwashLat))));
+
+        return d;
     }
 }
