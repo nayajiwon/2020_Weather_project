@@ -91,7 +91,7 @@ public class MainActivity extends AppCompatActivity implements Calendar_PopupFra
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         kakaoAdapter = KakaoAdapter.getInstance(getApplicationContext());
-        kakaoAdapter.kakaoLogin();
+        //kakaoAdapter.kakaoLogin();
         viewPager2 = findViewById(R.id.home_viewpager2);
         tabLayout = findViewById(R.id.home_tablayout);
         bottomNavigationBar = findViewById(R.id.bottom_navigation_bar);
