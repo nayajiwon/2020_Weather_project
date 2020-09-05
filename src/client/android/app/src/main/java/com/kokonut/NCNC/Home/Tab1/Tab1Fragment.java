@@ -23,7 +23,6 @@ import android.widget.TextView;
 import com.kokonut.NCNC.GpsTracker;
 import com.kokonut.NCNC.Home.HomeContract;
 import com.kokonut.NCNC.Home.HomeDBHelper;
-import com.kokonut.NCNC.Home.Tab1_PopupFragment;
 import com.kokonut.NCNC.Retrofit.RealTimeWeatherContents;
 import com.kokonut.NCNC.Retrofit.RetrofitAPI;
 import com.kokonut.NCNC.Retrofit.RetrofitClient;
