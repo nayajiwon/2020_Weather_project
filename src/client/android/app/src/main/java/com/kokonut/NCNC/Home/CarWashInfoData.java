@@ -2,9 +2,10 @@ package com.kokonut.NCNC.Home;
 
 import org.jetbrains.annotations.NotNull;
 
+import java.io.Serializable;
 import java.util.List;
 
-public class CarWashInfoData implements Comparable<CarWashInfoData>{
+public class CarWashInfoData implements Comparable<CarWashInfoData>, Serializable {
     //private Integer id;
     private String name;
     //private Double lat;
@@ -18,8 +19,9 @@ public class CarWashInfoData implements Comparable<CarWashInfoData>{
     private String open_sun;
     private String open_week;
     private Double distance;
-    private List<String> wash = null;
-
+    private String wash;
+    //private List<String> wash = null;
+    //private String opentime;
 
 
 /*
@@ -129,7 +131,15 @@ public class CarWashInfoData implements Comparable<CarWashInfoData>{
         this.distance = distance;
     }
 
-    public List<String> getWash() {
+    public String getWash(){
+        return wash;
+    }
+
+    public void setWash(String wash){
+        this.wash = wash;
+    }
+
+    /*public List<String> getWash() {
         return wash;
     }
 
@@ -137,9 +147,11 @@ public class CarWashInfoData implements Comparable<CarWashInfoData>{
         this.wash = wash;
     }
 
+     */
+
     public CarWashInfoData(String name, String address, String phone, String city,
                            String district, String dong, String open_sat, String open_sun,
-                           String open_week, Double distance, List<String> wash){
+                           String open_week, Double distance, String wash){
         this.name = name;
         this.address = address;
         this.phone = phone;
