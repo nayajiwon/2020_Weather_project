@@ -7,6 +7,7 @@ import android.content.pm.PackageManager;
 import android.graphics.Typeface;
 import android.location.Address;
 import android.location.Geocoder;
+import android.os.AsyncTask;
 import android.os.Bundle;
 
 import androidx.annotation.Nullable;
@@ -54,6 +55,7 @@ import java.util.Locale;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+import retrofit2.Retrofit;
 
 public class Tab1Fragment extends Fragment implements ActivityCompat.OnRequestPermissionsResultCallback{
 
@@ -68,8 +70,8 @@ public class Tab1Fragment extends Fragment implements ActivityCompat.OnRequestPe
 
     public CarWashInfoData[] carWashInfoData = new CarWashInfoData[29];
     public ArrayList<CarWashInfoData> carWashInfoData1;
-
-
+    private List<CarWashContents> carWashContentsList;
+    public String intentData;
 
     private GpsTracker gpsTracker;
     Geocoder geocoder;
@@ -141,6 +143,44 @@ public class Tab1Fragment extends Fragment implements ActivityCompat.OnRequestPe
         mask = viewGroup.findViewById(R.id.mask);
 
         testButton = viewGroup .findViewById(R.id.test);
+
+        //현재 위치
+        gpsTracker = new GpsTracker(getContext());
+        myLat = gpsTracker.getLatitude();
+        myLon = gpsTracker.getLongitude();
+        GetAddress(myLat, myLon);
+        tvLocation.setText(str1+" "+str2+" "+str3);
+
+        new AsyncTask<Void, Void, String>(){
+
+            @Override
+            protected String doInBackground(Void... params) {
+                retrofitAPI = RetrofitClient.getInstance().getClient1().create(RetrofitAPI.class);
+                Call<List<CarWashContents>> call = retrofitAPI.fetchCarWash();
+
+                try {
+                    carWashContentsList = call.execute().body();
+                    carWashInfoData1 = new ArrayList<>();
+                    for (int i = 0; i < 29; i++) {
+                        carWashInfoData1.add(new CarWashInfoData(carWashContentsList.get(i).getName(), carWashContentsList.get(i).getAddress(),
+                                carWashContentsList.get(i).getPhone(), carWashContentsList.get(i).getCity(), carWashContentsList.get(i).getDistrict(),
+                                carWashContentsList.get(i).getDong(), carWashContentsList.get(i).getOpenSat(), carWashContentsList.get(i).getOpenSun(),
+                                carWashContentsList.get(i).getOpenWeek(), makeDistance(carWashContentsList.get(i).getLat(), carWashContentsList.get(i).getLon()),
+                                carWashContentsList.get(i).getWash().toString()));
+                    }
+                    Collections.sort(carWashInfoData1);
+
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                return null;
+            }
+            @Override
+            protected void onPostExecute(String s){
+                super.onPostExecute(s);
+            }
+        }.execute();
+
 
 
         Log.d("팝업에서 돌아옴!! -- 탭1 ", "onCreateView: ");
@@ -263,16 +303,11 @@ public class Tab1Fragment extends Fragment implements ActivityCompat.OnRequestPe
             }
         });
 
-        //현재 위치
-        gpsTracker = new GpsTracker(getContext());
-        myLat = gpsTracker.getLatitude();
-        myLon = gpsTracker.getLongitude();
-        GetAddress(myLat, myLon);
-        tvLocation.setText(str1+" "+str2+" "+str3);
+
 
         //서버 통신 - 세차장 정보 리스트
         //carWashInfoData = new CarWashInfoData[29];
-
+/*
         retrofitAPI.fetchCarWash().enqueue(new Callback<List<CarWashContents>>() {
             @Override
             public void onResponse(Call<List<CarWashContents>> call, Response<List<CarWashContents>> response) {
@@ -298,11 +333,6 @@ public class Tab1Fragment extends Fragment implements ActivityCompat.OnRequestPe
 
                 Arrays.sort(carWashInfoData);
 
-                /*
-                for(int i=0; i<carWashInfoData.length; i++){
-                    System.out.println(new Gson().toJson(carWashInfoData[i]));
-                }
-                 */
 
             }
             @Override
@@ -310,6 +340,7 @@ public class Tab1Fragment extends Fragment implements ActivityCompat.OnRequestPe
                 Log.e("Retrofit_CarWash", "failure: "+t.toString());
             }
         });
+*/
 
 
         //'내주변세차장' viewpager 구현
@@ -354,13 +385,13 @@ public class Tab1Fragment extends Fragment implements ActivityCompat.OnRequestPe
             public void onClick(View view) {
                 //Log.d("test", new Gson().toJson(carWashInfoData[0]));
                 Intent intent = new Intent(getActivity(), Tab1_CarWashList.class);
-                //intent.putStringArrayListExtra("test", (ArrayList<String>)carWashInfoData1);
 
                 intent.putExtra("carwashinfodata", (Serializable)carWashInfoData1);
                 if((Serializable)carWashInfoData1 != null){
                     Log.d("!!!!!!!!!!!!", "보내는 건 성공");
                 }
                 else Log.d("!!!!!!!!!!!!", "보내기 실패");
+
 
 
                 if(ContextCompat.checkSelfPermission(getContext(),

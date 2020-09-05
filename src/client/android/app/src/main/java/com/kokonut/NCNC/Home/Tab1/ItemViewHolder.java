@@ -16,7 +16,7 @@ public class ItemViewHolder extends RecyclerView.ViewHolder {
     TextView name;
     TextView address;
     TextView wash;
-    TextView time;
+    TextView time1, time2, time3;
 
     public ItemViewHolder(@NonNull View itemView) {
         super(itemView);
@@ -25,7 +25,9 @@ public class ItemViewHolder extends RecyclerView.ViewHolder {
         name = itemView.findViewById(R.id.carwashlist_name);
         address = itemView.findViewById(R.id.carwashlist_address);
         wash = itemView.findViewById(R.id.carwashlist_wash);
-        time = itemView.findViewById(R.id.carwashlist_time);
+        time1 = itemView.findViewById(R.id.carwashlist_time1);
+        time2 = itemView.findViewById(R.id.carwashlist_time2);
+        time3 = itemView.findViewById(R.id.carwashlist_time3);
 
     }
 }

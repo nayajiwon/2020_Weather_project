@@ -80,8 +80,6 @@ public class Tab1_PopupFragment extends DialogFragment {
 
         initDB(); //db 로 seekbar 초기화
 
-
-        //final SeekBar seekBar1 = view.findViewById(R.id.home_popup_seekBar1);
         //seekBar1.setProgress(lastValue); 마지막으로 설정한 값 기억
         //seekBar1.incrementProgressBy(1); 1씩 증가
         seekBar1.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
@@ -105,7 +103,6 @@ public class Tab1_PopupFragment extends DialogFragment {
             }
         });
 
-        //final SeekBar seekBar2 = view.findViewById(R.id.home_popup_seekBar2);
         seekBar2.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekbar2, int progress, boolean fromUser) {
@@ -122,7 +119,6 @@ public class Tab1_PopupFragment extends DialogFragment {
             public void onStopTrackingTouch(SeekBar seekbar2) {}
         });
 
-        //final SeekBar seekBar3 = view.findViewById(R.id.home_popup_seekBar3);
         seekBar3.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekbar3, int progress, boolean fromUser) {
@@ -162,12 +158,6 @@ public class Tab1_PopupFragment extends DialogFragment {
 
                 HomedbHelper.insertRecord(temp, rain, dust); //color 안씀
                 getDialog().dismiss();
-                /*FragmentManager manager = getFragmentManager();
-                Fragment prev = manager.findFragmentByTag("tab1");
-                if(prev!=null){
-                    DialogFragment dialogfragment = (DialogFragment) prev;
-                    dialogfragment.dismiss();
-                }*/
             }
         });
 
@@ -225,9 +215,7 @@ public class Tab1_PopupFragment extends DialogFragment {
                     dust = cursor.getInt(cursor.getColumnIndexOrThrow(HomeContract.homeEntry.COLUMN_DUST));
 
                     Log.d("캬캬컄캬캬", "onClick: "+temp);
-
                     Log.d("캬캬컄캬캬", "onClick: "+rain);
-
                     Log.d("캬캬컄캬캬", "onClick: "+dust);
                 }
 
@@ -240,7 +228,6 @@ public class Tab1_PopupFragment extends DialogFragment {
 
 
         setCancelable(false); //popup에서 여백을 만져도 꺼지지 않게 함
-
         return view;
     }
     private void initDB() {

@@ -6,7 +6,8 @@
     android:layout_height="match_parent"
     tools:context=".Home.Tab1.Tab1Fragment"
     android:orientation="vertical"
-    android:id="@+id/tab1_layout">
+    android:id="@+id/tab1_layout"
+    android:background="@color/color_white">
 
 
     <RelativeLayout
@@ -36,7 +37,8 @@
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/home_popupButton">
+                android:id="@+id/home_popupButton"
+                android:layout_alignParentEnd="true">
 
                 <TextView
                     android:id="@+id/text2"
@@ -396,14 +398,13 @@
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:gravity="center">
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="5dp"
+        android:orientation="horizontal">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:layout_marginBottom="5dp"
             android:layout_marginLeft="30dp"
             android:text="내 위치 주변 세차장"
             android:textSize="16sp"
@@ -413,7 +414,12 @@
         <Button
             android:id="@+id/test"
             android:layout_width="wrap_content"
-            android:layout_height="30dp"/>
+            android:layout_height="20dp"
+            android:text="더보기"
+            android:fontFamily="@font/ns_regular"
+            android:textSize="12dp"
+            android:background="@color/color_white"
+            android:layout_gravity="center_vertical"/>
 
 
     </LinearLayout>
