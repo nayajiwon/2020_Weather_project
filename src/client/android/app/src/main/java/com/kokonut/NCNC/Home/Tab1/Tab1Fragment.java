@@ -1,7 +1,9 @@
 package com.kokonut.NCNC.Home.Tab1;
 
+import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Typeface;
 import android.location.Address;
 import android.location.Geocoder;
@@ -14,14 +16,19 @@ import androidx.fragment.app.Fragment;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
 import androidx.viewpager2.widget.ViewPager2;
 
+import android.os.Parcelable;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.fasterxml.jackson.databind.ser.std.CollectionSerializer;
 import com.google.gson.Gson;
 import com.kokonut.NCNC.GpsTracker;
 import com.kokonut.NCNC.Home.CarWashInfoData;
@@ -34,8 +41,12 @@ import com.kokonut.NCNC.Retrofit.ScoreContents;
 import com.kokonut.NCNC.R;
 
 import java.io.IOException;
+import java.io.Serializable;
+import java.lang.reflect.Array;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Locale;
@@ -46,10 +57,19 @@ import retrofit2.Response;
 
 public class Tab1Fragment extends Fragment implements ActivityCompat.OnRequestPermissionsResultCallback{
 
+    private static final int LOCATION_PERMISSION_REQUEST_CODE = 1000;
+    private static final String[] PERMISSIONS = {
+            Manifest.permission.ACCESS_FINE_LOCATION,
+            Manifest.permission.ACCESS_COARSE_LOCATION
+    };
+
     private RetrofitAPI retrofitAPI;
     public String[] scoreList = new String[8];
 
-    private CarWashInfoData[] carWashInfoData = new CarWashInfoData[29];
+    public CarWashInfoData[] carWashInfoData = new CarWashInfoData[29];
+    public ArrayList<CarWashInfoData> carWashInfoData1;
+
+
 
     private GpsTracker gpsTracker;
     Geocoder geocoder;
@@ -65,10 +85,13 @@ public class Tab1Fragment extends Fragment implements ActivityCompat.OnRequestPe
 
     ViewPager2 viewPager2;
     FragmentStateAdapter pagerAdapter;
+    FrameLayout tab1_layout;
 
     TextView date1, date2, date3, date4, date5, date6, date7;
     TextView todayScore, score1, score2, score3, score4, score5, score6, score7, goodDay;
     TextView thermometer, rain, mask;
+
+    Button testButton;
 
     public Tab1Fragment() {
         // Required empty public constructor
@@ -87,6 +110,8 @@ public class Tab1Fragment extends Fragment implements ActivityCompat.OnRequestPe
     @Nullable @Override
     public View onCreateView(@Nullable LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
+        int permissionCheck = ContextCompat.checkSelfPermission(getActivity(), PERMISSIONS[1]);
+
         viewGroup = (ViewGroup) inflater.inflate(R.layout.fragment_tab1, container, false);
         //popupButton = viewGroup.findViewById(R.id.home_popupButton);
         popupButton = viewGroup.findViewById(R.id.home_popupButton);
@@ -114,6 +139,8 @@ public class Tab1Fragment extends Fragment implements ActivityCompat.OnRequestPe
         thermometer = viewGroup.findViewById(R.id.thermometer);
         rain = viewGroup.findViewById(R.id.rain);
         mask = viewGroup.findViewById(R.id.mask);
+
+        testButton = viewGroup .findViewById(R.id.test);
 
 
         Log.d("팝업에서 돌아옴!! -- 탭1 ", "onCreateView: ");
@@ -244,36 +271,40 @@ public class Tab1Fragment extends Fragment implements ActivityCompat.OnRequestPe
         tvLocation.setText(str1+" "+str2+" "+str3);
 
         //서버 통신 - 세차장 정보 리스트
-        carWashInfoData = new CarWashInfoData[29];
+        //carWashInfoData = new CarWashInfoData[29];
+
         retrofitAPI.fetchCarWash().enqueue(new Callback<List<CarWashContents>>() {
             @Override
             public void onResponse(Call<List<CarWashContents>> call, Response<List<CarWashContents>> response) {
+                //List<CarWashContents> alist = response.body();
+                carWashInfoData1 = new ArrayList<>();
+                for(int i=0; i<29; i++){
+                    carWashInfoData1.add(new CarWashInfoData(response.body().get(i).getName(), response.body().get(i).getAddress(),
+                            response.body().get(i).getPhone(), response.body().get(i).getCity(), response.body().get(i).getDistrict(),
+                            response.body().get(i).getDong(), response.body().get(i).getOpenSat(), response.body().get(i).getOpenSun(),
+                            response.body().get(i).getOpenWeek(), makeDistance(response.body().get(i).getLat(), response.body().get(i).getLon()),
+                            response.body().get(i).getWash().toString()));
+                }
+                Collections.sort(carWashInfoData1);
+
+                 /*
                 for(int i=0; i<carWashInfoData.length; i++){
                    carWashInfoData[i] = new CarWashInfoData(response.body().get(i).getName(), response.body().get(i).getAddress(),
                             response.body().get(i).getPhone(), response.body().get(i).getCity(), response.body().get(i).getDistrict(),
                             response.body().get(i).getDong(), response.body().get(i).getOpenSat(), response.body().get(i).getOpenSun(),
                             response.body().get(i).getOpenWeek(), makeDistance(response.body().get(i).getLat(), response.body().get(i).getLon()),
-                            response.body().get(i).getWash());
-
-
+                            response.body().get(i).getWash().toString());
                 }
-
 
                 Arrays.sort(carWashInfoData);
 
+                /*
                 for(int i=0; i<carWashInfoData.length; i++){
                     System.out.println(new Gson().toJson(carWashInfoData[i]));
                 }
-
-/*
-                for(int i=0; i<carWashInfoData.length; i++){
-                    System.out.println(carWashInfoData[i].getDistance());
-                } */
+                 */
 
             }
-
-
-
             @Override
             public void onFailure(Call<List<CarWashContents>> call, Throwable t) {
                 Log.e("Retrofit_CarWash", "failure: "+t.toString());
@@ -281,21 +312,16 @@ public class Tab1Fragment extends Fragment implements ActivityCompat.OnRequestPe
         });
 
 
-
-
-
-
-
-
-
-
-
         //'내주변세차장' viewpager 구현
-        viewPager2 = (ViewPager2)viewGroup.findViewById(R.id.tab1_viewpager);
+        viewPager2 = viewGroup.findViewById(R.id.tab1_viewpager);
         pagerAdapter = new Tab1CarWashInfo_Viewpager2Adapter(this);
         viewPager2.setAdapter(pagerAdapter);
+        viewPager2.setSaveEnabled(false);
         viewPager2.setOrientation(ViewPager2.ORIENTATION_HORIZONTAL);
         viewPager2.setOffscreenPageLimit(2);
+
+        tab1_layout = viewGroup.findViewById(R.id.tab1_framelayout);
+
 
         viewPager2.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
             @Override
@@ -321,6 +347,42 @@ public class Tab1Fragment extends Fragment implements ActivityCompat.OnRequestPe
         date5.setText(getDate(4));
         date6.setText(getDate(5));
         date7.setText(getDate(6));
+
+
+        testButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //Log.d("test", new Gson().toJson(carWashInfoData[0]));
+                Intent intent = new Intent(getActivity(), Tab1_CarWashList.class);
+                //intent.putStringArrayListExtra("test", (ArrayList<String>)carWashInfoData1);
+
+                intent.putExtra("carwashinfodata", (Serializable)carWashInfoData1);
+                if((Serializable)carWashInfoData1 != null){
+                    Log.d("!!!!!!!!!!!!", "보내는 건 성공");
+                }
+                else Log.d("!!!!!!!!!!!!", "보내기 실패");
+
+
+                if(ContextCompat.checkSelfPermission(getContext(),
+                        Manifest.permission.ACCESS_COARSE_LOCATION)!=PackageManager.PERMISSION_GRANTED){
+                    if(ActivityCompat.shouldShowRequestPermissionRationale(
+                            getActivity(), Manifest.permission.ACCESS_COARSE_LOCATION)){
+
+                        //try again to request the permission
+                    }
+                    else{
+                        // No explanation needed, we can request the permission.
+                        ActivityCompat.requestPermissions(getActivity(),
+                                new String[]{Manifest.permission.ACCESS_COARSE_LOCATION},
+                                LOCATION_PERMISSION_REQUEST_CODE);
+                    }
+                }
+                else startActivity(intent);
+
+
+            }
+        });
+
 
         return viewGroup;
         }
