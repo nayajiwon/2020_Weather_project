@@ -1,8 +1,7 @@
 package com.kokonut.NCNC.Home.Tab1;
 
 import android.annotation.SuppressLint;
-import android.content.Intent;
-import android.graphics.Typeface;
+import android.database.Cursor;
 import android.location.Address;
 import android.location.Geocoder;
 import android.os.Bundle;
@@ -18,11 +17,13 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.kokonut.NCNC.GpsTracker;
+import com.kokonut.NCNC.Home.HomeContract;
+import com.kokonut.NCNC.Home.HomeDBHelper;
+import com.kokonut.NCNC.Home.Tab1_PopupFragment;
 import com.kokonut.NCNC.Retrofit.RealTimeWeatherContents;
 import com.kokonut.NCNC.Retrofit.RetrofitAPI;
 import com.kokonut.NCNC.Retrofit.RetrofitClient;
@@ -61,6 +62,8 @@ public class Tab1Fragment extends Fragment implements ActivityCompat.OnRequestPe
     TextView date1, date2, date3, date4, date5, date6, date7;
     TextView todayScore, score1, score2, score3, score4, score5, score6, score7, goodDay;
     TextView thermometer, rain, mask;
+    HomeDBHelper HomedbHelper;
+    int getTemp, getRain, getDust;
 
     public Tab1Fragment() {
         // Required empty public constructor
@@ -106,9 +109,6 @@ public class Tab1Fragment extends Fragment implements ActivityCompat.OnRequestPe
         thermometer = viewGroup.findViewById(R.id.thermometer);
         rain = viewGroup.findViewById(R.id.rain);
         mask = viewGroup.findViewById(R.id.mask);
-
-
-        Log.d("팝업에서 돌아옴!! -- 탭1 ", "onCreateView: ");
 
 
         //서버 통신 - 현재 날씨
@@ -217,13 +217,14 @@ public class Tab1Fragment extends Fragment implements ActivityCompat.OnRequestPe
             }
         });
 
-
         //'맞춤형 세차점수 설정하기' 버튼 클릭 시
         popupButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Log.d("11111", "onCreateView: 2");
                 Tab1_PopupFragment dialog = new Tab1_PopupFragment();
+                //dialog.setTargetFragment(dialog, 1); //
+
                 dialog.show(getActivity().getSupportFragmentManager(), "tab1");
             }
         });
@@ -233,13 +234,6 @@ public class Tab1Fragment extends Fragment implements ActivityCompat.OnRequestPe
         double longitude = gpsTracker.getLongitude();
         GetAddress(latitude, longitude);
         tvLocation.setText(str1+" "+str2+" "+str3);
-
-
-
-
-
-
-
 
         //'내주변세차장' viewpager 구현
         viewPager2 = (ViewPager2)viewGroup.findViewById(R.id.tab1_viewpager);
@@ -275,6 +269,7 @@ public class Tab1Fragment extends Fragment implements ActivityCompat.OnRequestPe
 
         return viewGroup;
         }
+
 
     @Override
     public void onStart(){
@@ -343,4 +338,39 @@ public class Tab1Fragment extends Fragment implements ActivityCompat.OnRequestPe
             Log.d("Home_GetAddress", str1+" "+str2+" "+str3);
         }
     }
+
+    //interface 메소드 , 팝업으로부터 신호를 받음
+    public void startDB(int resultcode){
+        //
+        if(resultcode == 1) {
+            Log.d("전달 완료 ", "startDB: ");
+
+            HomedbHelper = HomedbHelper.getInstance(getActivity()); //dialog 데이터를 받기 위해 db 객체 생성
+
+            if(HomedbHelper == null) {
+                Log.d("tab1: 디비헬퍼가 null 임 ", "startDB: ");
+                return;
+            }
+
+            Cursor cursor = HomedbHelper.readRecordOrderByID();
+
+            int i = 0;
+            while (cursor.moveToNext()) {
+                getTemp = cursor.getInt(cursor.getColumnIndexOrThrow(HomeContract.homeEntry.COLUMN_TEMPERATURE));
+                getRain = cursor.getInt(cursor.getColumnIndexOrThrow(HomeContract.homeEntry.COLUMN_RAIN));
+                getDust = cursor.getInt(cursor.getColumnIndexOrThrow(HomeContract.homeEntry.COLUMN_DUST));
+
+                /** 수연언니! get__ 쓰면 됨!! **/
+                Log.d("전달 후 ", "onClick: "+getTemp);
+                Log.d("전달 후", "onClick: "+getRain);
+                Log.d("전달 후", "onClick: "+getDust);
+            }
+
+
+        }
+
+
+    }
+
+
 }

@@ -34,8 +34,11 @@ import com.kokonut.NCNC.Calendar.CalendarDBHelper;
 
 import com.kokonut.NCNC.Calendar.CalendarFragment;
 import com.kokonut.NCNC.Calendar.Calendar_PopupFragment;
+import com.kokonut.NCNC.Home.HomeDBHelper;
 import com.kokonut.NCNC.Home.HomeFragment;
 
+import com.kokonut.NCNC.Home.Tab1.Tab1Fragment;
+import com.kokonut.NCNC.Home.Tab1_PopupFragment;
 import com.kokonut.NCNC.Retrofit.RetrofitAPI;
 import com.kokonut.NCNC.Retrofit.RetrofitClient;
 import com.kokonut.NCNC.Retrofit.ReviewContents;
@@ -70,7 +73,10 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class MainActivity extends AppCompatActivity implements Calendar_PopupFragment.uploadDialogInterface{
+//public class MainActivity extends AppCompatActivity implements Calendar_PopupFragment.uploadDialogInterface{
+
+public class MainActivity extends AppCompatActivity implements Tab1_PopupFragment.uploadDialogInterface, Calendar_PopupFragment.uploadDialogInterface {
+
     private RetrofitAPI retrofitAPI;
     List<WeatherContents.Content> mmlist;
     public String[] scoreList = new String[8];
@@ -80,6 +86,7 @@ public class MainActivity extends AppCompatActivity implements Calendar_PopupFra
     CalendarFragment calendarFragment;
     MapFragment mapFragment;
     MypageFragment mypageFragment;
+    Tab1Fragment tab1Fragment;
     KakaoAdapter kakaoAdapter;
     BottomNavigationView bottomNavigationBar;
 
@@ -142,6 +149,7 @@ public class MainActivity extends AppCompatActivity implements Calendar_PopupFra
 
         });
 
+        tab1Fragment = new Tab1Fragment(); // interface 를 위한 선언
         homeFragment = new HomeFragment();
         calendarFragment = new CalendarFragment();
         mapFragment = new MapFragment();
@@ -199,6 +207,12 @@ public class MainActivity extends AppCompatActivity implements Calendar_PopupFra
         else if (popupResult == 4)
             Log.d("((((((TAG))))))))))))))", "senddatatoCalendarFragment: ");
             calendarFragment.removeCustomDecorator(popupResult);
+    }
+
+    @Override
+    public void senddatatoTab1Fragment() {
+        Log.d("중간 다리", "senddatatoCalendarFragment: ");
+        tab1Fragment.startDB(1);
     }
 
     public static String getKeyHash(final Context context) {

@@ -1,4 +1,4 @@
-package com.kokonut.NCNC.Home.Tab1;
+package com.kokonut.NCNC.Home;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -19,6 +19,7 @@ import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
+import com.kokonut.NCNC.Calendar.Calendar_PopupFragment;
 import com.kokonut.NCNC.Home.HomeContract;
 import com.kokonut.NCNC.Home.HomeDBHelper;
 import com.kokonut.NCNC.R;
@@ -32,6 +33,8 @@ public class Tab1_PopupFragment extends DialogFragment {
     int rain = -1, temp = -1, dust = -1;//ㅈㅇ
     SeekBar seekBar1, seekBar2, seekBar3;//ㅈㅇ
     private HomeDBHelper HomedbHelper;//ㅈㅇ
+
+    uploadDialogInterface interfaceObj;
 
 
     View view;
@@ -47,6 +50,24 @@ public class Tab1_PopupFragment extends DialogFragment {
         super.onCreate(savedInstanceState);
         //lastValue = UserConfig.getConfigInt(getActivity(), "gainvalue", 40);
     }
+
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+        try {
+            interfaceObj = (Tab1_PopupFragment.uploadDialogInterface)activity;
+        }
+        catch (ClassCastException e) {
+            throw new ClassCastException(activity.toString()
+                    + " must implement interfaceObj");
+        }
+    }
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        interfaceObj = null;
+    }
+
 
     @Nullable
     @Override
@@ -161,6 +182,8 @@ public class Tab1_PopupFragment extends DialogFragment {
                 Log.d("result값들 --'x'눌렀을 경우 ", " "+ result1 + ", "+ result2 +", "+ result3);
 
                 HomedbHelper.insertRecord(temp, rain, dust); //color 안씀
+
+
                 getDialog().dismiss();
                 /*FragmentManager manager = getFragmentManager();
                 Fragment prev = manager.findFragmentByTag("tab1");
@@ -214,6 +237,14 @@ public class Tab1_PopupFragment extends DialogFragment {
                 Log.d("result값들 --'설정' 눌렀을 경우 ", " "+ result1 + ", "+ result2 +", "+ result3);
 
                 HomedbHelper.insertRecord(getTemp, getRain, getDust); //color 안씀
+
+                if(interfaceObj != null) {
+                    Log.d("wow7", "탭1한테 데이터 보낸다");
+                    interfaceObj.senddatatoTab1Fragment();
+                }
+                else
+                    Log.d("wow7", "탭1한테 데이터 못보냄");
+
 
 
                 Cursor cursor = HomedbHelper.readRecordOrderByID();
@@ -300,7 +331,13 @@ public class Tab1_PopupFragment extends DialogFragment {
             textView3_score.setText(Integer.toString(dust));
 
         }
-
-
     }
+
+    public interface uploadDialogInterface
+    {
+        //자동으로 public 으로 선언되기 때문에 public 안써도 됨
+        void senddatatoTab1Fragment();
+    }
+
+
 }
