@@ -325,6 +325,7 @@ public class Tab1_PopupFragment extends DialogFragment {
             textView1_score.setText(Integer.toString(temp));
             textView2_score.setText(Integer.toString(rain));
             textView3_score.setText(Integer.toString(dust));
+            Log.d("TASD","test");
 
         }
     }
