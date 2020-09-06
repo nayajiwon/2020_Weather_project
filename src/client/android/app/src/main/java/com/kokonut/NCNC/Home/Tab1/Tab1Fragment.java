@@ -2,6 +2,8 @@ package com.kokonut.NCNC.Home.Tab1;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
+import android.database.Cursor;
+
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Typeface;
@@ -31,6 +33,8 @@ import android.widget.Toast;
 import com.fasterxml.jackson.databind.ser.std.CollectionSerializer;
 import com.google.gson.Gson;
 import com.kokonut.NCNC.GpsTracker;
+import com.kokonut.NCNC.Home.HomeContract;
+import com.kokonut.NCNC.Home.HomeDBHelper;
 import com.kokonut.NCNC.Home.CarWashInfoData;
 import com.kokonut.NCNC.Retrofit.CarWashContents;
 import com.kokonut.NCNC.Retrofit.RealTimeWeatherContents;
@@ -90,6 +94,8 @@ public class Tab1Fragment extends Fragment implements ActivityCompat.OnRequestPe
     TextView date1, date2, date3, date4, date5, date6, date7;
     TextView todayScore, score1, score2, score3, score4, score5, score6, score7, goodDay;
     TextView thermometer, rain, mask;
+    HomeDBHelper HomedbHelper;
+    int getTemp, getRain, getDust;
 
     Button testButton;
 
@@ -141,9 +147,6 @@ public class Tab1Fragment extends Fragment implements ActivityCompat.OnRequestPe
         mask = viewGroup.findViewById(R.id.mask);
 
         testButton = viewGroup .findViewById(R.id.test);
-
-
-        Log.d("팝업에서 돌아옴!! -- 탭1 ", "onCreateView: ");
 
 
         //서버 통신 - 현재 날씨
@@ -252,13 +255,14 @@ public class Tab1Fragment extends Fragment implements ActivityCompat.OnRequestPe
             }
         });
 
-
         //'맞춤형 세차점수 설정하기' 버튼 클릭 시
         popupButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Log.d("11111", "onCreateView: 2");
                 Tab1_PopupFragment dialog = new Tab1_PopupFragment();
+                //dialog.setTargetFragment(dialog, 1); //
+
                 dialog.show(getActivity().getSupportFragmentManager(), "tab1");
             }
         });
@@ -269,6 +273,7 @@ public class Tab1Fragment extends Fragment implements ActivityCompat.OnRequestPe
         myLon = gpsTracker.getLongitude();
         GetAddress(myLat, myLon);
         tvLocation.setText(str1+" "+str2+" "+str3);
+
 
         //서버 통신 - 세차장 정보 리스트
         //carWashInfoData = new CarWashInfoData[29];
@@ -387,6 +392,7 @@ public class Tab1Fragment extends Fragment implements ActivityCompat.OnRequestPe
         return viewGroup;
         }
 
+
     @Override
     public void onStart(){
         super.onStart();
@@ -454,6 +460,40 @@ public class Tab1Fragment extends Fragment implements ActivityCompat.OnRequestPe
             Log.d("Home_GetAddress", str1+" "+str2+" "+str3);
         }
     }
+
+    //interface 메소드 , 팝업으로부터 신호를 받음
+    public void startDB(int resultcode){
+        //
+        if(resultcode == 1) {
+            Log.d("전달 완료 ", "startDB: ");
+
+            HomedbHelper = HomedbHelper.getInstance(getActivity()); //dialog 데이터를 받기 위해 db 객체 생성
+
+            if(HomedbHelper == null) {
+                Log.d("tab1: 디비헬퍼가 null 임 ", "startDB: ");
+                return;
+            }
+
+            Cursor cursor = HomedbHelper.readRecordOrderByID();
+
+            int i = 0;
+            while (cursor.moveToNext()) {
+                getTemp = cursor.getInt(cursor.getColumnIndexOrThrow(HomeContract.homeEntry.COLUMN_TEMPERATURE));
+                getRain = cursor.getInt(cursor.getColumnIndexOrThrow(HomeContract.homeEntry.COLUMN_RAIN));
+                getDust = cursor.getInt(cursor.getColumnIndexOrThrow(HomeContract.homeEntry.COLUMN_DUST));
+
+                /** 수연언니! get__ 쓰면 됨!! **/
+                Log.d("전달 후 ", "onClick: "+getTemp);
+                Log.d("전달 후", "onClick: "+getRain);
+                Log.d("전달 후", "onClick: "+getDust);
+            }
+
+
+        }
+
+
+    }
+
 
     //현재 내위치~세차장 위치 거리
     private double makeDistance(double carwashLat, double carwashLon){

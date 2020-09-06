@@ -3,10 +3,6 @@ package com.kokonut.NCNC;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.Signature;
-import android.app.AlarmManager;
-import android.app.PendingIntent;
-import android.content.Intent;
-import android.database.Cursor;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
@@ -16,34 +12,26 @@ import android.view.ViewGroup;
 import com.google.android.material.bottomnavigation.BottomNavigationMenuView;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
-import android.os.Build;
 import android.os.Bundle;
 
-import android.widget.TextView;
-import android.widget.Toast;
 import android.content.Context;
 
 
 import com.google.gson.Gson;
-import com.gun0912.tedpermission.PermissionListener;
-import com.gun0912.tedpermission.TedPermission;
 import com.google.android.material.tabs.TabLayout;
-
-import com.google.gson.Gson;
-import com.kokonut.NCNC.Calendar.CalendarDBHelper;
 
 import com.kokonut.NCNC.Calendar.CalendarFragment;
 import com.kokonut.NCNC.Calendar.Calendar_PopupFragment;
 import com.kokonut.NCNC.Home.HomeFragment;
 
+import com.kokonut.NCNC.Home.Tab1.Tab1Fragment;
+import com.kokonut.NCNC.Home.Tab1.Tab1_PopupFragment;
 import com.kokonut.NCNC.Retrofit.RetrofitAPI;
 import com.kokonut.NCNC.Retrofit.RetrofitClient;
-import com.kokonut.NCNC.Retrofit.ReviewContents;
 import com.kokonut.NCNC.Retrofit.ScoreContents;
 import com.kokonut.NCNC.Retrofit.WeatherContents;
 
 import com.kokonut.NCNC.Map.MapFragment;
-import com.kokonut.NCNC.MyPage.AlarmActivity;
 import com.kokonut.NCNC.MyPage.MypageFragment;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -51,26 +39,20 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import androidx.fragment.app.Fragment;
 
 import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
 import androidx.viewpager2.widget.ViewPager2;
 
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
-
-import javax.xml.transform.Result;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class MainActivity extends AppCompatActivity implements Calendar_PopupFragment.uploadDialogInterface{
+//public class MainActivity extends AppCompatActivity implements Calendar_PopupFragment.uploadDialogInterface{
+
+public class MainActivity extends AppCompatActivity implements Tab1_PopupFragment.uploadDialogInterface, Calendar_PopupFragment.uploadDialogInterface {
+
     private RetrofitAPI retrofitAPI;
     List<WeatherContents.Content> mmlist;
     public String[] scoreList = new String[8];
@@ -80,6 +62,7 @@ public class MainActivity extends AppCompatActivity implements Calendar_PopupFra
     CalendarFragment calendarFragment;
     MapFragment mapFragment;
     MypageFragment mypageFragment;
+    Tab1Fragment tab1Fragment;
     KakaoAdapter kakaoAdapter;
     BottomNavigationView bottomNavigationBar;
 
@@ -142,6 +125,7 @@ public class MainActivity extends AppCompatActivity implements Calendar_PopupFra
 
         });
 
+        tab1Fragment = new Tab1Fragment(); // interface 를 위한 선언
         homeFragment = new HomeFragment();
         calendarFragment = new CalendarFragment();
         mapFragment = new MapFragment();
@@ -199,6 +183,12 @@ public class MainActivity extends AppCompatActivity implements Calendar_PopupFra
         else if (popupResult == 4)
             Log.d("((((((TAG))))))))))))))", "senddatatoCalendarFragment: ");
             calendarFragment.removeCustomDecorator(popupResult);
+    }
+
+    @Override
+    public void senddatatoTab1Fragment() {
+        Log.d("중간 다리", "senddatatoCalendarFragment: ");
+        tab1Fragment.startDB(1);
     }
 
     public static String getKeyHash(final Context context) {
