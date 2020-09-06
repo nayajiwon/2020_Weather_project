@@ -1,52 +1,30 @@
-package com.kokonut.NCNC.Retrofit;
+package com.kokonut.NCNC.Home;
 
-import com.google.gson.annotations.Expose;
-import com.google.gson.annotations.SerializedName;
+import org.jetbrains.annotations.NotNull;
 
+import java.io.Serializable;
 import java.util.List;
 
-public class CarWashContents {
-
-    @SerializedName("id")
-    @Expose
-    private Integer id;
-    @SerializedName("name")
-    @Expose
+public class CarWashInfoData implements Comparable<CarWashInfoData>, Serializable {
+    //private Integer id;
     private String name;
-    @SerializedName("lat")
-    @Expose
-    private Double lat;
-    @SerializedName("lon")
-    @Expose
-    private Double lon;
-    @SerializedName("address")
-    @Expose
+    //private Double lat;
+    //private Double lon;
     private String address;
-    @SerializedName("phone")
-    @Expose
     private String phone;
-    @SerializedName("city")
-    @Expose
     private String city;
-    @SerializedName("district")
-    @Expose
     private String district;
-    @SerializedName("dong")
-    @Expose
     private String dong;
-    @SerializedName("open_sat")
-    @Expose
     private String open_sat;
-    @SerializedName("open_sun")
-    @Expose
     private String open_sun;
-    @SerializedName("open_week")
-    @Expose
     private String open_week;
-    @SerializedName("wash")
-    @Expose
-    private List<String> wash = null;
+    private Double distance;
+    private String wash;
+    //private List<String> wash = null;
+    //private String opentime;
 
+
+/*
     public Integer getId() {
         return id;
     }
@@ -54,6 +32,7 @@ public class CarWashContents {
     public void setId(Integer id) {
         this.id = id;
     }
+ */
 
     public String getName() {
         return name;
@@ -62,7 +41,7 @@ public class CarWashContents {
     public void setName(String name) {
         this.name = name;
     }
-
+/*
     public Double getLat() {
         return lat;
     }
@@ -78,6 +57,7 @@ public class CarWashContents {
     public void setLon(Double lon) {
         this.lon = lon;
     }
+ */
 
     public String getAddress() {
         return address;
@@ -143,11 +123,50 @@ public class CarWashContents {
         this.open_week = open_week;
     }
 
-    public List<String> getWash() {
+    public Double getDistance(){
+        return distance;
+    }
+
+    public void setDistance(Double distance){
+        this.distance = distance;
+    }
+
+    public String getWash(){
+        return wash;
+    }
+
+    public void setWash(String wash){
+        this.wash = wash;
+    }
+
+    /*public List<String> getWash() {
         return wash;
     }
 
     public void setWash(List<String> wash) {
         this.wash = wash;
     }
+
+     */
+
+    public CarWashInfoData(String name, String address, String phone, String city,
+                           String district, String dong, String open_sat, String open_sun,
+                           String open_week, Double distance, String wash){
+        this.name = name;
+        this.address = address;
+        this.phone = phone;
+        this.city = city;
+        this.district = district;
+        this.dong = dong;
+        this.open_sat = open_sat;
+        this.open_sun = open_sun;
+        this.open_week = open_week;
+        this.distance = distance;
+        this.wash = wash;
+    }
+
+    public int compareTo(@NotNull CarWashInfoData carWashInfoData){ //오름차순 정렬
+        return distance.compareTo(((CarWashInfoData) carWashInfoData).distance);
+}
+
 }

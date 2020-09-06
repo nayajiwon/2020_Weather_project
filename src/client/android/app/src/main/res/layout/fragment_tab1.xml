@@ -399,16 +399,31 @@
         </FrameLayout>
     </LinearLayout>
 
-    <TextView
+    <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:layout_marginBottom="5dp"
-        android:layout_marginLeft="30dp"
-        android:text="내 위치 주변 세차장"
-        android:textSize="16sp"
-        android:textColor="@color/color_black"
-        android:fontFamily="@font/ns_extrabold"/>
+        android:orientation="horizontal"
+        android:gravity="center">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="5dp"
+            android:layout_marginLeft="30dp"
+            android:text="내 위치 주변 세차장"
+            android:textSize="16sp"
+            android:textColor="@color/color_black"
+            android:fontFamily="@font/ns_extrabold" />
+
+        <Button
+            android:id="@+id/test"
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"/>
+
+
+    </LinearLayout>
+
 
     <FrameLayout
         android:id="@+id/tab1_framelayout"
