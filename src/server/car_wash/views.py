@@ -35,11 +35,16 @@ def washer_list(request):
 def washer_detail(request, pk):
     washer = Washer.objects.get(id=pk)
     wash_type = list(washer.wash_type.all().values())
-    score = round(washer.reviews.all().aggregate(Avg('score'))['score__avg'],1)
+    reviews = washer.reviews.all()
+    score = reviews.aggregate(Avg('score'))['score__avg']
+    
+    if score is None:
+        score = 0
+    
     content = {
             "name": washer.name,
             "type": wash_type,
-            "score": score
+            "score": round(score,1)
             }
     return JsonResponse(content, safe=False, json_dumps_params={'ensure_ascii': False})
 
