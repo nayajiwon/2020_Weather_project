@@ -26,8 +26,7 @@ public class Tab1_RecyclerAdapter extends RecyclerView.Adapter<ItemViewHolder>{
     @Override
     public ItemViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int viewType) {
 
-        View view = LayoutInflater.from(viewGroup.getContext())
-                .inflate(R.layout.item_carwashlist, null);
+        View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_carwashlist, null);
 
         ItemViewHolder itemViewHolder = new ItemViewHolder(view);
 
