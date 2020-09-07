@@ -9,12 +9,15 @@ import android.content.pm.PackageManager;
 import android.graphics.Typeface;
 import android.location.Address;
 import android.location.Geocoder;
+import android.os.AsyncTask;
 import android.os.Bundle;
 
 import androidx.annotation.Nullable;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
 import androidx.viewpager2.widget.ViewPager2;
 
@@ -58,22 +61,18 @@ import java.util.Locale;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+import retrofit2.Retrofit;
 
 public class Tab1Fragment extends Fragment implements ActivityCompat.OnRequestPermissionsResultCallback{
-
-    private static final int LOCATION_PERMISSION_REQUEST_CODE = 1000;
-    private static final String[] PERMISSIONS = {
-            Manifest.permission.ACCESS_FINE_LOCATION,
-            Manifest.permission.ACCESS_COARSE_LOCATION
-    };
-
     private RetrofitAPI retrofitAPI;
     public String[] scoreList = new String[8];
 
-    public CarWashInfoData[] carWashInfoData = new CarWashInfoData[29];
-    public ArrayList<CarWashInfoData> carWashInfoData1;
+    public ArrayList<CarWashInfoData> carWashInfoData;
+    private List<CarWashContents> carWashContentsList;
 
-
+    RecyclerView recyclerView;
+    Tab1_RecyclerAdapter_Horizontal tab1_recyclerAdapter_horizontal;
+    private ArrayList<CarWashInfoData> datalist1;
 
     private GpsTracker gpsTracker;
     Geocoder geocoder;
@@ -83,9 +82,7 @@ public class Tab1Fragment extends Fragment implements ActivityCompat.OnRequestPe
     TextView tvLocation;
 
     ViewGroup viewGroup;
-    //ImageButton popupButton;
     LinearLayout popupButton;
-
 
     ViewPager2 viewPager2;
     FragmentStateAdapter pagerAdapter;
@@ -116,13 +113,14 @@ public class Tab1Fragment extends Fragment implements ActivityCompat.OnRequestPe
     @Nullable @Override
     public View onCreateView(@Nullable LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        int permissionCheck = ContextCompat.checkSelfPermission(getActivity(), PERMISSIONS[1]);
+        //int permissionCheck = ContextCompat.checkSelfPermission(getActivity(), PERMISSIONS[1]);
 
         viewGroup = (ViewGroup) inflater.inflate(R.layout.fragment_tab1, container, false);
         //popupButton = viewGroup.findViewById(R.id.home_popupButton);
+        recyclerView = viewGroup.findViewById(R.id.tab1_recycler_view);
         popupButton = viewGroup.findViewById(R.id.home_popupButton);
 
-        tvLocation = viewGroup.findViewById(R.id.tab1_tv_location);
+//        tvLocation = viewGroup.findViewById(R.id.tab1_tv_location);
 
         date1 = viewGroup.findViewById(R.id.home_tab1_day1);
         date2 = viewGroup.findViewById(R.id.home_tab1_day2);
@@ -148,6 +146,46 @@ public class Tab1Fragment extends Fragment implements ActivityCompat.OnRequestPe
 
         testButton = viewGroup .findViewById(R.id.test);
 
+        //현재 위치
+        gpsTracker = new GpsTracker(getContext());
+        myLat = gpsTracker.getLatitude();
+        myLon = gpsTracker.getLongitude();
+        //GetAddress(myLat, myLon);
+        //tvLocation.setText(str1+" "+str2+" "+str3+" 기준");
+
+
+        //서버 통신 - 세차장 정보 리스트
+        new AsyncTask<Void, Void, String>(){
+
+            @Override
+            protected String doInBackground(Void... params) {
+                retrofitAPI = RetrofitClient.getInstance().getClient1().create(RetrofitAPI.class);
+                Call<List<CarWashContents>> call = retrofitAPI.fetchCarWash();
+
+                try {
+                    carWashContentsList = call.execute().body();
+                    carWashInfoData = new ArrayList<>();
+                    for (int i = 0; i < 29; i++) {
+                        carWashInfoData.add(new CarWashInfoData(carWashContentsList.get(i).getName(), carWashContentsList.get(i).getAddress(),
+                                carWashContentsList.get(i).getPhone(), carWashContentsList.get(i).getCity(), carWashContentsList.get(i).getDistrict(),
+                                carWashContentsList.get(i).getDong(), carWashContentsList.get(i).getOpenSat(), carWashContentsList.get(i).getOpenSun(),
+                                carWashContentsList.get(i).getOpenWeek(), makeDistance(carWashContentsList.get(i).getLat(), carWashContentsList.get(i).getLon()),
+                                carWashContentsList.get(i).getWash().toString()));
+                    }
+                    Collections.sort(carWashInfoData);
+                    //datalist1 = (ArrayList<CarWashInfoData>) carWashInfoData.clone();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                return null;
+            }
+            @Override
+            protected void onPostExecute(String s){
+                super.onPostExecute(s);
+            }
+        }.execute();
+
+        Log.d("팝업에서 돌아옴!! -- 탭1 ", "onCreateView: ");
 
         //서버 통신 - 현재 날씨
         retrofitAPI = RetrofitClient.getInstance().getClient2().create(RetrofitAPI.class);
@@ -191,7 +229,7 @@ public class Tab1Fragment extends Fragment implements ActivityCompat.OnRequestPe
                     int maxScore = 0, maxScoreDay = 0;
                     for(int i=0; i<7; i++){
                         scoreList[i] = makeScoreList(mlist.get(i).getRnLv(), mlist.get(i).getTaLv(), mlist.get(i).getPm10Lv());
-                        //Log.d("scoreList", scoreList[i]);
+
                         if(maxScore < Integer.parseInt(scoreList[i])){
                             maxScore = Integer.parseInt(scoreList[i]);
                             maxScoreDay = i;
@@ -267,6 +305,7 @@ public class Tab1Fragment extends Fragment implements ActivityCompat.OnRequestPe
             }
         });
 
+/*
         //현재 위치
         gpsTracker = new GpsTracker(getContext());
         myLat = gpsTracker.getLatitude();
@@ -316,8 +355,9 @@ public class Tab1Fragment extends Fragment implements ActivityCompat.OnRequestPe
             }
         });
 
-
+*/
         //'내주변세차장' viewpager 구현
+        /*
         viewPager2 = viewGroup.findViewById(R.id.tab1_viewpager);
         pagerAdapter = new Tab1CarWashInfo_Viewpager2Adapter(this);
         viewPager2.setAdapter(pagerAdapter);
@@ -326,7 +366,6 @@ public class Tab1Fragment extends Fragment implements ActivityCompat.OnRequestPe
         viewPager2.setOffscreenPageLimit(2);
 
         tab1_layout = viewGroup.findViewById(R.id.tab1_framelayout);
-
 
         viewPager2.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
             @Override
@@ -341,8 +380,9 @@ public class Tab1Fragment extends Fragment implements ActivityCompat.OnRequestPe
             public void onPageSelected(int position){
                 super.onPageSelected(position);
                 indicator.animatePageSelected(position%VIEW_CNT);
-            }*/
+            }
         });
+             */
 
         //오늘로부터 일주일 날짜
         date1.setText(getDate(0)); //오늘
@@ -353,40 +393,27 @@ public class Tab1Fragment extends Fragment implements ActivityCompat.OnRequestPe
         date6.setText(getDate(5));
         date7.setText(getDate(6));
 
-
+        //더보기 버튼 클릭
         testButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //Log.d("test", new Gson().toJson(carWashInfoData[0]));
                 Intent intent = new Intent(getActivity(), Tab1_CarWashList.class);
-                //intent.putStringArrayListExtra("test", (ArrayList<String>)carWashInfoData1);
-
-                intent.putExtra("carwashinfodata", (Serializable)carWashInfoData1);
-                if((Serializable)carWashInfoData1 != null){
+                intent.putExtra("carwashinfodata", (Serializable)carWashInfoData);
+                /*if((Serializable)carWashInfoData1 != null){
                     Log.d("!!!!!!!!!!!!", "보내는 건 성공");
                 }
                 else Log.d("!!!!!!!!!!!!", "보내기 실패");
-
-
-                if(ContextCompat.checkSelfPermission(getContext(),
-                        Manifest.permission.ACCESS_COARSE_LOCATION)!=PackageManager.PERMISSION_GRANTED){
-                    if(ActivityCompat.shouldShowRequestPermissionRationale(
-                            getActivity(), Manifest.permission.ACCESS_COARSE_LOCATION)){
-
-                        //try again to request the permission
-                    }
-                    else{
-                        // No explanation needed, we can request the permission.
-                        ActivityCompat.requestPermissions(getActivity(),
-                                new String[]{Manifest.permission.ACCESS_COARSE_LOCATION},
-                                LOCATION_PERMISSION_REQUEST_CODE);
-                    }
-                }
-                else startActivity(intent);
-
-
+                 */
+                startActivity(intent);
             }
         });
+
+        //recyclerview
+        recyclerView.setHasFixedSize(true);
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false);
+        recyclerView.setLayoutManager(linearLayoutManager);
+        recyclerView.setAdapter(new Tab1_RecyclerAdapter_Horizontal(carWashInfoData));
+
 
 
         return viewGroup;

@@ -17,20 +17,17 @@ import java.util.ArrayList;
 
 public class Tab1_RecyclerAdapter extends RecyclerView.Adapter<ItemViewHolder>{
 
-    private ArrayList<CarWashInfoData_using4> mydatalist = null;
-    Tab1_RecyclerAdapter(ArrayList<CarWashInfoData_using4> datalist){
-        mydatalist = datalist;
+    private ArrayList<CarWashInfoData> mydatalist = null;
+    public Tab1_RecyclerAdapter(ArrayList<CarWashInfoData> datalist){
+        this.mydatalist = datalist;
     }
-
 
     @NonNull
     @Override
-    public ItemViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public ItemViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int viewType) {
 
-        Context context = parent.getContext();
-        LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_carwashlist, null);
 
-        View view = inflater.inflate(R.layout.item_carwashlist, parent, false);
         ItemViewHolder itemViewHolder = new ItemViewHolder(view);
 
         return itemViewHolder;
@@ -42,13 +39,15 @@ public class Tab1_RecyclerAdapter extends RecyclerView.Adapter<ItemViewHolder>{
         viewholder.name.setText(mydatalist.get(position).getName());
         viewholder.address.setText(mydatalist.get(position).getAddress());
         viewholder.wash.setText(mydatalist.get(position).getWash());
-        viewholder.time.setText(mydatalist.get(position).getOpenTime());
+        viewholder.time1.setText(mydatalist.get(position).getOpenSat());
+        viewholder.time2.setText(mydatalist.get(position).getOpenSun());
+        viewholder.time3.setText(mydatalist.get(position).getOpenWeek());
 
     }
 
     @Override
     public int getItemCount() {
         //adapter가 관리하는 전체 데이터 개수
-        return mydatalist.size();
+        return (mydatalist==null) ? 0 : mydatalist.size();
     }
 }

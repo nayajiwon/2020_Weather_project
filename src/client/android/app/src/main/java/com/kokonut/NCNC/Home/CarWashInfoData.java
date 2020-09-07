@@ -20,8 +20,8 @@ public class CarWashInfoData implements Comparable<CarWashInfoData>, Serializabl
     private String open_week;
     private Double distance;
     private String wash;
-    //private List<String> wash = null;
     //private String opentime;
+    //private List<String> wash = null;
 
 
 /*
@@ -139,6 +139,14 @@ public class CarWashInfoData implements Comparable<CarWashInfoData>, Serializabl
         this.wash = wash;
     }
 
+    /*public String getOpentime(){ return opentime;}
+
+    public void setOpentime(String opentime){
+        this.opentime = opentime;
+    }
+
+     */
+
     /*public List<String> getWash() {
         return wash;
     }
@@ -163,10 +171,13 @@ public class CarWashInfoData implements Comparable<CarWashInfoData>, Serializabl
         this.open_week = open_week;
         this.distance = distance;
         this.wash = wash;
+        //this.opentime = opentime;
     }
 
-    public int compareTo(@NotNull CarWashInfoData carWashInfoData){ //오름차순 정렬
-        return distance.compareTo(((CarWashInfoData) carWashInfoData).distance);
+    public int compareTo(@NotNull CarWashInfoData carWashInfoData){ //오름차순 정렬....인데 내림차순으로 했더니 된당...
+        return (int)(carWashInfoData.distance - this.distance);
+        //return (int)(this.distance - carWashInfoData.distance); //오름차순
+        //return distance.compareTo(((CarWashInfoData) carWashInfoData).distance); //오름차순
 }
 
 }
