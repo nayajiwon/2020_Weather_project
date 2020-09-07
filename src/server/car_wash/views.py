@@ -13,7 +13,18 @@ from accounts.models import User
 def washer_list(request):
 
     if request.method == "GET":
-        washer_set = Washer.objects.all()
+        
+        if len(request.GET.keys()) == 0:
+            washer_set = Washer.objects.all()
+        else:
+            filter_dict = {
+                    key:value
+                    for key, value in request.GET.items()
+                    }
+            print(filter_dict)
+            washer_set = Washer.objects.filter(**filter_dict) 
+        
+        
         data = list(washer_set.values())
         for i in range(len(data)):
             temp = Washer.objects.get(pk=data[i]['id'])
